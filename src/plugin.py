@@ -9,18 +9,23 @@ def onInfo(data):
     print("Connected!")
     print("TP returned:")
     print(data)
-    TPClient.createState("Ext_power","External Power","AirbusFBW_ElecOHPArray3")
+    TPClient.createState("AirbusFBW_ElecOHPArray[3]","External Power","0")
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
 def onAction(data):
+    print("")
     print("Action catch!")
     print("TP returned:")
-    print(data)
-    print(TPClient.currentStates)
-    # stateId = data["data"][0]["value"]
-    # print(stateId)
-
+    print("-----------:")
+    #print(data)
+    Statelist = TPClient.getStatelist()
+    ChoiceUpdatelist = TPClient.getChoiceUpdatelist()
+    #stateValue = data["data"][0]["value"]
+    #print("State Value :",stateValue)
+    #stateVariable = data[0]
+    for i in Statelist:
+        print("Dataref:", i, "Actual Value:",Statelist[i])
 # ListChange handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('listChange')
 def onAction(data):
