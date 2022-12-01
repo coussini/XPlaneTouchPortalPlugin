@@ -6,8 +6,10 @@ TPClient = TP.Client("XPlanePlugin")
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on('info')
 def onInfo(data):
+    print("")
     print("Connected!")
-    print("TP returned:")
+    print("TP returned")
+    print("-----------")
     print(data)
     TPClient.createState("AirbusFBW_ElecOHPArray[3]","External Power","0")
 
@@ -16,21 +18,23 @@ def onInfo(data):
 def onAction(data):
     print("")
     print("Action catch!")
-    print("TP returned:")
-    print("-----------:")
-    #print(data)
+    print("TP returned")
+    print("-----------")
+    print("Data->", data)
+    print("Event->", data["actionId"])
+    actionId = data["actionId"]
+    print("-----------")
     Statelist = TPClient.getStatelist()
-    ChoiceUpdatelist = TPClient.getChoiceUpdatelist()
-    #stateValue = data["data"][0]["value"]
-    #print("State Value :",stateValue)
-    #stateVariable = data[0]
     for i in Statelist:
-        print("Dataref:", i, "Actual Value:",Statelist[i])
+        print("Field for this event->",i)
+        print("Value (actual)      ->",Statelist[i])
+    if actionId == "XPlanePlugin.Dataref.SetVariable":
+        print("value for event:",actionId,"will be->",data["data"][1]["value"])
 # ListChange handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('listChange')
 def onAction(data):
     print("ListChange catch!")
-    print("TP returned:")
+    print("TP returned")
 
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
 @TPClient.on('closePlugin')

@@ -15,17 +15,17 @@
       "imagepath": "%TP_PLUGIN_FOLDER%X-Plane-TouchPortal-Plugin/xplane.png",      
       "actions": [
         {
-          "id": "XPlanePlugin.Dataref.TwoStates",
+          "id": "XPlanePlugin.Dataref.ToggleTwoStates",
           "name": "This Toggle 2 States Button",
           "prefix": "XPlane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": false,
           "description": "",
-          "format": "Toggle {$XPlanePlugin.Dataref.TwoStates.Choice$}",
+          "format": "Toggle {$XPlanePlugin.Dataref.ToggleTwoStates.Choice$}",
           "data": [
             {
-              "id": "XPlanePlugin.Dataref.TwoStates.Choice",
+              "id": "XPlanePlugin.Dataref.ToggleTwoStates.Choice",
               "type": "text",
               "label": "Choice",
               "default": "Ext_power"
@@ -33,23 +33,23 @@
           ]
         },
         {
-          "id": "XPlanePlugin.Dataref.SetVariable",
+          "id": "XPlanePlugin.Dataref.Set",
           "name": "Set Named Variable Value",
           "prefix": "XPlane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": true,
           "description": "",
-          "format": "Set Variable Named:{$XPlanePlugin.Dataref.SetVariable.VarName$} to Value:{$XPlanePlugin.Dataref.SetVariable.Value$}",
+          "format": "Set Variable Named:{$XPlanePlugin.Dataref.Set.VarName$} to Value:{$XPlanePlugin.Dataref.Set.Value$}",
           "data": [
             {
-              "id": "XPlanePlugin.Dataref.SetVariable.VarName",
+              "id": "XPlanePlugin.Dataref.Set.VarName",
               "type": "text",
               "label": "Variable Name",
               "default": ""
             },
             {
-              "id": "XPlanePlugin.Dataref.SetVariable.Value",
+              "id": "XPlanePlugin.Dataref.Set.Value",
               "type": "text",
               "label": "Value",
               "default": "0"
