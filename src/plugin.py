@@ -1,3 +1,4 @@
+import json
 import TouchPortalAPI as TP
 
 # Setup callbacks and connection
@@ -10,7 +11,7 @@ def onInfo(data):
     print("Connected!")
     print("TP returned")
     print("-----------")
-    print(data)
+    print("Data->", data)
     TPClient.createState("AirbusFBW_ElecOHPArray[3]","External Power","0")
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
@@ -20,16 +21,22 @@ def onAction(data):
     print("Action catch!")
     print("TP returned")
     print("-----------")
-    print("Data->", data)
+    print("")
     print("Event->", data["actionId"])
-    actionId = data["actionId"]
-    print("-----------")
-    Statelist = TPClient.getStatelist()
-    for i in Statelist:
-        print("Field for this event->",i)
-        print("Value (actual)      ->",Statelist[i])
-    if actionId == "XPlanePlugin.Dataref.SetVariable":
-        print("value for event:",actionId,"will be->",data["data"][1]["value"])
+    Dataref_name = list(TPClient.getStatelist().keys())[0]
+    Dataref_value = list(TPClient.getStatelist().values())[0]
+    print("Dataref->",Dataref_name)
+    ###
+    ### Create a method to dispatch actions, create method for each action   
+    ###
+    if data["actionId"] == "XPlanePlugin.Dataref.Set":
+        print("value will be->",data["data"][1]["value"])
+        pass
+    else:
+        print("Value was->",Dataref_value)
+    #for i in Statelist:
+    #    print("Field for this event->",i)
+    #    print("Value (actual)      ->",Statelist[i])
 # ListChange handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('listChange')
 def onAction(data):
