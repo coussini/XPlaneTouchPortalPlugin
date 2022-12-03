@@ -1,0 +1,3 @@
+-d
+-l=xplane_touch_portal_client.log
+-s=stderr

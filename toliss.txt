@@ -1,0 +1,44 @@
+Adirs data / 		AirbusFBW/ADIRUDisplayData 0 to 5 
+Adirs sys / 		AirbusFBW/ADIRUDisplaySystem 0 to 3
+Adirs IR1 /			AirbusFBW/ADIRUSwitchArray[0] 0 to 2
+Adirs IR2 /			AirbusFBW/ADIRUSwitchArray[1] 0 to 2
+Adirs IR3 /			AirbusFBW/ADIRUSwitchArray[2] 0 to 2
+
+Ext power / 		AirbusFBW/ElecOHPArray [3] 0 or 1
+Battery 1 / 		AirbusFBW/ElecOHPArray [5] 0 or 1
+Battery 1 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
+
+Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2
+Beacon /			AirbusFBW/OHPLightSwitches[0] 0 to 1
+Wing /				AirbusFBW/OHPLightSwitches[1] 0 to 1
+Nav&Logo /			AirbusFBW/OHPLightSwitches[2] 0 to 2
+
+APU MASTER /		AirbusFBW/APUMaster 0 to 1
+
+Ice ind Nav&Logo /	AirbusFBW/OHPLightSwitches[9] 0 to 1
+INT LT DOME /		AirbusFBW/OHPLightSwitches[8] 0 to 2
+ANN LT /			AirbusFBW/AnnunMode 0 to 2
+
+RWY TURN /			AirbusFBW/OHPLightSwitches[6] 0 to 1
+L LAND /			AirbusFBW/OHPLightSwitches[4] 0 to 2
+R LAND /			AirbusFBW/OHPLightSwitches[5] 0 to 2
+Nose /				AirbusFBW/OHPLightSwitches[3] 0 to 2
+
+APU START /			AirbusFBW/APUStarter 0 to 1
+
+Seat Belts /		AirbusFBW/OHPLightSwitches[11] 0 to 1
+No Smoking /		AirbusFBW/OHPLightSwitches[12] 0 to 2
+Emer Exit LT /		AirbusFBW/OHPLightSwitches[10] 0 to 2
+
+ND ZOOM CAPT /		AirbusFBW/NDrangeCapt 0 to 5
+ATC MODE /			AirbusFBW/XPDRTCASMode 0 to 1 (0 = auto, 1 = On)
+TCAS TRAF. /		AirbusFBW/XPDRTCASAltSelect 0 to 3 (0 = abv, 1=n, 2=Blw
+TCAS MODE /			AirbusFBW/XPDRPower 0 to 4 (0 = stby)
+
+FLOOD LT MAIN /		AirbusFBW/PanelFloodBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
+INTEG LT MAIN /		AirbusFBW/PanelBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
+FLOOD LT PED /		AirbusFBW/PedestalFloodBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
+
+[EVENT]
+
+Apu Avail			AirbusFBW/APUAvail 0 to 1
