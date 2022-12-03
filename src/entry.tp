@@ -8,7 +8,7 @@
     "colorLight": "#0090ff",
     "parentCategory" : "game"    
   },
-  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XplaneTouchPortalClient.exe",
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XplaneTouchPortalClient.exe @XplaneTouchPortalClient-conf.txt",
   "categories": [
     {
       "id": "XPlanePlugin.Dataref",
@@ -29,7 +29,7 @@
               "id": "XPlanePlugin.Dataref.ToggleTwoStates.Choice",
               "type": "text",
               "label": "Choice",
-              "default": "Ext_power"
+              "default": ""
             }
           ]
         },

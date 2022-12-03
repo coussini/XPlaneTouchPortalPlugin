@@ -1,4 +1,4 @@
-import json
+import sys
 from argparse import ArgumentParser
 
 import TouchPortalAPI as TP
@@ -28,50 +28,54 @@ g_log = Logger(name = PLUGIN_ID)
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on('info')
 def onInfo(data):
-    g_log.info(f"")
-    g_log.info(f"Connected")
-    g_log.info(f"TP returned")
-    g_log.info(f"-----------")
-    g_log.debug(f"Data->: {data}")
-    TPClient.createState("AirbusFBW_ElecOHPArray[3]","External Power","0")
+    g_log.info(f"Connected!")
+    g_log.info(f"TP RETURNED FOLLOWING:")
+    g_log.info(f"{data}")
+    g_log.info(f"Connected to TP v{data.get('tpVersionString', '?')}, plugin v{data.get('pluginVersion', '?')}.")
+    TPClient.createState("AirbusFBW_ElecOHPArray[3]","External Power","AirbusFBW_ElecOHPArray[3]")
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
 def onAction(data):
     g_log.info(f"")
     g_log.info(f"Action catch!")
-    g_log.info(f"TP returned")
-    g_log.info(f"-----------")
-    g_log.info(f"")
-    actionId = data["actionId"]
-    g_log.debug(f"Event->: {actionId}")
+    g_log.info(f"TP RETURNED FOLLOWING:")
+
+    if not (action_data := data.get('data')) or not (action_actionId := data.get('actionId')):
+        return
+    
+    print(action_data)
+    print(action_actionId)
+    g_log.info(f"{data}")
+    g_log.info(f"Event")
+    g_log.info(f"{data.get('actionId')}")
+    gsl = TPClient.getStatelist()
+    print(gsl)
     Dataref_name = list(TPClient.getStatelist().keys())[0]
     Dataref_value = list(TPClient.getStatelist().values())[0]
-    g_log.debug(f"Dataref->: {Dataref_name}")
+    g_log.info(f"Dataref")
+    g_log.info(f"{Dataref_name}")
     ###
     ### Create a method to dispatch actions, create method for each action   
     ###
     if data["actionId"] == "XPlanePlugin.Dataref.Set":
-        #print("value will be->",data["data"][1]["value"])
-        pass
+        #toprint = data["data"][1]["value"]
+        toprint = data.get('data')[1]['value']
+        g_log.info(f"Value will be->: {toprint}")
     else:
-        #print("Value was->",Dataref_value)
+        g_log.info(f"Value will be->: {Dataref_value}")
         pass
     #for i in Statelist:
     #    print("Field for this event->",i)
     #    print("Value (actual)      ->",Statelist[i])
-# ListChange handlers, called when user activates one of this plugin's actions in Touch Portal.
-@TPClient.on('listChange')
-def onAction(data):
-    pass
-    #print("ListChange catch!")
-    #print("TP returned")
 
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
 @TPClient.on('closePlugin')
 def onShutdown(data):
     #print("Got Shutdown Message! Shutting Down the Plugin!")
     # Terminates the connection and returns from connect()
+    g_log.info(f"ClosePlugin!")
+    g_log.info(f"{PLUGIN_ID} v{__version__} disconnected.")
     TPClient.disconnect()
 
 def main():
