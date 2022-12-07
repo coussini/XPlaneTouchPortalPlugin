@@ -6,7 +6,7 @@ Adirs IR3 /			AirbusFBW/ADIRUSwitchArray[2] 0 to 2
 
 Ext power / 		AirbusFBW/ElecOHPArray [3] 0 or 1
 Battery 1 / 		AirbusFBW/ElecOHPArray [5] 0 or 1
-Battery 1 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
+Battery 2 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
 
 Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2
 Beacon /			AirbusFBW/OHPLightSwitches[0] 0 to 1
