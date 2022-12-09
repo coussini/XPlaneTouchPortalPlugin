@@ -4,8 +4,7 @@ from argparse import ArgumentParser
 import TouchPortalAPI as TP
 from TouchPortalAPI.logger import Logger
 
-# XPlane Touch Portal Modules
-import Car # that's a sample
+import socket
 
 __version__ = "1.0"
 PLUGIN_ID = "XPlanePlugin"
@@ -75,12 +74,6 @@ def onInfo(data):
     print("Connected to TP v",data.get('tpVersionString', '?'),"plugin v",data.get('pluginVersion', '?'))
     for x in STATES:
         TPClient.createState(x["id"],x["desc"],x["value"])
-    print("Example Car class")
-    car_det = Car.Car("BMW","Z5", 2020)
-    print(car_det.brand_name)
-    print(car_det.car_details())
-    print(car_det.get_Car_brand())
-    print(car_det.get_Car_model())        
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
