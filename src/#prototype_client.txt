@@ -1,0 +1,6 @@
+#prototype_client
+
+thisdict =	[{"id":"XPLanePlugin1670967946960","dataref":"AirbusFBW/ElecOHPArray[3]","value":"0"},{"id":"XPLanePlugin1670967990317","dataref":"abc","value":"2"}]
+
+thisdict["color"] = "red"
+print(thisdict)

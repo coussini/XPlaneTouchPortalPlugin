@@ -2,7 +2,7 @@ import socket
 
 def server_program():
     # get the hostname
-    host = socket.gethostname()
+    host = socket.gethostbyname(socket.gethostname())
     port = 65432  # initiate port no above 1024
 
     server_socket = socket.socket()  # get instance
@@ -12,9 +12,8 @@ def server_program():
     # configure how many client the server can listen simultaneously
     server_socket.listen(1)
     
-    # ici un client vient de se connecte
     print(f"Le serveur est en mode d'attente, rien ne se passe après cette ligne\n\nLe serveur attend...")
-    conn, address = server_socket.accept()  # accept new connection
+    conn, address = server_socket.accept()  # (MODE ATTENTE) lorsque cette commande est complété, le client est connecté
     print("Un client vient de se connecter: " + str(address))
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes

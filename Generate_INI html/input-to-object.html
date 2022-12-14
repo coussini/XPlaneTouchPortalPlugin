@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Putting User Input into JS Objects</title>
+    <title>Creating Dataref dictionnary form html</title>
     <style>
         .formBox{
             padding: 0.5rem 2rem;
@@ -14,12 +14,12 @@
 <body>
     <form>
         <div class="formBox">
-            <label for="title">Movie</label>
-            <input type="text" id="title" placeholder="Title"/>
+            <label for="title">Dataref</label>
+            <input type="text" id="dataref" placeholder="AirbusFBW/OHPLightSwitches[7]"/>
         </div>
         <div class="formBox">
-            <label for="yr">Year</label>
-            <input type="number" id="yr" placeholder="Year"/>
+            <label for="yr">Valeur</label>
+            <input type="number" id="value" placeholder="0"/>
         </div>
         <div class="formBox">
             <button id="btn">Click to Add</button>
@@ -29,31 +29,31 @@
         </div>
     </form>
     <script>
-        let movies = [];
+        let datarefs = [];
         // example {id:1592304983049, title: 'Deadpool', year: 2015}
-        const addMovie = (ev)=>{
+        const addDataref = (ev)=>{
             ev.preventDefault();  //to stop the form submitting
-            // Object movies
-            let movie = {
+            // Object datarefs
+            let objet_dataref = {
                 id: "XPLanePlugin"+Date.now(),
-                title: document.getElementById('title').value,
-                year: document.getElementById('yr').value
+                dataref: document.getElementById('dataref').value,
+                value: document.getElementById('value').value
             }
-            // sauvegarder object movies
-            movies.push(movie);
+            // sauvegarder object datarefs
+            datarefs.push(objet_dataref);
             document.forms[0].reset(); // to clear the form for the next entries
             //document.querySelector('form').reset();
 
             //for display purposes only
-            console.warn('added' , {movies} );
+            console.warn('added' , {datarefs} );
             let pre = document.querySelector('#msg pre');
-            pre.textContent = '\n' + JSON.stringify(movies, '\t', 2);
+            pre.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
 
             //saving to localStorage
-            localStorage.setItem('MyMovieList', JSON.stringify(movies) );
+            localStorage.setItem('MyMovieList', JSON.stringify(datarefs) );
         }
         document.addEventListener('DOMContentLoaded', ()=>{
-            document.getElementById('btn').addEventListener('click', addMovie);
+            document.getElementById('btn').addEventListener('click', addDataref);
         });
     </script>
 </body>
