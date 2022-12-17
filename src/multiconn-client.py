@@ -23,7 +23,6 @@ def start_connections(host, port, num_conns):
         )
         sel.register(sock, events, data=data)
 
-
 def service_connection(key, mask):
     sock = key.fileobj
     data = key.data
