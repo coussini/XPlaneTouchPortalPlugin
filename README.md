@@ -1,8 +1,8 @@
 # XPlaneTouchPortalPlugin
 
-
-
-![XPlaneTouchPortalPlugin.jpg](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.jpg)
+```
+![XPlane Touch Portal Plugin!](XPlaneTouchPortalPlugin.jpg "XPlane 12")
+```
 
 ###### TODO set the logo name "x-plane" in white
 
@@ -21,5 +21,3 @@
 - Battery 1,AirbusFBW/ElecOHPArray[5]
 
 - Battery 2,AirbusFBW/ElecOHPArray[6]
-
-
