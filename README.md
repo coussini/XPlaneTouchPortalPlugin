@@ -10,8 +10,8 @@ STEP FOR ANY USER:
 
 Example:
 =======
-Author's Name,sim/aircraft/view/acf_author
-Ext power,AirbusFBW/ElecOHPArray[3]
-Battery 1,AirbusFBW/ElecOHPArray[5]
-Battery 2,AirbusFBW/ElecOHPArray[6]
+line1 -> Author's Name,sim/aircraft/view/acf_author
+line2 -> Ext power,AirbusFBW/ElecOHPArray[3]
+line3 -> Battery 1,AirbusFBW/ElecOHPArray[5]
+line4 -> Battery 2,AirbusFBW/ElecOHPArray[6]
 
