@@ -1,8 +1,6 @@
 # XPlaneTouchPortalPlugin
 
-![Texte](XPlaneTouchPortalPlugin.jpg "titre")
-
-
+![Touch Portal Plugin](XPlaneTouchPortalPlugin.jpg "Xplane Touch Portal PLugin Logo")
 
 ###### TODO set the logo name "x-plane" in white
 
