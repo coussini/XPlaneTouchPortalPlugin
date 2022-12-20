@@ -6,11 +6,11 @@
 
 <ins>STEP FOR ANY USER</ins>
 
-1. Build a csv file using a simple text editor dans contains a list a datarefs
+1. Build a csv file using a simple text editor dans contains a list a datarefs (save it as Datarefs.csv for example)
 
 2. each line has a dataref description following to the dataref name and separate with a coma
 
-<ins>Example</ins>
+<ins>Example of the contains into Datarefs.csv</ins>
 
 - Author's Name,sim/aircraft/view/acf_author
 
