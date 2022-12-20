@@ -1,6 +1,6 @@
 # XPlaneTouchPortalPlugin
 
-![Touch Portal Plugin](XPlaneTouchPortalPlugin.jpg "Xplane Touch Portal PLugin Logo")
+![Touch Portal Plugin](XPlaneTouchPortalPlugin.jpg "Xplane Touch Portal Plugin Logo")
 
 ###### TODO set the logo name "x-plane" in white
 
@@ -10,7 +10,7 @@
 
 2. each line has a dataref description following to the dataref name and separate with a coma
 
-<u>Example:</u>
+Example:
 
 - Author's Name,sim/aircraft/view/acf_author
 
