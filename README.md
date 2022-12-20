@@ -1,8 +1,6 @@
 # XPlaneTouchPortalPlugin
 
-```
-![XPlane Touch Portal Plugin!](XPlaneTouchPortalPlugin.jpg "XPlane 12")
-```
+![](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.jpg)
 
 ###### TODO set the logo name "x-plane" in white
 
