@@ -18,7 +18,11 @@
             <input type="text" id="dataref" placeholder="AirbusFBW/OHPLightSwitches[7]"/>
         </div>
         <div class="formBox">
-            <label for="yr">Valeur</label>
+            <label for="title">Dataref Description</label>
+            <input type="text" id="dataref_desc" placeholder="Strobe Light"/>
+        </div>
+        <div class="formBox">
+            <label for="yr">Default Value</label>
             <input type="number" id="value" placeholder="0"/>
         </div>
         <div class="formBox">
@@ -30,13 +34,14 @@
     </form>
     <script>
         let datarefs = [];
-        // example {id:1592304983049, title: 'Deadpool', year: 2015}
+        // example {id:AirbusFBW/OHPLightSwitches[7], dataref: 'id:AirbusFBW/OHPLightSwitches[7]', desc: 'Strobe light', value: 0}
         const addDataref = (ev)=>{
             ev.preventDefault();  //to stop the form submitting
             // Object datarefs
             let objet_dataref = {
-                id: "XPLanePlugin"+Date.now(),
+                id: document.getElementById('dataref').value,
                 dataref: document.getElementById('dataref').value,
+                desc: document.getElementById('dataref_desc').value,
                 value: document.getElementById('value').value
             }
             // sauvegarder object datarefs
@@ -50,7 +55,7 @@
             pre.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
 
             //saving to localStorage
-            localStorage.setItem('MyMovieList', JSON.stringify(datarefs) );
+            localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
         }
         document.addEventListener('DOMContentLoaded', ()=>{
             document.getElementById('btn').addEventListener('click', addDataref);

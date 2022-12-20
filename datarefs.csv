@@ -1,0 +1,32 @@
+Adirs data,AirbusFBW/ADIRUDisplayData 
+Adirs sys,AirbusFBW/ADIRUDisplaySystem
+Adirs IR1,AirbusFBW/ADIRUSwitchArray[0]
+Adirs IR2,AirbusFBW/ADIRUSwitchArray[1]
+Adirs IR3,AirbusFBW/ADIRUSwitchArray[2]
+Ext power,AirbusFBW/ElecOHPArray[3]
+Battery 1,AirbusFBW/ElecOHPArray[5]
+Battery 2,AirbusFBW/ElecOHPArray[6]
+Strobe,AirbusFBW/OHPLightSwitches[7]
+Beacon,AirbusFBW/OHPLightSwitches[0]
+Wing,AirbusFBW/OHPLightSwitches[1]
+Nav&Logo,AirbusFBW/OHPLightSwitches[2]
+APU MASTER,AirbusFBW/APUMaster
+Ice ind Nav&Logo,AirbusFBW/OHPLightSwitches[9]
+INT LT DOME,AirbusFBW/OHPLightSwitches[8]
+ANN LT,AirbusFBW/AnnunMode
+RWY TURN,AirbusFBW/OHPLightSwitches[6]
+L LAND,AirbusFBW/OHPLightSwitches[4]
+R LAND,AirbusFBW/OHPLightSwitches[5]
+Nose,AirbusFBW/OHPLightSwitches[3]
+APU START,AirbusFBW/APUStarter
+Seat Belts,AirbusFBW/OHPLightSwitches[11]
+No Smoking,AirbusFBW/OHPLightSwitches[12]
+Emer Exit LT,AirbusFBW/OHPLightSwitches[10]
+ND ZOOM CAPT,AirbusFBW/NDrangeCapt
+ATC MODE,AirbusFBW/XPDRTCASMode
+TCAS TRAF,AirbusFBW/XPDRTCASAltSelect
+TCAS MODE,AirbusFBW/XPDRPower
+FLOOD LT MAIN,AirbusFBW/PanelFloodBrightnessLevel
+INTEG LT MAIN,AirbusFBW/PanelBrightnessLevel
+FLOOD LT PED,AirbusFBW/PedestalFloodBrightnessLevel
+Apu Avail,AirbusFBW/APUAvail
