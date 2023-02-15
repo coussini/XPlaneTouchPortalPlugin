@@ -12,6 +12,7 @@ def server_program():
     # configure how many client the server can listen simultaneously
     server_socket.listen(1)
     
+    print(f"Le serveur a l'adresse " + str(port))
     print(f"Le serveur est en mode d'attente, rien ne se passe après cette ligne\n\nLe serveur attend...")
     conn, address = server_socket.accept()  # (MODE ATTENTE) lorsque cette commande est complété, le client est connecté
     print("Un client vient de se connecter: " + str(address))
@@ -27,7 +28,8 @@ def server_program():
         data = input(' -> ')
         conn.send(data.encode())  # send data to the client
 
-    conn.close()  # close the connection
+    server_socket.close()
+    print ("CLOSED")
 
 if __name__ == '__main__':
     server_program()

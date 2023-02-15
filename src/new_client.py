@@ -20,6 +20,6 @@ def client_program():
 
     print(f'Le client se déconnecte')  # show in terminal
     client_socket.close()  # close the connection
-
+    
 if __name__ == '__main__':
     client_program()

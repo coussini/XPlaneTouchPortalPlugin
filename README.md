@@ -4,6 +4,12 @@
 
 ###### TODO set the logo name "x-plane" in white
 
+##### The unblocking socket server and client are following example:
+
+- multiconn-server.py
+
+- multiconn-client.py
+
 <ins>STEP FOR ANY USER</ins>
 
 1. Build a csv file using a simple text editor dans contains a list a datarefs (save it as Datarefs.csv for example)
