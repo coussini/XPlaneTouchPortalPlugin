@@ -6,9 +6,9 @@
 
 ##### The unblocking socket server and client are following example:
 
-- multiconn-server.py
+- src/multiconn-server.py
 
-- multiconn-client.py
+- src/multiconn-client.py
 
 <ins>STEP FOR ANY USER</ins>
 
