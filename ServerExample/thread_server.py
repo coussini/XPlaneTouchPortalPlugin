@@ -1,3 +1,14 @@
+'''
+Waiting for client
+Client: ('192.168.0.106', 54502)
+[thread] starting
+Waiting for client
+[thread] client: ('192.168.0.106', 54502) recv: Hello
+[thread] client: ('192.168.0.106', 54502) send: Bye!
+[thread] client: ('192.168.0.106', 54502) recv: {'open': 12, 'close': 15}
+[thread] client: ('192.168.0.106', 54502) send: {'diff': 3}
+[thread] ending
+'''
 import socket
 import threading
 import time
@@ -32,7 +43,7 @@ def handle_client(conn, addr):
     print("[thread] client:", addr, 'recv:', text)
     
     # simulate longer work - to start next client at the same time
-    time.sleep(5) 
+    # time.sleep(5) 
 
     # send message
     
@@ -68,9 +79,9 @@ def handle_client(conn, addr):
 
     print("[thread] ending")
    
-# --- main ---
-
-
+# -------------------------------------------------------------------------
+# ---                               MAIN                                ---
+# -------------------------------------------------------------------------
 host = socket.gethostname()
 port = 65432
 
@@ -84,7 +95,7 @@ all_threads = []
 try:
     while True:
         print("Waiting for client")
-        conn, addr = s.accept()
+        conn, addr = s.accept() # receive a client host and address
     
         print("Client:", addr)
         
@@ -92,7 +103,8 @@ try:
         t.start()
     
         all_threads.append(t)
-except KeyboardInterrupt:
+# The following KeyboardInterrupt is NOT NECCESSARY IN X_PLANE 12 (when shutdown x-plane that's stopped the python server)
+except KeyboardInterrupt: 
     print("Stopped by Ctrl+C")
 finally:
     if s:

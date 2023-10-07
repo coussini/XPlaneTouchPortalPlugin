@@ -1,3 +1,10 @@
+'''
+Connected to the server
+send: Hello
+recv: Bye!
+send: {'open': 12, 'close': 15}
+recv: {'diff': 3}
+'''
 import socket
 import struct
 import json
@@ -17,8 +24,9 @@ def recv_data(conn):
     data = conn.recv(size)
     return data
 
-# --- main ---
-
+# -------------------------------------------------------------------------
+# ---                               MAIN                                ---
+# -------------------------------------------------------------------------
 host = socket.gethostname()
 port = 65432
 
