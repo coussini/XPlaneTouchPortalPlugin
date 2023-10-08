@@ -1,44 +1,54 @@
+Battery 1 / 		AirbusFBW/ElecOHPArray [5] 0 or 1
+Battery 2 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
+Ext power / 		AirbusFBW/ElecOHPArray [3] 0 or 1
+
 Adirs data / 		AirbusFBW/ADIRUDisplayData 0 to 5     *** NOT FOR A320 ***
 Adirs sys / 		AirbusFBW/ADIRUDisplaySystem 0 to 3   *** NOT FOR A320 ***
 Adirs IR1 /			AirbusFBW/ADIRUSwitchArray[0] 0 to 2
 Adirs IR2 /			AirbusFBW/ADIRUSwitchArray[1] 0 to 2
 Adirs IR3 /			AirbusFBW/ADIRUSwitchArray[2] 0 to 2
 
-Battery 1 / 		AirbusFBW/ElecOHPArray [5] 0 or 1
-Battery 2 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
-Ext power / 		AirbusFBW/ElecOHPArray [3] 0 or 1
-
-Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2
+Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
 Beacon /			AirbusFBW/OHPLightSwitches[0] 0 to 1
 Wing /				AirbusFBW/OHPLightSwitches[1] 0 to 1
-Nav&Logo /			AirbusFBW/OHPLightSwitches[2] 0 to 2
+Nav&Logo /			AirbusFBW/OHPLightSwitches[2] 0 to 2 (0 = OFF, 1 = 1, 2 = 2)
 
 APU MASTER /		AirbusFBW/APUMaster 0 to 1
+APU START /			AirbusFBW/APUStarter 0 to 1
+(APU AVAIL)			AirbusFBW/APUAvail 0 to 1  (0 = un avail, 1 = avail)
 
-Ice ind Nav&Logo /	AirbusFBW/OHPLightSwitches[9] 0 to 1
-INT LT DOME /		AirbusFBW/OHPLightSwitches[8] 0 to 2
-ANN LT /			AirbusFBW/AnnunMode 0 to 2
+OVHD INTEG LT / 	AirbusFBW/RMP3Lights[0] 0 to 1 (float 16) -> 0.5 = half
+STBY COMPASS /		AirbusFBW/OHPLightSwitches[9] 0 to 1
+INT LT DOME /		AirbusFBW/OHPLightSwitches[8] 0 to 2 (0 = OFF, 1 = DIM, 2 = BRT)
+ANN LT /			AirbusFBW/AnnunMode 0 to 2 (0 = OFF, 1 = BRT, 2 = TEST)
 
 RWY TURN /			AirbusFBW/OHPLightSwitches[6] 0 to 1
-L LAND /			AirbusFBW/OHPLightSwitches[4] 0 to 2
-R LAND /			AirbusFBW/OHPLightSwitches[5] 0 to 2
-Nose /				AirbusFBW/OHPLightSwitches[3] 0 to 2
-
-APU START /			AirbusFBW/APUStarter 0 to 1
+L LAND /			AirbusFBW/OHPLightSwitches[4] ** 0 OR 2 **
+R LAND /			AirbusFBW/OHPLightSwitches[5] ** 0 OR 2 **
+Nose /				AirbusFBW/OHPLightSwitches[3] 0 to 2 (0 = OFF, 1 = TAXI, 2 = T.O)
 
 Seat Belts /		AirbusFBW/OHPLightSwitches[11] 0 to 1
-No Smoking /		AirbusFBW/OHPLightSwitches[12] 0 to 2
+No Smoking /		AirbusFBW/OHPLightSwitches[12] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
 Emer Exit LT /		AirbusFBW/OHPLightSwitches[10] 0 to 2
 
-ND ZOOM CAPT /		AirbusFBW/NDrangeCapt 0 to 5
-ATC MODE /			AirbusFBW/XPDRTCASMode 0 to 1 (0 = auto, 1 = On)
-TCAS TRAF. /		AirbusFBW/XPDRTCASAltSelect 0 to 3 (0 = abv, 1=n, 2=Blw
-TCAS MODE /			AirbusFBW/XPDRPower 0 to 4 (0 = stby)
+ND ZOOM CAPT /		AirbusFBW/NDrangeCapt 0 to 5 (0 = 10, 1 = 20, 2 = 40, 3 = 80, 4 = 160, 5 = 320)
 
-FLOOD LT MAIN /		AirbusFBW/PanelFloodBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
-INTEG LT MAIN /		AirbusFBW/PanelBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
-FLOOD LT PED /		AirbusFBW/PedestalFloodBrightnessLevel 0 to 1 (0.25, 0.5, 0.75, 1)
+ATC MODE (AUTO or ON) 	/		AirbusFBW/XPDRTCASMode 0 to 1 (0 = AUTO, 1 = On) TRANSPONDER
+ATC SYS (1 or 2) 		/		AirbusFBW/XPDRSystem 1 to 2 (1 = 1, 2 = 2) TRANSPONDER
+
+TCAS TRAFFIC 			/		AirbusFBW/XPDRTCASAltSelect 0 to 3 (0 = ABV, 1=N, 2=BLW)
+TCAS MODE 				/		AirbusFBW/XPDRPower 0 to 4 (0 = STBY, 1 = ALT..., 2 = XPNDR, 3 = TA ONLY, 4 = TA/RA)
+
+FLOOD LT MAIN /		AirbusFBW/PanelFloodBrightnessLevel 0 to 1 (0, 0.25, 0.5, 0.75, 1)
+INTEG LT MAIN /		AirbusFBW/PanelBrightnessLevel 0 to 1 (0, 0.25, 0.5, 0.75, 1)
+FLOOD LT PED /		AirbusFBW/PedestalFloodBrightnessLevel 0 to 1 (0, 0.25, 0.5, 0.75, 1)
+
+PFD LT CAPT /			AirbusFBW/DUBrightness[0] 0 to 1 (0 not allow because reset SELF TEST, 0.25, 0.5, 0.75, 1)
+ND LT CAPT /			AirbusFBW/DUBrightness[1] 0 to 1 (0 not allow because reset SELF TEST, 0.25, 0.5, 0.75, 1)
+
+ECAM UPPER DISPLAY /	AirbusFBW/DUBrightness[4] 0 to 1 (0 not allow because reset SELF TEST, 0.25, 0.5, 0.75, 1)
+ECAM LOWER DISPLAY /	AirbusFBW/DUBrightness[5] 0 to 1 (0 not allow because reset SELF TEST, 0.25, 0.5, 0.75, 1)
+MCDU CAPT /				AirbusFBW/DUBrightness[6] 0 to 1 (0 not allow because reset SELF TEST, 0.25, 0.5, 0.75, 1)
 
 [EVENT]
 
-Apu Avail			AirbusFBW/APUAvail 0 to 1

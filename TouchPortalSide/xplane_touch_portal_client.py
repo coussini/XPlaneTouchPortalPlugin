@@ -65,7 +65,7 @@ except Exception as e:
 # Logging configuration is set up in main().
 g_log = Logger(name = PLUGIN_ID)
 
-# This event handler will run once when the client connects to Touch Portal (beginning)
+# This event handler will run once when the client connects to Touch Portal (successful pairing)
 @TPClient.on('info')
 def onInfo(data):
     print("Connected!")
@@ -105,6 +105,12 @@ def onAction(data):
                     print("call MyXplane python server with :",data.get('actionId')," and",x["dataref"]) 
         case "XPlanePlugin.Dataref.SetTwoStates":
             for x in STATES:
+                # 
+                # call MyXplane python server with : XPlanePlugin.Dataref.SetTwoStates  
+                #                                    and AirbusFBW/ElecOHPArray[3]  with value 1
+                # value before = 0
+                # value after = 1
+                #
                 if x["desc"] == data.get('data')[0]["value"]:
                     print("call MyXplane python server with :",data.get('actionId')," and",x["dataref"]," with value",data.get('data')[1]["value"])
                     print("value before =",x["value"])
