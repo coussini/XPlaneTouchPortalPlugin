@@ -61,11 +61,11 @@ except Exception as e:
     sys.exit(f"Could not create TP Client, exiting. Error was:\n{repr(e)}")
 # TPClient: TP.Client = None  # instance of the TouchPortalAPI Client, created in main()
 
-# Crate the (optional) global logger, an instance of `TouchPortalAPI::Logger` helper class.
+# Create the (optional) global logger, an instance of `TouchPortalAPI::Logger` helper class.
 # Logging configuration is set up in main().
 g_log = Logger(name = PLUGIN_ID)
 
-# This event handler will run once when the client connects to Touch Portal
+# This event handler will run once when the client connects to Touch Portal (beginning)
 @TPClient.on('info')
 def onInfo(data):
     print("Connected!")
@@ -73,18 +73,19 @@ def onInfo(data):
     print(data)
     print("Connected to TP v",data.get('tpVersionString', '?'),"plugin v",data.get('pluginVersion', '?'))
     for x in STATES:
-        TPClient.createState(x["id"],x["desc"],x["value"])
+        TPClient.createState(x["id"],x["desc"],x["value"]) # create a TP State default value at runtime
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
 def onAction(data):
+
+    # if the jason structure of data is not conform... skip it
+    if not (action_data := data.get('data')) or not (action_actionId := data.get('actionId')):
+        return
+
     print("")
     print("Action catch!")
     print("TP RETURNED FOLLOWING DATA:")
-
-    if not (action_data := data.get('data')) or not (action_actionId := data.get('actionId')):
-        return
-    
     print(data)
     print("")
     print("GET SEPARATE PART FROM RETURNED DATA")
@@ -117,6 +118,7 @@ def onAction(data):
     #    print("Value (actual)      ->",Statelist[i])
 
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
+# Also, when a user do a TP Restart from windows systray
 @TPClient.on('closePlugin')
 def onShutdown(data):
     #print("Got Shutdown Message! Shutting Down the Plugin!")
