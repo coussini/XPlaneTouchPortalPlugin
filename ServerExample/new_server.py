@@ -11,6 +11,7 @@ def server_program():
 
     # configure how many client the server can listen simultaneously
     server_socket.listen(1)
+    server_socket.setblocking(0)
     
     print(f"Le serveur a l'adresse " + str(port))
     print(f"Le serveur est en mode d'attente, rien ne se passe après cette ligne\n\nLe serveur attend...")

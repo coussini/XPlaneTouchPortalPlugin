@@ -1,3 +1,45 @@
+'''
+
+=================================
+Serveur X-Plane pour Touch Portal
+=================================
+
+- Création d'une connection thread pour les clients touch portal
+- Recevoir du tableau JSON STATES d'un client touch portal
+    -A la première réception du tableau JSON STATES
+        -Sauvegarder le JSON STATES en tableau interne du côté serveur (car cette partie permet
+         d'avoir un server versatile qui peut gérer différentes avions)
+        -Faire une boucle pour passer tout le tableau JSON STATES reçu du client
+            -Si un JSON STATES[dataref] reçu du client, n'est pas égal à la valeur du dataref de X-Plane
+                -Sauvegarder la valeur du dataref dans le tableau interne
+                -Sauvegarder la valeur du dataref dans le JSON STATES[dataref] reçu du client
+        -Envoyer le JSON reçu au client touch portal
+    -Aux autres réception
+        -Faire une boucle pour passer tout le tableau JSON STATES reçu du client
+            -Si un JSON STATES[dataref] reçu du client, n'est pas égal à la valeur du dataref de X-Plane
+                -Sauvegarder la valeur dans le tableau interne
+                -Sauvegarder la valeur dans le JSON STATES reçu
+        -Envoyer le JSON reçu au client touch portal
+
+===================
+Client Touch Portal
+===================
+
+- Se connection à Serveur X-Plane pour Touch Portal
+- Envoyer Au début le tableau de communication sous forme JSON à Serveur X-Plane pour Touch Portal
+  (signal à "init" au début)
+- Recevoir le tableau de communication sous forme JSON du Serveur X-Plane pour Touch Portal et mettre à jour
+  la situation pour touch-portal
+- Si une touche a été appuyé sur touch portal 
+    - Envoyer le tableau de communication sous forme JSON à Serveur X-Plane pour Touch Portal
+     (signal à "maj de touch portal")
+- Demandez à un moment donnée un status d'un dataref 
+    - Envoyer le tableau de communication sous forme JSON à Serveur X-Plane pour Touch Portal
+     (signal à "maj de x-plane")
+
+
+
+'''
 import sys
 from argparse import ArgumentParser
 
@@ -9,7 +51,9 @@ import socket
 __version__ = "1.0"
 PLUGIN_ID = "XPlanePlugin"
 
-STATES = [
+STATES = {
+    "signal" : "init",
+    "datarefs": [
     {   
         "id":PLUGIN_ID+".ExtPower",
         "desc":"Ext power",
@@ -46,7 +90,16 @@ STATES = [
         "value":"0",
         "dataref":"AirbusFBW/OHPLightSwitches[9]"
     }
-]
+    ]
+}
+
+'''
+print(STATES["signal"])
+for x in STATES["datarefs"]:
+    print("id = ",x["id"]," desc = ",x["desc"]," value = ",x["value"]," dataref = ",x["dataref"])
+
+'''
+
 # Create the Touch Portal API client.
 try:
     TPClient = TP.Client(
@@ -72,14 +125,14 @@ def onInfo(data):
     print("TP RETURNED FOLLOWING:")
     print(data)
     print("Connected to TP v",data.get('tpVersionString', '?'),"plugin v",data.get('pluginVersion', '?'))
-    for x in STATES:
+    for x in STATES["datarefs"]:
         TPClient.createState(x["id"],x["desc"],x["value"]) # create a TP State default value at runtime
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
 def onAction(data):
 
-    # if the jason structure of data is not conform... skip it
+    # if the json structure of data is not conform... skip it
     if not (action_data := data.get('data')) or not (action_actionId := data.get('actionId')):
         return
 

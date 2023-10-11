@@ -71,8 +71,8 @@ try:
     
         all_threads.append(t)
 # The following KeyboardInterrupt is NOT NECCESSARY IN X_PLANE 12 (when shutdown x-plane that's stopped the python server)
-except KeyboardInterrupt: 
-    print("Stopped by Ctrl+C")
+#except KeyboardInterrupt: 
+#    print("Stopped by Ctrl+C")
 finally:
     if s:
         s.close()
