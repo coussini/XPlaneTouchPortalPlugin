@@ -1,43 +1,66 @@
 import xp
+import json
 import socket
+import struct
+import threading
 
 class PythonInterface:
     def __init__(self):
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>__init__>>>>>>>>>>>>>>>>>>>>>>>>>") 
         self.Name = "DatarefServer"
         self.Sig = "dataref.server.xppython3"
         self.Desc = "Serv and receive dataref data"
-        self.HOST = "192.168.0.104"
-        self.PORT = 9527
+        self.Host = socket.gethostbyname(socket.gethostname())
+        self.Port = 65432
+        self.all_threads = []
+
+    def handle_client(conn, addr):
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>handle_client>>>>>>>>>>>>>>>>>>>>> {elapsedTime}, {counter}")
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>handle_client [thread] starting>>>>>>>>>>>>>>>>>>>>>")
+        # Recv JSON
+        data = recv_data(conn)
+        text = data.decode()
+        stock = json.loads(text)
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>recv actionID {stock.get('dataref')}")
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>recv wich value {stock.get('newValue')}")
+        conn.close()
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>handle_client [thread] ending>>>>>>>>>>>>>>>>>>>>>")
+        return 1.0
+
+    def waiting_client(lastCall, elapsedTime, counter, refCon):
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>waiting_client>>>>>>>>>>>>>>>>>>>>> {elapsedTime}, {counter}")
+        conn, addr = self.Server.accept() # receive a client host and address
+        xp.log(f">>>>>>>>>>>>>>>>>>>>>>>>>client:>>>>>>>>>>>>>>>>>>>>> {addr}")
+        one_thread = threading.Thread(target=handle_client, args=(conn, addr))
+        one_thread.start()
+        self.all_threads.append(one_thread)
+        return 1.0
 
     def XPluginStart(self):
-        # Required by XPPython3
-        # Called once by X-Plane on startup (or when plugins are re-starting as part of reload)
-        # You need to return three strings
-        xp.log("XPluginStart") 
-        xp.findDataRef('sim/aircraft/electrical/num_batteries')        
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginStart>>>>>>>>>>>>>>>>>>>>>>>>>") 
+        xp.log("Initialize Server Socket") 
+        Server = socket.socket()
+        Server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # solution for "[Error 89] Address already in use". Use before bind()
+        Server.bind((self.Host, self.Port))
+        Server.listen(1)
+        myRefCon = {'data': []}
+        self.FlightLoopID = xp.createFlightLoop(self.waiting_client, refCon=myRefCon)
         return self.Name, self.Sig, self.Desc
 
     def XPluginStop(self):
-        # Called once by X-Plane on quit (or when plugins are exiting as part of reload)
-        # Return is ignored
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginStop>>>>>>>>>>>>>>>>>>>>>>>>>") 
         pass
 
     def XPluginEnable(self):
-        # Required by XPPython3
-        # Called once by X-Plane, after all plugins have "Started" (including during reload sequence).
-        # You need to return an integer 1, if you have successfully enabled, 0 otherwise.
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginEnable>>>>>>>>>>>>>>>>>>>>>>>>>") 
         return 1
 
     def XPluginDisable(self):
-        # Called once by X-Plane, when plugin is requested to be disabled. All plugins
-        # are disabled prior to Stop.
-        # Return is ignored
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginDisable>>>>>>>>>>>>>>>>>>>>>>>>>") 
+        xp.destroyFlightLoop(self.FlightLoopID)
+
         pass
 
     def XPluginReceiveMessage(self, inFromWho, inMessage, inParam):
-        # Called by X-Plane whenever a plugin message is being sent to your
-        # plugin. Messages include MSG_PLANE_LOADED, MSG_ENTERED_VR, etc., as
-        # described in XPLMPlugin module.
-        # Messages may be custom inter-plugin messages, as defined by other plugins.
-        # Return is ignored
+        xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginReceiveMessage>>>>>>>>>>>>>>>>>>>>>>>>>") 
         pass

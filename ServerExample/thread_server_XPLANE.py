@@ -1,8 +1,8 @@
-import socket
-import threading
-import time
-import struct
 import json
+import socket
+import struct
+import threading
+
 
 # -------------------------------------------------------------------------
 # ---                              FUNCTION                             ---
@@ -63,13 +63,11 @@ try:
     while True:
         print("Waiting for client")
         conn, addr = s.accept() # receive a client host and address
-    
         print("Client:", addr)
-        
         t = threading.Thread(target=handle_client, args=(conn, addr))
         t.start()
-    
         all_threads.append(t)
+
 # The following KeyboardInterrupt is NOT NECCESSARY IN X_PLANE 12 (when shutdown x-plane that's stopped the python server)
 #except KeyboardInterrupt: 
 #    print("Stopped by Ctrl+C")

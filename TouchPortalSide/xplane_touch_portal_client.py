@@ -119,7 +119,7 @@ except Exception as e:
 g_log = Logger(name = PLUGIN_ID)
 
 # This event handler will run once when the client connects to Touch Portal (successful pairing)
-@TPClient.on('info')
+@TPClient.on('info') # <- TPClient.connect()
 def onInfo(data):
     print("Connected!")
     print("TP RETURNED FOLLOWING:")
@@ -130,7 +130,7 @@ def onInfo(data):
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on('action')
-def onAction(data):
+def onAction(data): # User press a button
 
     # if the json structure of data is not conform... skip it
     if not (action_data := data.get('data')) or not (action_actionId := data.get('actionId')):
@@ -153,11 +153,11 @@ def onAction(data):
     ###
     match data.get('actionId'):
         case "XPlanePlugin.Dataref.ToggleTwoStates":
-            for x in STATES:
+            for x in STATES["datarefs"]:
                 if x["desc"] == data.get('data')[0]["value"]:
                     print("call MyXplane python server with :",data.get('actionId')," and",x["dataref"]) 
         case "XPlanePlugin.Dataref.SetTwoStates":
-            for x in STATES:
+            for x in STATES["datarefs"]:
                 # 
                 # call MyXplane python server with : XPlanePlugin.Dataref.SetTwoStates  
                 #                                    and AirbusFBW/ElecOHPArray[3]  with value 1
