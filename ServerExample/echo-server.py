@@ -1,18 +1,15 @@
-# echo-server.py
-
 import socket
 
-HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
-PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
+hostname = socket.gethostname()
+HOST = socket.gethostbyname(hostname)
+PORT = 65432
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT)) # HOST is Visible only in this computer otherwise for external world : s.bind((socket.gethostname(), PORT)) 
-    s.listen(5) # Only 5 request of connexion is possible here
+    s.bind((HOST, PORT))
+    s.listen()
+    print(f"Server Listening on: {HOST} {PORT}")
     conn, addr = s.accept()
     with conn:
-        print(f"Connected by {addr}")
         while True:
             data = conn.recv(1024)
-            if not data:
-                break
             conn.sendall(data)

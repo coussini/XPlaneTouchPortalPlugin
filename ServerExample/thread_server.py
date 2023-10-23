@@ -14,6 +14,7 @@ import threading
 import time
 import struct
 import json
+import sys
 
 # --- functions ---
 
@@ -47,9 +48,6 @@ def handle_client(conn, addr):
 
     # send message
     
-    text = "Bye!"
-    print("[thread] client:", addr, 'send:', text)
-
     data = text.encode()
     send_data(conn, data)
     
@@ -105,7 +103,7 @@ try:
         all_threads.append(t)
 # The following KeyboardInterrupt is NOT NECCESSARY IN X_PLANE 12 (when shutdown x-plane that's stopped the python server)
 except KeyboardInterrupt: 
-    print("Stopped by Ctrl+C")
+    sys.exit(0)
 finally:
     if s:
         s.close()

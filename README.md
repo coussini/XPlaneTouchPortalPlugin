@@ -2,26 +2,18 @@
 
 ![Touch Portal Plugin](XPlaneTouchPortalPlugin.jpg "Xplane Touch Portal Plugin Logo")
 
-###### TODO set the logo name "x-plane" in white
+###### TODO:  set the logo string "x-plane" in white
 
-##### The unblocking socket server and client are following example:
+##### STEP FOR THIS MOMENT
 
-- src/multiconn-server.py
+1. The states are use to store informations for x-plane DataRef
 
-- src/multiconn-client.py
-
-<ins>STEP FOR ANY USER</ins>
-
-1. Build a csv file using a simple text editor dans contains a list a datarefs (save it as Datarefs.csv for example)
-
-2. each line has a dataref description following to the dataref name and separate with a coma
-
-<ins>Example of the contains into Datarefs.csv</ins>
-
-- Author's Name,sim/aircraft/view/acf_author
-
-- Ext power,AirbusFBW/ElecOHPArray[3]
-
-- Battery 1,AirbusFBW/ElecOHPArray[5]
-
-- Battery 2,AirbusFBW/ElecOHPArray[6]
+2. Inside the xplane_touch_portal_client.py, there are a structure called STATES that contains all datarefs for the a TouchPortal page. The structure is
+   
+   1. id = An unique id for Touch Portal Usage
+   
+   2. desc = This description can be use when a page builder use:
+      
+      1. Logic : If Statement (Advanced)
+      
+      2. Xplane - Dataref: Set Named Variable Value
