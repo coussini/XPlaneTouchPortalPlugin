@@ -9,13 +9,13 @@ from time import sleep
 import platform
 
 class XPlaneIpNotFound(Exception):
-  args="Could not find any running XPlane instance in network."
+  args="ERROR: Could not find any running XPlane instance in network."
 
 class XPlaneTimeout(Exception):
-  args="XPlane timeout."
+  args="ERROR: XPlane timeout."
 
 class XPlaneVersionNotSupported(Exception):
-  args="XPlane version not supported."
+  args="ERROR: XPlane version not supported."
 
 class XPlaneUdp:
 
@@ -26,7 +26,7 @@ class XPlaneUdp:
   
   #constants
   MCAST_GRP = "239.255.1.1"
-  MCAST_PORT = 49707 # (MCAST_PORT was 49000 for XPlane10)
+  MCAST_PORT = 49707
   
   def __init__(self):
     # Open a UDP Socket to receive on Port 49000
@@ -99,7 +99,8 @@ class XPlaneUdp:
   def GetValues(self):
     try:
       # Receive packet
-      data, addr = self.socket.recvfrom(1472) # maximum bytes of an RREF answer X-Plane will send (Ethernet MTU - IP hdr - UDP hdr)
+      #data, addr = self.socket.recvfrom(1472) # maximum bytes of an RREF answer X-Plane will send (Ethernet MTU - IP hdr - UDP hdr)
+      data, addr = self.socket.recvfrom(4000) # maximum bytes of an RREF answer X-Plane will send (Ethernet MTU - IP hdr - UDP hdr)
       # Decode Packet
       retvalues = {}
       # * Read the Header "RREFO".
@@ -115,6 +116,7 @@ class XPlaneUdp:
         for i in range(0,numvalues):
           singledata = data[(5+lenvalue*i):(5+lenvalue*(i+1))]
           (idx,value) = struct.unpack("<if", singledata)
+          #print("One Dataref Value = ",value)
           if idx in self.datarefs.keys():
             # convert -0.0 values to positive 0.0 
             if value < 0.0 and value > -0.001 :
@@ -198,11 +200,15 @@ class XPlaneUdp:
               self.BeaconData["role"] = role
               print("XPlane Beacon Version: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
           else:
-            print("XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
+            print("")
+            print("ERROR: XPlane Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
+            print("")
             raise XPlaneVersionNotSupported()
 
       except socket.timeout:
-        print("XPlane IP not found.")
+        print("")
+        print("ERROR: XPlane IP not found (Probably, Xplane is not running)")
+        print("")
         raise XPlaneIpNotFound()
       finally:
         sock.close()

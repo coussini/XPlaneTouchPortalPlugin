@@ -14,15 +14,23 @@
 <body>
     <form>
         <div class="formBox">
-            <label for="title">Dataref</label>
+            <label for="dataref">Dataref</label>
             <input type="text" id="dataref" placeholder="AirbusFBW/OHPLightSwitches[7]"/>
         </div>
         <div class="formBox">
-            <label for="title">Dataref Description</label>
+            <label for="dataref_desc">Dataref Description</label>
             <input type="text" id="dataref_desc" placeholder="Strobe Light"/>
         </div>
         <div class="formBox">
-            <label for="yr">Default Value</label>
+            <label for="group">Group</label>
+            <input type="text" id="group" placeholder="Overhead or Electric or ..."/>
+        </div>
+        <div class="formBox">
+            <label for="type">Type</label>
+            <input type="text" id="type" placeholder="INT[6] or INT or FLOAT[16] or FLOAT"/>
+        </div>
+        <div class="formBox">
+            <label for="value">Default Value</label>
             <input type="number" id="value" placeholder="0"/>
         </div>
         <div class="formBox">
@@ -34,15 +42,18 @@
     </form>
     <script>
         let datarefs = [];
+        let oneId = 'XPlanePlugin.'
         // example {id:AirbusFBW/OHPLightSwitches[7], dataref: 'id:AirbusFBW/OHPLightSwitches[7]', desc: 'Strobe light', value: 0}
         const addDataref = (ev)=>{
             ev.preventDefault();  //to stop the form submitting
             // Object datarefs
             let objet_dataref = {
-                id: document.getElementById('dataref').value,
-                dataref: document.getElementById('dataref').value,
+                id: oneId.concat(document.getElementById('dataref_desc').value.replaceAll(' ','')),
                 desc: document.getElementById('dataref_desc').value,
-                value: document.getElementById('value').value
+                group: document.getElementById('group').value,
+                type: document.getElementById('type').value,
+                value: document.getElementById('value').value,
+                dataref: document.getElementById('dataref').value
             }
             // sauvegarder object datarefs
             datarefs.push(objet_dataref);

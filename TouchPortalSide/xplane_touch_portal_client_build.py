@@ -96,7 +96,7 @@ PLUGIN_VERSION = "1.0"
 """
 If you have any required file(s) that your plugin needs, put them in this list.
 """
-ADDITIONAL_FILES = ["XplaneTouchPortalClient-conf.txt"]
+ADDITIONAL_FILES = ["XplaneTouchPortalClient-conf.txt","Datarefs.json","XPlaneUPD.py"]
 
 """
 Any additional arguments to be passed to Pyinstaller. Optional.

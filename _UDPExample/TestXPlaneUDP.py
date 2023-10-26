@@ -1,37 +1,37 @@
 import time
-import XPlaneUPD as xplib
+import XPlaneUPD as XPlaneUPD
 
 try:
-  xp = xplib.XPlaneUdp()
-  xp.defaultFreq = 10
+  xpUDP = XPlaneUPD.XPlaneUdp() #instance
+  xpUDP.defaultFreq = 10
   
-  beacon = xp.FindIp()
+  beacon = xpUDP.FindIp()
   print(beacon)
   print()
   
-  xp.AddDataRef("AirbusFBW/OHPLightSwitches[7]") # strobe
-  xp.AddDataRef("AirbusFBW/APUAvail") #apu avail
-  xp.AddDataRef("AirbusFBW/ElecOHPArray[3]") # ext power
+  xpUDP.AddDataRef("AirbusFBW/OHPLightSwitches[7]") # strobe
+  xpUDP.AddDataRef("AirbusFBW/APUAvail") #apu avail
+  xpUDP.AddDataRef("AirbusFBW/ElecOHPArray[3]") # ext power
   
   #while True:
   try:
-    values = xp.GetValues()
+    values = xpUDP.GetValues()
     print(values["AirbusFBW/ElecOHPArray[3]"])
-    xp.WriteDataRef("AirbusFBW/ElecOHPArray[3]",1)
-    xp.WriteDataRef("AirbusFBW/OHPLightSwitches[7]",1)
-    values = xp.GetValues()
+    xpUDP.WriteDataRef("AirbusFBW/ElecOHPArray[3]",1)
+    xpUDP.WriteDataRef("AirbusFBW/OHPLightSwitches[7]",1)
+    values = xpUDP.GetValues()
     print(values["AirbusFBW/ElecOHPArray[3]"])
     time.sleep(5)
-    xp.WriteDataRef("AirbusFBW/OHPLightSwitches[7]",2)
+    xpUDP.WriteDataRef("AirbusFBW/OHPLightSwitches[7]",2)
       
-  except xp.XPlaneTimeout:
+  except xpUDP.XPlaneTimeout:
     print("XPlane Timeout")
     exit(0)
 
-except xp.XPlaneVersionNotSupported:
+except xpUDP.XPlaneVersionNotSupported:
   print("XPlane Version not supported.")
   exit(0)
 
-except xp.XPlaneIpNotFound:
+except xpUDP.XPlaneIpNotFound:
   print("XPlane IP not found. Probably there is no XPlane running in your local network.")
   exit(0)

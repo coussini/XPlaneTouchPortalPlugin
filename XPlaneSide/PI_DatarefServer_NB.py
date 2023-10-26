@@ -61,7 +61,7 @@ class PythonInterface:
                     if data:
                         print(f"Received data from client {self.client_address}: {data}")
                         # echo send data to client
-                        sock.sendall(data)
+                        #sock.sendall(data)
                     else:
                         print(f"Connection closed by client {self.client_address}")
                         sock.close()
@@ -109,9 +109,7 @@ class PythonInterface:
     '''
     def XPluginEnable(self):
         xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginEnable")
-        menuId = xp.createMenu('Start XPlane TP Server', parentMenu=None,
-                                parentItem=0,  # value ignored when parentMenu is None
-                                callback=self.flight_loop, refcon=[])
+        menuID = xp.createMenu("My Menu", handler=self.flight_loop, refCon=[])
         '''
         xp.log("(Server is ready to accept connections...)") 
 

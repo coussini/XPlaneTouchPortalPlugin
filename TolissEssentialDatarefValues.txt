@@ -1,35 +1,35 @@
-Battery 1 / 		AirbusFBW/ElecOHPArray [5] 0 or 1
-Battery 2 / 		AirbusFBW/ElecOHPArray [6] 0 or 1
-Ext power / 		AirbusFBW/ElecOHPArray [3] 0 or 1
+INT[32]	Battery 1 / 		AirbusFBW/ElecOHPArray[5] 0 or 1
+INT[32]	Battery 2 / 		AirbusFBW/ElecOHPArray[6] 0 or 1
+INT[32]	Ext power / 		AirbusFBW/ElecOHPArray[3] 0 or 1
 
-Adirs data / 		AirbusFBW/ADIRUDisplayData 0 to 5     *** NOT FOR A320 ***
-Adirs sys / 		AirbusFBW/ADIRUDisplaySystem 0 to 3   *** NOT FOR A320 ***
-Adirs IR1 /			AirbusFBW/ADIRUSwitchArray[0] 0 to 2
-Adirs IR2 /			AirbusFBW/ADIRUSwitchArray[1] 0 to 2
-Adirs IR3 /			AirbusFBW/ADIRUSwitchArray[2] 0 to 2
+INT 	Adirs data / 		AirbusFBW/ADIRUDisplayData 0 to 5     *** NOT FOR A320 ***
+INT 	Adirs sys / 		AirbusFBW/ADIRUDisplaySystem 0 to 3   *** NOT FOR A320 ***
+INT[6] 	Adirs IR1 /			AirbusFBW/ADIRUSwitchArray[0] 0 to 2
+INT[6]	Adirs IR2 /			AirbusFBW/ADIRUSwitchArray[1] 0 to 2
+INT[6]	Adirs IR3 /			AirbusFBW/ADIRUSwitchArray[2] 0 to 2
 
-Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
-Beacon /			AirbusFBW/OHPLightSwitches[0] 0 to 1
-Wing /				AirbusFBW/OHPLightSwitches[1] 0 to 1
-Nav&Logo /			AirbusFBW/OHPLightSwitches[2] 0 to 2 (0 = OFF, 1 = 1, 2 = 2)
+INT[32] Strobe /			AirbusFBW/OHPLightSwitches[7] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
+INT[32]	Beacon /			AirbusFBW/OHPLightSwitches[0] 0 to 1
+INT[32]	Wing /				AirbusFBW/OHPLightSwitches[1] 0 to 1
+INT[32]	Nav&Logo /			AirbusFBW/OHPLightSwitches[2] 0 to 2 (0 = OFF, 1 = 1, 2 = 2)
 
-APU MASTER /		AirbusFBW/APUMaster 0 to 1
+INT 	APU MASTER /		AirbusFBW/APUMaster 0 to 1
 APU START /			AirbusFBW/APUStarter 0 to 1
 (APU AVAIL)			AirbusFBW/APUAvail 0 to 1  (0 = un avail, 1 = avail)
 
 OVHD INTEG LT / 	AirbusFBW/RMP3Lights[0] 0 to 1 (float 16) -> 0.5 = half
-STBY COMPASS /		AirbusFBW/OHPLightSwitches[9] 0 to 1
-INT LT DOME /		AirbusFBW/OHPLightSwitches[8] 0 to 2 (0 = OFF, 1 = DIM, 2 = BRT)
+INT[32]	STBY COMPASS /		AirbusFBW/OHPLightSwitches[9] 0 to 1
+INT[32]	INT LT DOME /		AirbusFBW/OHPLightSwitches[8] 0 to 2 (0 = OFF, 1 = DIM, 2 = BRT)
 ANN LT /			AirbusFBW/AnnunMode 0 to 2 (0 = OFF, 1 = BRT, 2 = TEST)
 
-RWY TURN /			AirbusFBW/OHPLightSwitches[6] 0 to 1
-L LAND /			AirbusFBW/OHPLightSwitches[4] ** 0 OR 2 **
-R LAND /			AirbusFBW/OHPLightSwitches[5] ** 0 OR 2 **
-Nose /				AirbusFBW/OHPLightSwitches[3] 0 to 2 (0 = OFF, 1 = TAXI, 2 = T.O)
+INT[32]	RWY TURN /			AirbusFBW/OHPLightSwitches[6] 0 to 1
+INT[32]	L LAND /			AirbusFBW/OHPLightSwitches[4] ** 0 OR 2 **
+INT[32]	R LAND /			AirbusFBW/OHPLightSwitches[5] ** 0 OR 2 **
+INT[32]	Nose /				AirbusFBW/OHPLightSwitches[3] 0 to 2 (0 = OFF, 1 = TAXI, 2 = T.O)
 
-Seat Belts /		AirbusFBW/OHPLightSwitches[11] 0 to 1
-No Smoking /		AirbusFBW/OHPLightSwitches[12] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
-Emer Exit LT /		AirbusFBW/OHPLightSwitches[10] 0 to 2
+INT[32]	Seat Belts /		AirbusFBW/OHPLightSwitches[11] 0 to 1
+INT[32]	No Smoking /		AirbusFBW/OHPLightSwitches[12] 0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)
+INT[32]	Emer Exit LT /		AirbusFBW/OHPLightSwitches[10] 0 to 2
 
 ND ZOOM CAPT /		AirbusFBW/NDrangeCapt 0 to 5 (0 = 10, 1 = 20, 2 = 40, 3 = 80, 4 = 160, 5 = 320)
 
