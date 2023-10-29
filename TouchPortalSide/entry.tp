@@ -36,13 +36,13 @@
         },
         {
           "id": "XPlanePlugin.Dataref.SetTwoStates",
-          "name": "Set Named Variable Value",
+          "name": "Xplane Dataref - Set Variable Value",
           "prefix": "XPlane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": true,
           "description": "",
-          "format": "Set Variable Named:{$XPlanePlugin.Dataref.SetTwoStates.Name$} to value:{$XPlanePlugin.Dataref.SetTwoStates.Value$}",
+          "format": "Xplane Dataref - Set Variable Named:{$XPlanePlugin.Dataref.SetTwoStates.Name$} to value:{$XPlanePlugin.Dataref.SetTwoStates.Value$}",
           "data": [
             {
               "id": "XPlanePlugin.Dataref.SetTwoStates.Name",
@@ -53,13 +53,9 @@
             },
             {
               "id": "XPlanePlugin.Dataref.SetTwoStates.Value",
-              "type": "choice",
+              "type": "text",
               "label": "Value",
-              "default": "0",
-              "valueChoices": [
-                "0",
-                "1"
-              ]
+              "default": "0"
             }
           ]
         }

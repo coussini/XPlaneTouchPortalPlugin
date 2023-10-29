@@ -3,7 +3,7 @@
         {
             "id": "XPlanePlugin.Battery1",
             "desc": "Battery 1",
-            "group": "OverHead Electrical System Control",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[5]",
@@ -12,7 +12,7 @@
         {
             "id": "XPlanePlugin.Battery2",
             "desc": "Battery 2",
-            "group": "OverHead Electrical System Control",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[6]",
@@ -21,16 +21,25 @@
         {
             "id": "XPlanePlugin.ExtPower",
             "desc": "Ext Power",
-            "group": "OverHead Electrical System Control",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[3]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
+            "id": "XPlanePlugin.ExtPowerAvailable",
+            "desc": "ExtPowerAvailable",
+            "group": "OverHead",
+            "type": "int",
+            "value": "0",
+            "dataref": "AirbusFBW/EnableExternalPower",
+            "comment": "0 or 1 (0 = OFF, 1 = ON)"
+        },
+        {
             "id": "XPlanePlugin.AdirsIR1",
             "desc": "Adirs IR1",
-            "group": "OverHead ADIRS",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
@@ -39,7 +48,7 @@
         {
             "id": "XPlanePlugin.AdirsIR2",
             "desc": "Adirs IR2",
-            "group": "OverHead ADIRS",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[1]",
@@ -48,7 +57,7 @@
         {
             "id": "XPlanePlugin.AdirsIR3",
             "desc": "Adirs IR3",
-            "group": "OverHead ADIRS",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
@@ -57,7 +66,7 @@
         {
             "id": "XPlanePlugin.Strobe",
             "desc": "Strobe",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[7]",
@@ -66,7 +75,7 @@
         {
             "id": "XPlanePlugin.Beacon",
             "desc": "Beacon",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[0]",
@@ -75,7 +84,7 @@
         {
             "id": "XPlanePlugin.Wing",
             "desc": "Wing",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[1]",
@@ -84,7 +93,7 @@
         {
             "id": "XPlanePlugin.NavAndLogo",
             "desc": "Nav And Logo",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[2]",
@@ -93,7 +102,7 @@
         {
             "id": "XPlanePlugin.APUMasterSw",
             "desc": "APU Master Sw",
-            "group": "Overhead Auxiliary Power Unit (APU)",
+            "group": "Overhead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/APUMaster",
@@ -102,7 +111,7 @@
         {
             "id": "XPlanePlugin.APUStart",
             "desc": "APU Start",
-            "group": "Overhead Auxiliary Power Unit (APU)",
+            "group": "Overhead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/APUStarter",
@@ -111,7 +120,7 @@
         {
             "id": "XPlanePlugin.APUAvailable",
             "desc": "APU Available",
-            "group": "Overhead Auxiliary Power Unit (APU)",
+            "group": "Overhead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/APUAvail",
@@ -120,7 +129,7 @@
         {
             "id": "XPlanePlugin.OVHDINTEGLTBrightnessKnob",
             "desc": "OVHD INTEG LT Brightness Knob",
-            "group": "OverHead Internal Lights",
+            "group": "OverHead",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/RMP3Lights[0]",
@@ -129,7 +138,7 @@
         {
             "id": "XPlanePlugin.STBYCOMPASS",
             "desc": "STBY COMPASS",
-            "group": "OverHead Internal Lights",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[9]",
@@ -138,7 +147,7 @@
         {
             "id": "XPlanePlugin.INTLTDOME",
             "desc": "INT LT DOME",
-            "group": "OverHead Internal Lights",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[8]",
@@ -147,7 +156,7 @@
         {
             "id": "XPlanePlugin.ANNLT",
             "desc": "ANN LT",
-            "group": "OverHead Internal Lights",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/AnnunMode[8]",
@@ -156,7 +165,7 @@
         {
             "id": "XPlanePlugin.RWYTURNOFF",
             "desc": "RWY TURN OFF",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[6]",
@@ -165,7 +174,7 @@
         {
             "id": "XPlanePlugin.LandingLightLeft",
             "desc": "Landing Light Left",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[4]",
@@ -174,7 +183,7 @@
         {
             "id": "XPlanePlugin.LandingLightRight",
             "desc": "Landing Light Right",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[5]",
@@ -183,7 +192,7 @@
         {
             "id": "XPlanePlugin.Nose",
             "desc": "Nose",
-            "group": "OverHead Exterior Lighting",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[3]",
@@ -192,7 +201,7 @@
         {
             "id": "XPlanePlugin.SeatBelts",
             "desc": "Seat Belts",
-            "group": "OverHead Signs",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[11]",
@@ -201,7 +210,7 @@
         {
             "id": "XPlanePlugin.NoSmoking",
             "desc": "No Smoking",
-            "group": "OverHead Signs",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[12]",
@@ -210,7 +219,7 @@
         {
             "id": "XPlanePlugin.EmerExitLT",
             "desc": "Emer Exit LT",
-            "group": "OverHead Signs",
+            "group": "OverHead",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[10]",
@@ -219,7 +228,7 @@
         {
             "id": "XPlanePlugin.NDZoomCAPT",
             "desc": "ND Zoom CAPT",
-            "group": "Main Instruments EFIS Control Panel",
+            "group": "Main Instruments",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[10]",
@@ -228,7 +237,7 @@
         {
             "id": "XPlanePlugin.ATCModeSelector",
             "desc": "ATC Mode Selector",
-            "group": "Pedestal ATC TCAS",
+            "group": "Pedestal",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/XPDRTCASMode",
@@ -237,7 +246,7 @@
         {
             "id": "XPlanePlugin.XPDRTransponderSelector",
             "desc": "XPDR Transponder Selector",
-            "group": "Pedestal ATC TCAS",
+            "group": "Pedestal",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/XPDRSystem",
@@ -246,7 +255,7 @@
         {
             "id": "XPlanePlugin.TCASTraficSelector",
             "desc": "TCAS Trafic Selector",
-            "group": "Pedestal ATC TCAS",
+            "group": "Pedestal",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/XPDRTCASAltSelect",
@@ -255,7 +264,7 @@
         {
             "id": "XPlanePlugin.TCASModeSelector",
             "desc": "TCAS Mode Selector",
-            "group": "Pedestal ATC TCAS",
+            "group": "Pedestal",
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/XPDRPower",
@@ -264,7 +273,7 @@
         {
             "id": "XPlanePlugin.FLOODLTMAINPNLBrightnessKnob",
             "desc": "FLOOD LT MAIN PNL Brightness Knob",
-            "group": "Pedestal Lighting Pedestal Captain Side",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/PanelFloodBrightnessLevel",
@@ -273,7 +282,7 @@
         {
             "id": "XPlanePlugin.INTEGLTMAINPNLANDPEDBrightnessKnob",
             "desc": "INTEG LT MAIN PNL AND PED Brightness Knob",
-            "group": "Pedestal Lighting Pedestal Captain Side",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/PanelBrightnessLevel",
@@ -282,7 +291,7 @@
         {
             "id": "XPlanePlugin.FLOODLTPEDBrightnessKnob",
             "desc": "FLOOD LT PED Brightness Knob",
-            "group": "Pedestal Lighting Pedestal, AIDS, DFDR First Officer Side",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/PedestalFloodBrightnessLevel",
@@ -291,7 +300,7 @@
         {
             "id": "XPlanePlugin.PFDBrightnessKnob",
             "desc": "PFD Brightness Knob",
-            "group": "Main Instrument Lighting Control Panel",
+            "group": "Main Instruments",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/DUBrightness[0]",
@@ -300,7 +309,7 @@
         {
             "id": "XPlanePlugin.NDBrightnessKnob",
             "desc": "ND Brightness Knob",
-            "group": "Main Instrument Lighting Control Panel",
+            "group": "Main Instruments",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/DUBrightness[1]",
@@ -309,7 +318,7 @@
         {
             "id": "XPlanePlugin.ECAMUPPERBrightnessKnob",
             "desc": "ECAM UPPER Brightness Knob",
-            "group": "Pedestal ECAM Control Panel",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/DUBrightness[4]",
@@ -318,7 +327,7 @@
         {
             "id": "XPlanePlugin.ECAMLOWERBrightnessKnob",
             "desc": "ECAM LOWER Brightness Knob",
-            "group": "Pedestal ECAM Control Panel",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/DUBrightness[5]",
@@ -327,7 +336,7 @@
         {
             "id": "XPlanePlugin.MCDUBrightnessButton",
             "desc": "MCDU Brightness Button",
-            "group": "Multipurpose Control and Display Unit (MCDU)",
+            "group": "Pedestal",
             "type": "float",
             "value": "0",
             "dataref": "AirbusFBW/DUBrightness[6]",

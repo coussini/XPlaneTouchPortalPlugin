@@ -1,0 +1,2 @@
+python C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\TouchPortalSide\xplane_touch_portal_client
+pause

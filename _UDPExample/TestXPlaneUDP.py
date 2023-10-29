@@ -17,6 +17,7 @@ try:
   try:
     values = xpUDP.GetValues()
     print(values["AirbusFBW/ElecOHPArray[3]"])
+    print(values[0])
     xpUDP.WriteDataRef("AirbusFBW/ElecOHPArray[3]",1)
     xpUDP.WriteDataRef("AirbusFBW/OHPLightSwitches[7]",1)
     values = xpUDP.GetValues()

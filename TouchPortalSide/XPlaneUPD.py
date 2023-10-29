@@ -7,7 +7,9 @@ import struct
 import binascii
 from time import sleep
 import platform
-from TouchPortalAPI.logger import Logger
+import logging
+LOGGER = logging.getLogger(__name__)
+
 
 class XPlaneIpNotFound(Exception):
   args="Could not find any running XPlane instance in network."
@@ -29,7 +31,7 @@ class XPlaneUdp:
   MCAST_GRP = "239.255.1.1"
   MCAST_PORT = 49707
   
-  def __init__(self,g_log):
+  def __init__(self):
     # Open a UDP Socket to receive on Port 49000
     self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self.socket.settimeout(3.0)
@@ -40,7 +42,6 @@ class XPlaneUdp:
     self.BeaconData = {}
     self.xplaneValues = {}
     self.defaultFreq = 1
-    self.g_log = g_log
 
   def __del__(self):
     for i in range(len(self.datarefs)):
@@ -125,7 +126,7 @@ class XPlaneUdp:
       self.xplaneValues.update(retvalues)
     except:
       raise XPlaneTimeout
-    return self.xplaneValues
+    return True, self.xplaneValues
 
   def FindIp(self):
 
@@ -150,16 +151,17 @@ class XPlaneUdp:
       # receive data
       try:   
         packet, sender = sock.recvfrom(1472)
-        print("INFO: XPlane Beacon is ", packet.hex())
+        #LOGGER.info("XPlane Beacon is ", packet.hex())
 
         # decode data
         # * Header
         header = packet[0:5]
         if header != b"BECN\x00":
-          print("Unknown packet from "+sender[0])
-          print(str(len(packet)) + " bytes")
-          print(packet)
-          print(binascii.hexlify(packet))
+          pass
+          #print("Unknown packet from "+sender[0])
+          #print(str(len(packet)) + " bytes")
+          #print(packet)
+          #print(binascii.hexlify(packet))
           
         else:
           # * Data
@@ -198,21 +200,15 @@ class XPlaneUdp:
               self.BeaconData["hostname"] = hostname.decode()
               self.BeaconData["XPlaneVersion"] = xplane_version_number
               self.BeaconData["role"] = role
-              print("INFO: XPlane Beacon Version is {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
+              #LOGGER.info("XPlane Beacon Version is {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
           else:
-            print("")
-            print("====================================")
-            print("ERROR: XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
-            print("====================================")
+            LOGGER.error("XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
             raise XPlaneVersionNotSupported()
 
       except socket.timeout:
-        self.g_log("")
-        self.g_log("====================================")
-        self.g_log("ERROR: XPlane IP not found or x-plane not running")
-        self.g_log("====================================")
+        LOGGER.error("The X-Plane program is not running or the X-Plane ip address does not exist")
         raise XPlaneIpNotFound()
       finally:
         sock.close()
 
-      return self.BeaconData
+      return True, self.BeaconData

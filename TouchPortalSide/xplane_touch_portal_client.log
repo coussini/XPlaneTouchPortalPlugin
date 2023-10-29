@@ -1,0 +1,28 @@
+    INFO:    XPlanePlugin:  Trying to load datarefs from:
+    INFO:    XPlanePlugin:  ---------------------------------
+    INFO:    XPlanePlugin:  C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\TouchPortalSide\Datarefs.json
+    INFO:    XPlanePlugin:  ---------------------------------
+   ERROR:    XPlanePlugin:  Datarefs successfully loaded from Datarefs.json
+    INFO:    XPlanePlugin:  Trying to find any running XPlane IP
+    INFO:    XPlanePlugin:  Connected successfully with X-Plane
+    INFO:    XPlanePlugin:  Trying to connect to Touch Portal Apps
+    INFO:    XPlanePlugin:  Connected to Touch Portal Version 3.1.11.0.0 plugin v 100)
+    INFO:    XPlanePlugin:  =================
+    INFO:    XPlanePlugin:  SECTION INFO
+    INFO:    XPlanePlugin:  =================
+    INFO:    XPlanePlugin:  {'settings': [{'XPlaneFolder': 'C:/X-Plane 12'}], 'tpVersionString': '3.1.11.0.0', 'pluginVersion': 100, 'tpVersionCode': 301011, 'sdkVersion': 6, 'type': 'info', 'status': 'paired'}
+    INFO:    XPlanePlugin:  Touch Portal States Id created
+    INFO:    XPlanePlugin:  Touch Portal Choices of States Id have been updated
+    INFO:    XPlanePlugin:  =================
+    INFO:    XPlanePlugin:  SECTION ACTION
+    INFO:    XPlanePlugin:  =================
+    INFO:    XPlanePlugin:  {'data': [{'id': 'XPlanePlugin.Dataref.SetTwoStates.Name', 'value': 'Battery 1'}, {'id': 'XPlanePlugin.Dataref.SetTwoStates.Value', 'value': '1'}], 'pluginId': 'XPlanePlugin', 'actionId': 'XPlanePlugin.Dataref.SetTwoStates', 'type': 'action'}
+    INFO:    XPlanePlugin:  ##################
+    INFO:    XPlanePlugin:  # CALL XPLANEUDP #
+    INFO:    XPlanePlugin:  ##################
+    INFO:    XPlanePlugin:  Call XPlaneUDP python with : XPlanePlugin.Dataref.SetTwoStates and AirbusFBW/ElecOHPArray[5] with value 1
+    INFO:    XPlanePlugin:  Dataref is AirbusFBW/ElecOHPArray[5]
+    INFO:    XPlanePlugin:  Value is 1
+    INFO:    XPlanePlugin:  Value before is 0
+    INFO:    XPlanePlugin:  Value after is 1
+    INFO:    XPlanePlugin:  Touch Portal value of the States Id XPlanePlugin.Battery1 updated with 1

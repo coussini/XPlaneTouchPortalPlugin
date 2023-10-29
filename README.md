@@ -28,15 +28,29 @@
   
   - comment = Information allowing the panel's creator in Touch Portal to understand the values and wich corresponding
 
-#####
+##### 
+
+## IMPORTANT
+
+Si un bouton ne réagit pas correctement à force de répéter des changement, il vaut mieux le détruire et en refaire un nouveaux pour que le référenciel de Touch Portal se refasse correctement (un bug sans doute)
+
+Quand on ajoute une variable dans le fichier json, il faut redémarer touch portal afin que les nouveaux éléments inscrits puissent être utilisable
+
+Attention utiliser le fichier Setup.JPG afin de permettre à l'utilisateur d'entrer le path de X-Plane
+
+
+
+PEUT-ETRE
+
+```python
+pip install python-socketio
+pip install python-socketio[client]
+pip install eventlet
+```
 
 ##### STEP POUR LA COMPRÉHENSION DES DONNÉES
 
 For example, it is a good idea to familiarize yourself with the dataref values corresponding to the buttons you want to use in Touch Portal. You can use the DatarefTool (see the html link in the folder to understand DataRefTool. You can also rely on the example file Datarefs.json (a simple text editor can allow you to see its content) in order to clearly identify your needs
-
-
-
-
 
 1. id = An unique id for Touch Portal Usage
 
