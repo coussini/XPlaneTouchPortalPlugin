@@ -1,23 +1,29 @@
-import socket
+import sys
 import socketio
 
-hostname = socket.gethostname()
-HOST = socket.gethostbyname(hostname)
-PORT = ":54676"
+# Create a client instance.
 sio = socketio.Client()
 
+# Connect to server.
 @sio.event
 def connect():
     print('connection established')
 
+# For receiving data from server.
 @sio.event
-def my_message(data):
-    print('message received with ', data)
-    sio.emit('my response', {'response': 'my response'})
+def message(data):
+    print(data)
 
+# Disconnecting.
 @sio.event
 def disconnect():
-    print('disconnected from server')
+    print('client disconnected')
 
+# MAIN
+print('client start')
 sio.connect('http://localhost:54676')
-sio.wait()
+
+print('send message')
+sio.emit(event = 'demande_du_client', data = {'AirbusFBW/EnableExternalPower': '1'})
+
+sio.disconnect()

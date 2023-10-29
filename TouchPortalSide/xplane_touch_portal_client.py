@@ -34,7 +34,16 @@ except Exception as e:
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
 def onStart(data):
-
+    option = [
+    {
+      "id":"option id",
+      "title":"option title 1"
+    },
+    {
+      "id":"option id",
+      "title":"option title 2"
+    }
+  ]
     LOGGER.info(f"Connected to Touch Portal Version {data.get('tpVersionString', '?')} plugin v {data.get('pluginVersion', '?')})")
     LOGGER.info(f"=================")
     LOGGER.info(f"SECTION {data.get('type').upper()}")

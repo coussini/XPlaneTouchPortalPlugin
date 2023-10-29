@@ -15,18 +15,13 @@ class PythonInterface:
         # Called once by X-Plane on startup (or when plugins are re-starting as part of reload)
         # You need to return three strings
         xp.log("XPluginStart") 
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.setblocking(0)
-        server.bind((self.HOST,self.PORT))
-        server.listen()
-        xp.log(f"[LISTENING] Server is listening on {self.HOST}")
-
         return self.Name, self.Sig, self.Desc
 
     def XPluginEnable(self):
         # Required by XPPython3
         # Called once by X-Plane, after all plugins have "Started" (including during reload sequence).
         # You need to return an integer 1, if you have successfully enabled, 0 otherwise.
+        xp.log("XPluginEnable") 
         return 1
 
     def XPluginReceiveMessage(self, inFromWho, inMessage, inParam):
@@ -35,15 +30,18 @@ class PythonInterface:
         # described in XPLMPlugin module.
         # Messages may be custom inter-plugin messages, as defined by other plugins.
         # Return is ignored
+        xp.log("XPluginReceiveMessage") 
         pass
 
     def XPluginDisable(self):
         # Called once by X-Plane, when plugin is requested to be disabled. All plugins
         # are disabled prior to Stop.
         # Return is ignored
+        xp.log("XPluginDisable") 
         pass
 
     def XPluginStop(self):
         # Called once by X-Plane on quit (or when plugins are exiting as part of reload)
         # Return is ignored
+        xp.log("XPluginStop") 
         pass

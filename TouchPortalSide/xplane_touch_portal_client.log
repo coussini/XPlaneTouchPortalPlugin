@@ -13,16 +13,3 @@
     INFO:    XPlanePlugin:  {'settings': [{'XPlaneFolder': 'C:/X-Plane 12'}], 'tpVersionString': '3.1.11.0.0', 'pluginVersion': 100, 'tpVersionCode': 301011, 'sdkVersion': 6, 'type': 'info', 'status': 'paired'}
     INFO:    XPlanePlugin:  Touch Portal States Id created
     INFO:    XPlanePlugin:  Touch Portal Choices of States Id have been updated
-    INFO:    XPlanePlugin:  =================
-    INFO:    XPlanePlugin:  SECTION ACTION
-    INFO:    XPlanePlugin:  =================
-    INFO:    XPlanePlugin:  {'data': [{'id': 'XPlanePlugin.Dataref.SetTwoStates.Name', 'value': 'Battery 1'}, {'id': 'XPlanePlugin.Dataref.SetTwoStates.Value', 'value': '1'}], 'pluginId': 'XPlanePlugin', 'actionId': 'XPlanePlugin.Dataref.SetTwoStates', 'type': 'action'}
-    INFO:    XPlanePlugin:  ##################
-    INFO:    XPlanePlugin:  # CALL XPLANEUDP #
-    INFO:    XPlanePlugin:  ##################
-    INFO:    XPlanePlugin:  Call XPlaneUDP python with : XPlanePlugin.Dataref.SetTwoStates and AirbusFBW/ElecOHPArray[5] with value 1
-    INFO:    XPlanePlugin:  Dataref is AirbusFBW/ElecOHPArray[5]
-    INFO:    XPlanePlugin:  Value is 1
-    INFO:    XPlanePlugin:  Value before is 0
-    INFO:    XPlanePlugin:  Value after is 1
-    INFO:    XPlanePlugin:  Touch Portal value of the States Id XPlanePlugin.Battery1 updated with 1
