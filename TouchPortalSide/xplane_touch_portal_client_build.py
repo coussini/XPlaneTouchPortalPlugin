@@ -96,6 +96,8 @@ PLUGIN_VERSION = "1.0"
 """
 If you have any required file(s) that your plugin needs, put them in this list.
 """
+# SEE https://docs.python.org/3/using/cmdline.html for command line example
+
 ADDITIONAL_FILES = ["XplaneTouchPortalClient-conf.txt","Datarefs.json","XPlaneUPD.py"]
 
 """

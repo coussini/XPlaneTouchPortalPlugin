@@ -32,13 +32,11 @@
 
 ## IMPORTANT
 
-Si un bouton ne réagit pas correctement à force de répéter des changement, il vaut mieux le détruire et en refaire un nouveaux pour que le référenciel de Touch Portal se refasse correctement (un bug sans doute)
+Si un bouton ne réagit pas, il faut regarder s'il y a aucune information d'état disponible (à ce moment là il faut choisir une variable dans la liste pour cette ligne). S'il n'y a pas de variable (un blanc), il faut choisir la variable. Si un bouton ne réagit pas correctement à force de répéter des changement, il faut peut-être allez dans les paramètres sous Touch Portal, Puis Général,  puis Nettoyer les données.Il vaut mieux peut-être, si cela ne fonctionne pas, détruire ce bouton et en refaire un nouveaux pour que le référenciel de Touch Portal se refasse correctement (un bug sans doute)
 
 Quand on ajoute une variable dans le fichier json, il faut redémarer touch portal afin que les nouveaux éléments inscrits puissent être utilisable
 
 Attention utiliser le fichier Setup.JPG afin de permettre à l'utilisateur d'entrer le path de X-Plane
-
-
 
 PEUT-ETRE
 

@@ -7,9 +7,7 @@ import struct
 import binascii
 from time import sleep
 import platform
-import logging
-LOGGER = logging.getLogger(__name__)
-
+from setup_logger import LOGGER
 
 class XPlaneIpNotFound(Exception):
   args="Could not find any running XPlane instance in network."
@@ -126,7 +124,7 @@ class XPlaneUdp:
       self.xplaneValues.update(retvalues)
     except:
       raise XPlaneTimeout
-    return True, self.xplaneValues
+    return self.xplaneValues
 
   def FindIp(self):
 

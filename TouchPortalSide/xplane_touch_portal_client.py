@@ -5,17 +5,10 @@ import sys
 import os 
 import json 
 import XPlaneUPD
-import logging
+from setup_logger import LOGGER
 
 __version__ = "1.0"
 PLUGIN_ID = "XPlanePlugin"
-
-# Create the logging facility.
-logging.basicConfig(level=logging.INFO,
-                    format="%(levelname)8s: %(name)15s:  %(message)s",
-                    filename="xplane_touch_portal_client.log",
-                    filemode="w")
-LOGGER = logging.getLogger(PLUGIN_ID)
 
 # Create the Touch Portal API client instance.
 try:
@@ -34,19 +27,9 @@ except Exception as e:
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
 def onStart(data):
-    option = [
-    {
-      "id":"option id",
-      "title":"option title 1"
-    },
-    {
-      "id":"option id",
-      "title":"option title 2"
-    }
-  ]
     LOGGER.info(f"Connected to Touch Portal Version {data.get('tpVersionString', '?')} plugin v {data.get('pluginVersion', '?')})")
     LOGGER.info(f"=================")
-    LOGGER.info(f"SECTION {data.get('type').upper()}")
+    LOGGER.info(f"SECTION {data.get('type')}")
     LOGGER.info(f"=================")
     LOGGER.info(f"{data}")
 
@@ -55,31 +38,38 @@ def onStart(data):
     for x in STATES["datarefs"]:
         descrition = x["group"] + " - " + x["desc"]
         TPClient.createState(x["id"],descrition,x["value"],x["group"])
+        TPClient.stateUpdate(x["id"],x["value"])
         list_choices.append(x["desc"])
+        if CanCallXPLANE:
+            XPUPD.AddDataRef(x["id"],1) #  SE FAIT UNE FOIS
     LOGGER.info(f"Touch Portal States Id created")
-
     # update Touch Portal action option at runtime, from dataref id, value and group
-    #TPClient.choiceUpdate("XPlanePlugin.Dataref.SetTwoStates.Name",list_choices)
+    list_choices.sort() # sort options for ease of use
     TPClient.choiceUpdate("XPlanePlugin.Dataref.SetTwoStates.Name",list_choices)
     TPClient.choiceUpdate("XPlanePlugin.Dataref.ToggleTwoStates.Choice",list_choices)
     LOGGER.info(f"Touch Portal Choices of States Id have been updated")
+    # mettre à jour les states de Touch Portal from dataref X-PLane
+    if CanCallXPLANE:
+        NEW = XPUPD.GetValues() # see def onStart(data): XPUPD.AddDataRef
+        for key, value in NEW.items():
+            TPClient.stateUpdate(key,value)
+        LOGGER.info(f"Touch Portal States value updated from X-Plane")
+    LOGGER.info(f"Voici la liste des states {TPClient.getStatelist()}")
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on(TP.TYPES.onAction)
 def onAction(data):
 
     LOGGER.info(f"=================")
-    LOGGER.info(f"SECTION {data.get('type').upper()}")
+    LOGGER.info(f"SECTION {data.get('type')}")
     LOGGER.info(f"=================")
     LOGGER.info(f"{data}")
-
     # dispatch Touch Portal Action Id
     match data.get('actionId'):
         case "XPlanePlugin.Dataref.ToggleTwoStates":
             for x in STATES["datarefs"]:
                 if x['desc'] == data.get('data')[0]['value']:
                     LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']}") 
-
         case "XPlanePlugin.Dataref.SetTwoStates":
             for x in STATES["datarefs"]:
                 # 
@@ -89,6 +79,8 @@ def onAction(data):
                 # value after = 1
                 #
                 if x['desc'] == data.get('data')[0]['value']:
+                    la_liste = TPClient.getStatelist()
+                    LOGGER.info(f"La valeur de EnableExternalPower est: {la_liste['AirbusFBW/EnableExternalPower']}")
                     LOGGER.info("##################")
                     LOGGER.info("# CALL XPLANEUDP #")
                     LOGGER.info("##################")
@@ -100,8 +92,8 @@ def onAction(data):
                     value = data.get('data')[1]['value']
                     LOGGER.info(f"Dataref is {dataref}")
                     LOGGER.info(f"Value is {value}")
-                    converted_dataref = str(dataref)
-                    XPUPD.WriteDataRef(dataref,int(value))
+                    if CanCallXPLANE:
+                        XPUPD.WriteDataRef(str(dataref),float(value))
                     LOGGER.info(f"Value before is {x['value']}")
                     x["value"] = data.get('data')[1]['value']
                     LOGGER.info(f"Value after is {x['value']}")
@@ -115,12 +107,42 @@ def onAction(data):
 @TPClient.on(TP.TYPES.onShutdown) # or 'closePlugin'
 def onShutdown(data):
     LOGGER.info(f"=================")
-    LOGGER.info(f"SECTION {data.get('type').upper()}")
+    LOGGER.info(f"SECTION {data.get('type')}")
     LOGGER.info(f"=================")
     LOGGER.info(f"{data}")
     LOGGER.info(f"Got Shutdown Message! Shutting Down the Plugin!")
     TPClient.disconnect()
 
+def foo():
+    LOGGER.info(time.ctime())
+    OLD = TPClient.getStatelist()
+    if CanCallXPLANE:
+        NEW = XPUPD.GetValues() # see def onStart(data): XPUPD.AddDataRef
+        LOGGER.info(f"NEW = {NEW}")
+    LOGGER.info(f"OLD = {OLD}")
+    '''
+    for key, value in NEW.items():
+        if int(value) != int(OLD.get(key)):
+            #LOGGER.info("il y a eu changement du cote de xplane")
+            LOGGER.info(f"[NEW] Pour la cle {key} et la valeur {value}")
+            LOGGER.info(f"[OLD] Pour la cle {key} et la valeur {int(OLD.get(key))}")
+
+    
+    if int(OLD.get("AirbusFBW/ElecOHPArray[3]")) != int(NEW.get("AirbusFBW/ElecOHPArray[3]")):
+        LOGGER.info("il y a eu changement du cote de xplane")
+        LOGGER.info(OLD.get("AirbusFBW/ElecOHPArray[3]"))
+        LOGGER.info(NEW.get("AirbusFBW/ElecOHPArray[3]"))
+
+    #LOGGER.info(f"OLD = {OLD}")
+    #LOGGER.info(f"NEW = {NEW}")
+    #LOGGER.info(f"NEW = {NEW_VALUE}")
+    
+    a = sorted(OLD_VALUE.items()) != sorted(NEW_VALUE.items())
+    if a:
+        LOGGER.info("il y a eu changement du cotÃ© de xplane")
+        OLD_VALUE = NEW_VALUE
+    ''' 
+    threading.Timer(WAIT_SECONDS, foo()).start()
 def GetDatarefValuesFromJsonFile(JsonFile):
     
     STATES = {"datarefs": []}
@@ -134,7 +156,7 @@ def GetDatarefValuesFromJsonFile(JsonFile):
         file = open(JsonFile, 'r')
         STATES = json.load(file)
         file.close()
-        LOGGER.error(f"Datarefs successfully loaded from {JsonFile}")
+        LOGGER.info(f"Datarefs successfully loaded from {JsonFile}")
     except FileNotFoundError:
         LOGGER.error(f"File {JsonFile} does not exist")
         return False
@@ -167,8 +189,20 @@ def OpenGatewayXPlane():
     return True, XPUPD
 
 def main():
+
+    global TPClient, STATES, XPUPD, CanCallXPLANE
+
+    successful = False
+    CanCallXPLANE = False
+    WAIT_SECONDS = 1
+    JsonFile = 'Datarefs.json'
+
+    successful, STATES = GetDatarefValuesFromJsonFile(JsonFile)
     
-    global TPClient
+    if CanCallXPLANE:
+        successful, XPUPD = OpenGatewayXPlane()
+    else:
+        LOGGER.info(f"Cannot connect to X-PLane due to the variable CanCallXPLANE")
 
     LOGGER.info(f"Trying to connect to Touch Portal Apps")
     
@@ -176,32 +210,19 @@ def main():
         TPClient.connect()
     except ConnectionRefusedError:
         LOGGER.error(f"Cannot connect to Touch Portal, probably it is not running")
-        return False
+        return
     except Exception as err:
         from traceback import format_exc
         LOGGER.error(f"{err}")
-        return False
+        return
     finally:
+        LOGGER.info(f"TP Client Disconnected")
         TPClient.disconnect()
 
     del TPClient
 
-    return True
+    LOGGER.info(f"Return code = {successful}")
+    sys.exit(successful)
 
 if __name__ == "__main__":
-
-    global successful, STATES
-
-    WAIT_SECONDS = 1
-    JsonFile = 'Datarefs.json'
-    
-    successful, STATES = GetDatarefValuesFromJsonFile(JsonFile)
-    
-    if successful:
-        successful, XPUPD = OpenGatewayXPlane()
-
-    if successful:
-        successful = main()
-
-    LOGGER.error(f"Return code = {successful}")
-    sys.exit(successful)
+    main()

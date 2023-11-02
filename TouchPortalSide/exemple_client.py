@@ -11,6 +11,8 @@ TPClient = TP.Client(PLUGIN_ID)
 def onStart(data):
     print("SECTION ONSTART")
     print("Connected!", data)
+    # Create Touch Portal State at runtime    
+    TPClient.createState("ExampleState","Example State","None")    
     # Update a state value in TouchPortal
     TPClient.stateUpdate("ExampleState", "Connected!")
 
@@ -25,7 +27,7 @@ def onAction(data):
       action_value = TPClient.getActionDataValue(data.get('data'), 'ExampleTextData')
       print(action_value)
       # We can also update our ExampleStates with the Action Value
-      TPClient.stateUpdate("ExampleStates", action_value)
+      TPClient.stateUpdate("ExampleState", str(action_value))
 
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
 @TPClient.on(TP.TYPES.onShutdown) # or 'closePlugin'
