@@ -7,7 +7,9 @@ import struct
 import binascii
 from time import sleep
 import platform
-from setup_logger import LOGGER
+from TouchPortalAPI.logger import Logger
+LOGGER = Logger(name = "XPLaneUPD module")
+
 
 class XPlaneIpNotFound(Exception):
   args="Could not find any running XPlane instance in network."
