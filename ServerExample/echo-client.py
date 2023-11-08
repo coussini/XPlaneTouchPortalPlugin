@@ -11,8 +11,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print("Sending data to server")
         s.sendall(b'Hello, world')
         print("Recieving data from server")
-        data = s.recv(1024)
+        receiving = True
+        while receiving:
+            data = s.recv(1024)
+            if data == "":
+                pass 
+            else:
+                receiving = False
         print('Echoing: ', repr(data))
-        #s.sendall(b'') ### Le client envloie rien pour signifier la fin des datas
-    #    break
-    #s.close()
+        s.sendall(b'') ### Le client envloie rien pour signifier la fin des datas
+        break
+    s.close()

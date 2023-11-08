@@ -1,0 +1,11 @@
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(('localhost', 50000))
+s.sendall(b'Hello, world')
+data = s.recv(1024)
+print(f'Received from server {repr(data)}')
+s.sendall(b'Q')
+data = s.recv(1024)
+print(f'Received from server {repr(data)}')
+s.close()
+print("Client closed")

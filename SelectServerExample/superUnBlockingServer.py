@@ -56,8 +56,8 @@ def start():
     print(f"[LISTENING] Server is listening on {HOST}")
     thread = threading.Thread(target=handle_connection, args=())
     thread.start()
-    print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+    print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
 
-'''print("[STARTING] server is starting...")
-'''start()
+print("[STARTING] server is starting...")
+start()

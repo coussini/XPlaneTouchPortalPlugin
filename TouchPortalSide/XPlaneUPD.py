@@ -31,8 +31,9 @@ class XPlaneUdp:
   MCAST_GRP = "239.255.1.1"
   MCAST_PORT = 49707
   
+  
   def __init__(self):
-    # Open a UDP Socket to receive on Port 49000
+    # Open a UDP Socket to receive on Port 49000 (this value come from beacon data)
     self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self.socket.settimeout(3.0)
     # list of requested datarefs with index number
@@ -200,6 +201,11 @@ class XPlaneUdp:
               self.BeaconData["hostname"] = hostname.decode()
               self.BeaconData["XPlaneVersion"] = xplane_version_number
               self.BeaconData["role"] = role
+              print(f"IP            = {self.BeaconData['IP']}")
+              print(f"Port          = {self.BeaconData['Port']}")
+              print(f"hostname      = {self.BeaconData['hostname']}")
+              print(f"XPlaneVersion = {self.BeaconData['XPlaneVersion']}")
+              print(f"Role          = {self.BeaconData['role']}")
               #LOGGER.info("XPlane Beacon Version is {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
           else:
             LOGGER.error("XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))

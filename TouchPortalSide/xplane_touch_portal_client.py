@@ -180,26 +180,28 @@ def GetDatarefValuesFromJsonFile(JsonFile):
     return True, STATES
 
 def OpenGatewayXPlane():
-    
+
+    BeaconData = {}
     XPUPD = XPlaneUPD.XPlaneUdp() #instance
     XPUPD.defaultFreq = 1 # each second
 
     LOGGER.info(f"Trying to find any running XPlane IP")
 
     try:
-        beacon = XPUPD.FindIp()
+        Is_good_Result, BeaconData = XPUPD.FindIp()
     except Exception as err:
         from traceback import format_exc
         LOGGER.error(f"{err}")
         return False, XPUPD
     else:
-        LOGGER.info(f"Connected successfully with X-Plane")
+        LOGGER.info(f"Connected successfully with X-Plane version {BeaconData['XPlaneVersion']}")
     
     return True, XPUPD
 
 def main():
 
-    global LOGGER, TPClient, STATES, XPUPD, CanCallXPLANE
+    global LOGGER, TPClient, STATES, BeaconData, XPUPD, CanCallXPLANE
+    #global LOGGER, TPClient, STATES, XPUPD, CanCallXPLANE
 
 ##################################
     # default log file destination

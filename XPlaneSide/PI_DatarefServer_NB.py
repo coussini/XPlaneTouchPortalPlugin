@@ -67,8 +67,7 @@ class PythonInterface:
                         sock.close()
                         self.SocketsToMonitor.remove(sock)
 
-    def flight_loop(self, sinceLast, elapsedTime, counter, refCon):
-        xp.log(f"(Flight loop: {elapsedTime}, {counter})") 
+    def flight_loop(self,refCon):
         while True:
             # Use select to get the list of sockets ready for reading
             ready_to_read, _, _ = select.select(self.SocketsToMonitor, [], [])
@@ -107,9 +106,15 @@ class PythonInterface:
     '''
     [2]
     '''
+
+    def MyMenu(self,menuRefCon,itemRefCon):
+        xp.speakString(f"Menu {menuRefCon} selected")
+
     def XPluginEnable(self):
         xp.log(">>>>>>>>>>>>>>>>>>>>>>>>>XPluginEnable")
-        menuID = xp.createMenu("My Menu", handler=self.flight_loop, refCon=[])
+        menuID = xp.createMenu(handler=self.MyMenu, refCon="Menu1")
+        xp.appendMenuItem(menuID, "Item 1", refCon="Item1")
+        #menuID = xp.createMenu("My Menu", handler=self.flight_loop, refCon=[])
         '''
         xp.log("(Server is ready to accept connections...)") 
 

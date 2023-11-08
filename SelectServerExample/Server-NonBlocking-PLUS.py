@@ -35,7 +35,7 @@ sockets_to_write = [server_socket]
 
 while True:
     logging.info('Non Blocking - waiting...')
-    readable, _, _ = select.select(sockets_to_read,sockets_to_write,sockets_to_read,5)
+    readable, _, _ = select.select(sockets_to_read,sockets_to_write,sockets_to_read,0)
 
     for sock in readable:
         print("")
