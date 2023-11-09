@@ -1,6 +1,5 @@
 import xp
 import socket
-import os
 
 class PythonInterface:
 
