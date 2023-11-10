@@ -3,10 +3,33 @@ import socket
 import select
 import threading
 
+# for x in dictio["datarefs"]:
+#   whatIsType = xp.findDataRef(x["dataref"])
+#   a = x["group"]
+
+dictio = {
+    "datarefs": [
+        {
+            "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+            "desc": "Adirs IR1",
+            "type": "int",
+            "value": "0"
+        },
+        {
+            "dataref": "AirbusFBW/ADIRUSwitchArray[1]",
+            "desc": "Adirs IR2",
+            "type": "int",
+            "value": "0"
+        }
+    ]
+}
+
+
+
 class PythonInterface:
 
     def __init__(self):
-        xp.log("__init__") 
+        print("__init__") 
         self.Name = "PI_TCP_SERVER"
         self.Sig = "tcp.server.for.touchportal.and.xplane"
         self.Desc = "TCP Server for Touch Portal and X-Plane (non blocking)"
@@ -24,28 +47,28 @@ class PythonInterface:
         self.outputs = []
 
     def XPluginStart(self):
-        xp.log("XPluginStart")
+        print("XPluginStart")
         self.FlightLoopID = xp.createFlightLoop(self.FlightLoopCallback,0,None)
-        xp.log(f"(FlightLoopID Adress: {self.FlightLoopID})") 
+        print(f"(FlightLoopID Adress: {self.FlightLoopID})") 
         return self.Name, self.Sig, self.Desc
 
     def XPluginStop(self):
-        xp.log("XPluginStop") 
+        print("XPluginStop") 
 
     def XPluginEnable(self):
-        xp.log("XPluginEnable")
+        print("XPluginEnable")
         menuID = xp.createMenu("TPXPServer",handler=self.StartFlightLoop, refCon="Menu1")
         xp.appendMenuItem(menuID, "Start TPXP Server", refCon="StartXPServer")
         return 1
 
     def XPluginDisable(self):
-        xp.log("XPluginDisable") 
+        print("XPluginDisable") 
         xp.destroyFlightLoop(self.FlightLoopID)
         for connection in self.inputs:
             connection.close()
         #self.ServerSocketTCP.shutdown(socket.SHUT_RDWR)
         self.ServerSocketTCP.close()
-        xp.log("Server Closed") 
+        print("Server Closed") 
 
     def XPluginReceiveMessage(self, inFromWho, inMessage, inParam):
         pass 
@@ -53,25 +76,28 @@ class PythonInterface:
     def handle_client(self,client,address):
         request_bytes = client.recv(1024)
         if not request_bytes:
-            xp.log("Connection closed")
-            xp.log()
+            print("Connection closed")
             client.close()
         request_str = request_bytes.decode()
-        xp.log(f"Data from client: {request_str}")
-        xp.log()
+        print(f"Data from client: {request_str}")
         msgFromServer = "Hello UDP Client"
         bytesToSend = str.encode(msgFromServer)
         client.sendall(bytesToSend)
 
     def StartFlightLoop(self,menuRefCon,itemRefCon):
-        xp.log("StartFlightLoop print UDP Server for Touch Portal and X-Plane up and listening")
-        xp.log()
+        print("StartFlightLoop print UDP Server for Touch Portal and X-Plane up and listening")
         xp.speakString(f"Menu {menuRefCon} selected")
+        print("ATTENTION ATTENTION ATTENTION")
+        dataRef = xp.findDataRef("AirbusFBW/ADIRUSwitchArray")
+        nb = xp.getDatavi(dataRef)
+        values = []
+        xp.getDatavi(dataRef, values, count=nb)
+        print(values[0])
+        print("ATTENTION ATTENTION ATTENTION")
         xp.scheduleFlightLoop(self.FlightLoopID,1,1)
 
     def FlightLoopCallback(self, sinceLast, elapsedTime, counter, refCon):
-        xp.log("inside FlightLoopCallback")
-        xp.log()
+        print("inside FlightLoopCallback")
         readable, writable, exceptional = select.select(
         self.inputs, self.outputs, self.inputs, 0)
         for s in readable:
