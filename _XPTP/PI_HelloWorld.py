@@ -1,10 +1,49 @@
 """
 Written with Pep8 style guide 
+Note: cls replaces self in Pep8 convention for classes.
+    Always use self for the first argument to instance methods.
+    Always use cls for the first argument to class methods.
 """
 import xp
 import time  # for test only
 
 class PythonInterface:
+
+    def __init__(cls):
+        cls.name = "Hello World"
+        cls.sig = "xppython3.hello"
+        cls.desc = "Simple Hello World"
+        cls.acf_ui_name  = None
+        cls.start_program = False
+
+
+    def XPluginStart(cls):
+
+        return cls.name, cls.sig, cls.desc
+
+    def XPluginStop(cls):
+
+        pass
+
+    def XPluginEnable(cls): # est appelé lorsque x-plane active les plugins (à tout moment)
+
+        return 1
+
+    def XPluginDisable(cls):
+
+        pass
+
+    def XPluginReceiveMessage(cls, inFromWho, inMessage, inParam):
+        
+        if inMessage == xp.MSG_AIRPORT_LOADED and inParam == 0:
+            dataref_name = "sim/aircraft/view/acf_ui_name"
+            dataref_index = None
+            dataref_address,dataref_type,is_dataref_writable,dataref_value = cls.get_dataref_address_type_value(dataref_name,dataref_index)
+            if cls.acf_ui_name  != dataref_value:
+                cls.acf_ui_name  = dataref_value # keep the aircraft name to check if the user change the aircraft
+                cls.start_program = cls.start_the_program(cls.acf_ui_name)
+        
+        pass 
 
     def get_dataref_name_and_index(cls,dataref):
         
@@ -86,6 +125,7 @@ class PythonInterface:
 
         """ write a dataref according to it's address, type, index and value """
 
+        print(dataref_type,xp.Type_Unknown)
         if bool(dataref_type & xp.Type_Unknown):
             return False
         
@@ -112,30 +152,34 @@ class PythonInterface:
 
         return True
 
-    def XPluginStart(cls):
+    def start_the_program(cls,aircraft_name):
+
+        print(f"")
+        print(f"Load Aircraft name:{aircraft_name}")
+
+        # Adirs IR1, BAT1, Strobe
+        dataref_list = [
+        "AirbusFBW/ElecOHPArray[5]",
+        "AirbusFBW/ElecOHPArray[6]",
+        "AirbusFBW/ElecOHPArray[3]",
+        "AirbusFBW/PanelFloodBrightnessLevel",
+        "sim/flightmodel/position/elevation",
+        "AirbusFBW/RMP3Lights[0]",
+        "AirbusFBW/OHPLightSwitches[7]"
+        ]
         
-        return "Hello World", "xppython3.hello", "Simple Hello World"
-
-    def XPluginEnable(cls):
-
-        return 1
-
-    def XPluginReceiveMessage(cls, inFromWho, inMessage, inParam):
-
-        if inMessage == xp.MSG_PLANE_LOADED and inParam == 0:
-            xp.speakString("couseennee")
-        """
-            
-            # Adirs IR1, BAT1, Strobe
-            dataref_list = ["AirbusFBW/ElecOHPArray[5]","AirbusFBW/ElecOHPArray[6]","AirbusFBW/ElecOHPArray[3]","AirbusFBW/PanelFloodBrightnessLevel",
-            "sim/flightmodel/position/elevation","AirbusFBW/RMP3Lights[0]","AirbusFBW/OHPLightSwitches[7]"]
-            
-            for dataref in dataref_list:
-                dataref_name,dataref_index = cls.get_dataref_name_and_index(dataref)
-                (dataref_address,
-                 dataref_type,
-                 is_dataref_writable,
-                 dataref_value) = cls.get_dataref_address_type_value(dataref_name,dataref_index)
-                print(f"For dataref : {dataref} the type is {dataref_type}, the value is {dataref_value} and is writable ? {is_dataref_writable}")
-                return_value = cls.write_a_dataref(dataref_address,dataref_type,dataref_index,1)
-        """
+        for dataref in dataref_list:
+            dataref_name,dataref_index = cls.get_dataref_name_and_index(dataref)
+            dataref_address,dataref_type,is_dataref_writable,dataref_value = cls.get_dataref_address_type_value(dataref_name,dataref_index)
+            #print(dataref_type,dataref_value)
+            if (dataref_type is None and dataref_value is None):
+                print(f"")
+                print(f"The {cls.acf_ui_name} does not correspond to your touch portal page!")
+                print(f"")
+                return False
+            #print(f"For dataref : {dataref} the type is {dataref_type}, the value is {dataref_value} and is writable ? {is_dataref_writable}")
+            #return_value = cls.write_a_dataref(dataref_address,dataref_type,dataref_index,1)
+        print(f"")
+        print(f"The {cls.acf_ui_name} is ready for your touch portal page!")
+        print(f"")
+        return True
