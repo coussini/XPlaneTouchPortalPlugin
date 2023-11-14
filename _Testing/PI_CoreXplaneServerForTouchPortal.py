@@ -10,9 +10,9 @@ import time  # for test only
 class PythonInterface:
 
     def __init__(cls):
-        cls.name = "Hello World"
-        cls.sig = "xppython3.hello"
-        cls.desc = "Simple Hello World"
+        cls.name = "Core Xplane Server For Touch Portal"
+        cls.sig = "core.xplane.server.for.touch.portal"
+        cls.desc = "An Xplane Server For Touch Portal"
         cls.acf_ui_name  = None
         cls.start_program = False
 

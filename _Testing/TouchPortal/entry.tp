@@ -1,0 +1,75 @@
+{
+  "sdk": 4,
+  "version": 100,
+  "name": "XPlane Touch Portal Plugin",
+  "id": "XPlanePlugin",
+  "configuration": {
+    "colorDark": "#212121",
+    "colorLight": "#0090ff",
+    "parentCategory" : "game"    
+  },
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XplaneTouchPortalClient.exe @XplaneTouchPortalClient-conf.txt",
+  "categories": [
+    {
+      "id": "XPlanePlugin.Dataref",
+      "name": "XPlane - Dataref",
+      "imagepath": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XPlaneTouchPortalPlugin.png",      
+      "actions": [
+        {
+          "id": "XPlanePlugin.Dataref.ToggleTwoStates",
+          "name": "This Toggle between 2 values",
+          "prefix": "XPlane",
+          "type": "communicate",
+          "tryInline": true,
+          "hasHoldFunctionality": false,
+          "description": "",
+          "format": "Toggle the dataref {$XPlanePlugin.Dataref.ToggleTwoStates.Choice$} (2 values)",
+          "data": [
+            {
+              "id": "XPlanePlugin.Dataref.ToggleTwoStates.Choice",
+              "type": "choice",
+              "label": "Dataref Name",
+              "default": "Ext power",
+              "valueChoices": []
+            }
+          ]
+        },
+        {
+          "id": "XPlanePlugin.Dataref.SetTwoStates",
+          "name": "Xplane Dataref - Set Variable Value",
+          "prefix": "XPlane",
+          "type": "communicate",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "description": "",
+          "format": "Xplane Dataref - Set Variable Named:{$XPlanePlugin.Dataref.SetTwoStates.Name$} to value:{$XPlanePlugin.Dataref.SetTwoStates.Value$}",
+          "data": [
+            {
+              "id": "XPlanePlugin.Dataref.SetTwoStates.Name",
+              "type": "choice",
+              "label": "Dataref Name",
+              "default": "Ext power",
+              "valueChoices": []
+            },
+            {
+              "id": "XPlanePlugin.Dataref.SetTwoStates.Value",
+              "type": "text",
+              "label": "Value",
+              "default": "0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "name": "XPlaneFolder",
+      "type": "text",
+      "default": "C:/X-Plane 12",
+      "maxLength": 255,
+      "isPassword": false,
+      "readOnly": false
+    }
+  ]
+}
