@@ -1,15 +1,24 @@
 import socket
-import time
+import sys
+
+socket.setdefaulttimeout(.5) # important 
+print('\n'+'#'*50+'\nStarted Executing client for Xplane TCP Server'+ '\n'+'#'*50 )
+
 
 HOST = socket.gethostbyname(socket.gethostname())
 PORT = 65432
 
-# several connection and close
-print("Starting client")
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+result_of_check = clientSocket.connect_ex((HOST,PORT))
 
-clientSocket.connect((HOST, PORT));
-clientSocket.send(bytes(str("Hello UDP Server"), "utf-8"));
+# Check if Xplane TCP server is up and running
+if result_of_check != 0:
+    print(str(HOST)+" is not Listening on Port "+ str(PORT))
+    clientSocket.close()
+    sys.exit(f"Could not connect Xplane Client")
+
+print("Starting client")
+clientSocket.send(bytes(str("Hello TCP Server"), "utf-8"));
 receiving = True
 while receiving:
     data = clientSocket.recv(1024)

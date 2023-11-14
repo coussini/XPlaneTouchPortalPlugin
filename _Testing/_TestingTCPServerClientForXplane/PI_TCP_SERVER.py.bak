@@ -24,6 +24,8 @@ dictio = {
     ]
 }
 
+
+
 class PythonInterface:
 
     def __init__(self):
@@ -78,13 +80,13 @@ class PythonInterface:
             client.close()
         request_str = request_bytes.decode()
         print(f"Data from client: {request_str}")
-        msgFromServer = "Hello TCP Client"
+        msgFromServer = "Hello UDP Client"
         bytesToSend = str.encode(msgFromServer)
         client.sendall(bytesToSend)
 
     def StartFlightLoop(self,menuRefCon,itemRefCon):
         print("StartFlightLoop print UDP Server for Touch Portal and X-Plane up and listening")
-        xp.speakString(f"Server,Started")
+        xp.speakString(f"Xplane Server Started")
         xp.scheduleFlightLoop(self.FlightLoopID,1,1)
 
     def FlightLoopCallback(self, sinceLast, elapsedTime, counter, refCon):
