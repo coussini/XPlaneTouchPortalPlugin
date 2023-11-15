@@ -76,9 +76,7 @@ def onAction(data):
     # dispatch Touch Portal Action Id
     match data.get('actionId'):
         case "XPlanePlugin.Dataref.ToggleTwoStates":
-            for x in STATES["datarefs"]:
-                if x['desc'] == data.get('data')[0]['value']:
-                    LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']}") 
+            pass
         case "XPlanePlugin.Dataref.SetTwoStates":
             for x in STATES["datarefs"]:
                 # 
