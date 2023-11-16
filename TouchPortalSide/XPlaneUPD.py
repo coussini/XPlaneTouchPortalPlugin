@@ -7,9 +7,6 @@ import struct
 import binascii
 from time import sleep
 import platform
-from TouchPortalAPI.logger import Logger
-LOGGER = Logger(name = "XPLaneUPD module")
-
 
 class XPlaneIpNotFound(Exception):
   args="Could not find any running XPlane instance in network."
@@ -152,7 +149,7 @@ class XPlaneUdp:
       # receive data
       try:   
         packet, sender = sock.recvfrom(1472)
-        #LOGGER.info("XPlane Beacon is ", packet.hex())
+        print("XPlane Beacon is ", packet.hex())
 
         # decode data
         # * Header
@@ -206,13 +203,13 @@ class XPlaneUdp:
               print(f"hostname      = {self.BeaconData['hostname']}")
               print(f"XPlaneVersion = {self.BeaconData['XPlaneVersion']}")
               print(f"Role          = {self.BeaconData['role']}")
-              #LOGGER.info("XPlane Beacon Version is {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
+              print("XPlane Beacon Version is {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
           else:
-            LOGGER.error("XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
+            print("XPlane Beacon Version not supported: {}.{}.{}".format(beacon_major_version, beacon_minor_version, application_host_id))
             raise XPlaneVersionNotSupported()
 
       except socket.timeout:
-        LOGGER.error("The X-Plane program is not running or the X-Plane ip address does not exist")
+        print("The X-Plane program is not running or the X-Plane ip address does not exist")
         raise XPlaneIpNotFound()
       finally:
         sock.close()

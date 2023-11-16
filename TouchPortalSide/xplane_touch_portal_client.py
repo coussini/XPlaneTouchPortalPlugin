@@ -6,6 +6,7 @@
 # 2) Démarrer Touch Portal I-Pad
 
 import TouchPortalAPI as TP
+import XPlaneAPI as XP
 import sys 
 import os 
 import json 
@@ -30,12 +31,25 @@ try:
     )
 except Exception as e:
     sys.exit(f"Could not create TP Client, exiting. Error was:\n{repr(e)}")
+
+# Create the Touch Portal API client instance.
+try:
+    XPClient = XP.Client(
+        pluginId = PLUGIN_ID,  # required ID of this plugin
+        sleepPeriod = 0.05,    # allow more time than default for other processes
+        autoClose = True,      # automatically disconnect when TP sends "closePlugin" message
+        checkPluginId = True,  # validate destination of messages sent to this plugin
+        maxWorkers = 4,        # run up to 4 event handler threads
+        updateStatesOnBroadcast = False  # do not spam TP with state updates on every page change
+    )
+except Exception as e:
+    sys.exit(f"Could not create XP Client, exiting. Error was:\n{repr(e)}")
 # TPClient: TP.Client = None  # instance of the TouchPortalAPI Client, created in main()
 
 # Create the (optional) global logger, an instance of `TouchPortalAPI::Logger` helper class.
 # Logging configuration is set up in main().
 LOGGER = Logger(name = PLUGIN_ID)
-
+print(f"XP object = {XPClient}")
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
 def onStart(data):
