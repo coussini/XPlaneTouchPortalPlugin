@@ -1,5 +1,10 @@
 # attention, on a pas la valeur XPlanePlugin.ExtPowerAvailable ???
 
+# ORDRE pour bonne réaction Touch Portal
+# 1) Démarrer X-Plane () attendre d'être dans l'avion
+# 2) Démarrer Touch Portal Desktop (attendre d'être complètement démarré)
+# 2) Démarrer Touch Portal I-Pad
+
 import TouchPortalAPI as TP
 import sys 
 import os 
@@ -43,10 +48,8 @@ def onStart(data):
     # create Touch Portal State at runtime, from dataref id, value and group
     list_choices = []
     for x in STATES["datarefs"]:
-        print(f"pure from json = {x['value']}")
         # The value from JSON is correct and validated
-        TPClient.createState(x["id"],descrition,str(x["value"]),x["group"])
-        TPClient.stateUpdate(x["id"],str(x["value"]))
+        TPClient.createState(x["id"],x["desc"],str(x["value"]),x["group"])
         list_choices.append(x["desc"])
         if CanCallXPLANE:
             XPUPD.AddDataRef(x["id"],1) #  SE FAIT UNE FOIS
@@ -60,12 +63,16 @@ def onStart(data):
     if CanCallXPLANE:
         NEW = XPUPD.GetValues() # see def onStart(data): XPUPD.AddDataRef
         for key, value in NEW.items():
-            ##################################### Check here the type from STATES
-            ##################################### corresponding to the dataref
-            ##################################### convert float to int if necessary
-            ############# Faire le tour de mes variables dans touch portal écran et mettre les
-            ################# valeur INT s'il y a lieu sinon des FLOAT sinon des STR
-            TPClient.stateUpdate(key,str(value))
+            for x in STATES["datarefs"]:
+                if x["id"] == key:
+                    if x["type"] == "int":
+                        new_value = int(value)
+                    elif x["type"] == "float":
+                        new_value = round((float(value)/0.25),0) * 0.25
+                    else:
+                        new_value = value
+                    break
+            TPClient.stateUpdate(key,str(new_value))
         LOGGER.info(f"Touch Portal States value updated from X-Plane")
     #LOGGER.info(f"Voici la liste des states {TPClient.getStatelist()}")
 
@@ -93,7 +100,6 @@ def onAction(data):
                 #
                 if x['desc'] == data.get('data')[0]['value']:
                     la_liste = TPClient.getStatelist()
-                    LOGGER.info(f"La valeur de EnableExternalPower est: {la_liste['AirbusFBW/EnableExternalPower']}")
                     LOGGER.info("##################")
                     LOGGER.info("# CALL XPLANEUDP #")
                     LOGGER.info("##################")
@@ -103,14 +109,10 @@ def onAction(data):
                     ##############################
                     dataref = x["dataref"]
                     value = data.get('data')[1]['value']
-                    LOGGER.info(f"Dataref is {dataref}")
-                    LOGGER.info(f"Value is {value}")
                     if CanCallXPLANE:
-                        XPUPD.WriteDataRef(str(dataref),float(value))
-                    LOGGER.info(f"Value before is {x['value']}")
+                        XPUPD.WriteDataRef(str(dataref),float(value)) # write alway float for XUPD
                     x["value"] = data.get('data')[1]['value']
-                    LOGGER.info(f"Value after is {x['value']}")
-                    TPClient.stateUpdate(x["id"],str(float(x["value"])))
+                    TPClient.stateUpdate(x["id"],str(x["value"]))
                     LOGGER.info(f"Touch Portal value of the States Id {x['id']} updated with {x['value']}")
 
         case _:
@@ -125,37 +127,6 @@ def onShutdown(data):
     LOGGER.info(f"{data}")
     LOGGER.info(f"Got Shutdown Message! Shutting Down the Plugin!")
     TPClient.disconnect()
-
-def foo():
-    LOGGER.info(time.ctime())
-    OLD = TPClient.getStatelist()
-    if CanCallXPLANE:
-        NEW = XPUPD.GetValues() # see def onStart(data): XPUPD.AddDataRef
-        LOGGER.info(f"NEW = {NEW}")
-    LOGGER.info(f"OLD = {OLD}")
-    '''
-    for key, value in NEW.items():
-        if int(value) != int(OLD.get(key)):
-            #LOGGER.info("il y a eu changement du cote de xplane")
-            LOGGER.info(f"[NEW] Pour la cle {key} et la valeur {value}")
-            LOGGER.info(f"[OLD] Pour la cle {key} et la valeur {int(OLD.get(key))}")
-
-    
-    if int(OLD.get("AirbusFBW/ElecOHPArray[3]")) != int(NEW.get("AirbusFBW/ElecOHPArray[3]")):
-        LOGGER.info("il y a eu changement du cote de xplane")
-        LOGGER.info(OLD.get("AirbusFBW/ElecOHPArray[3]"))
-        LOGGER.info(NEW.get("AirbusFBW/ElecOHPArray[3]"))
-
-    #LOGGER.info(f"OLD = {OLD}")
-    #LOGGER.info(f"NEW = {NEW}")
-    #LOGGER.info(f"NEW = {NEW_VALUE}")
-    
-    a = sorted(OLD_VALUE.items()) != sorted(NEW_VALUE.items())
-    if a:
-        LOGGER.info("il y a eu changement du cotÃ© de xplane")
-        OLD_VALUE = NEW_VALUE
-    ''' 
-    threading.Timer(WAIT_SECONDS, foo()).start()
 
 def GetDatarefValuesFromJsonFile(JsonFile):
     

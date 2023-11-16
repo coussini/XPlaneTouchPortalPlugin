@@ -226,12 +226,12 @@
             "comment": "0 to 2 (0 = OFF, 1 = ARM, 2 = ON) When 0 display OFF signal in a status left button"
         },
         {
-            "id": "AirbusFBW/OHPLightSwitches[10]",
+            "id": "AirbusFBW/NDrangeCapt",
             "desc": "ND Zoom CAPT",
             "group": "Main Instruments",
             "type": "int",
             "value": "0",
-            "dataref": "AirbusFBW/OHPLightSwitches[10]",
+            "dataref": "AirbusFBW/NDrangeCapt",
             "comment": "0 to 5 (0 = 10, 1 = 20, 2 = 40, 3 = 80, 4 = 160, 5 = 320)"
         },
         {
