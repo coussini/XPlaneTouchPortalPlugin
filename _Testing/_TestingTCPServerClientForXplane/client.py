@@ -1,7 +1,7 @@
 import socket
 import sys
 
-socket.setdefaulttimeout(.5) # important 
+socket.setdefaulttimeout(3) # important 
 print('\n'+'#'*50+'\nStarted Executing client for Xplane TCP Server'+ '\n'+'#'*50 )
 
 

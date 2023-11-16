@@ -83,7 +83,7 @@ class PythonInterface:
         client.sendall(bytesToSend)
 
     def StartFlightLoop(self,menuRefCon,itemRefCon):
-        print("StartFlightLoop print UDP Server for Touch Portal and X-Plane up and listening")
+        print("StartFlightLoop print TCP Server for Touch Portal and X-Plane up and listening")
         xp.speakString(f"Server,Started")
         xp.scheduleFlightLoop(self.FlightLoopID,1,1)
 

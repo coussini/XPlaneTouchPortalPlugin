@@ -254,7 +254,7 @@ def main():
 ##################################
 
     successful = False
-    CanCallXPLANE = True
+    CanCallXPLANE = False
     WAIT_SECONDS = 1
     JsonFile = 'Datarefs.json'
 
