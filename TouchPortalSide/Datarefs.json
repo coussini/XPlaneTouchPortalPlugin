@@ -113,7 +113,7 @@
             "desc": "OVHD INTEG LT Brightness Knob",
             "group": "OverHead",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/RMP3Lights[0]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -275,7 +275,7 @@
             "desc": "FLOOD LT MAIN PNL Brightness Knob",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/PanelFloodBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -284,7 +284,7 @@
             "desc": "INTEG LT MAIN PNL AND PED Brightness Knob",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/PanelBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -293,7 +293,7 @@
             "desc": "FLOOD LT PED Brightness Knob",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/PedestalFloodBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -302,7 +302,7 @@
             "desc": "PFD Brightness Knob",
             "group": "Main Instruments",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[0]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -311,7 +311,7 @@
             "desc": "ND Brightness Knob",
             "group": "Main Instruments",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[1]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -320,7 +320,7 @@
             "desc": "ECAM UPPER Brightness Knob",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[4]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -329,7 +329,7 @@
             "desc": "ECAM LOWER Brightness Knob",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[5]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -338,7 +338,7 @@
             "desc": "MCDU Brightness Button",
             "group": "Pedestal",
             "type": "float",
-            "value": "0",
+            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[6]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         }

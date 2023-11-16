@@ -31,8 +31,6 @@ except Exception as e:
 # Logging configuration is set up in main().
 LOGGER = Logger(name = PLUGIN_ID)
 
-
-
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
 def onStart(data):
@@ -45,7 +43,8 @@ def onStart(data):
     # create Touch Portal State at runtime, from dataref id, value and group
     list_choices = []
     for x in STATES["datarefs"]:
-        descrition = x["group"] + " - " + x["desc"]
+        print(f"pure from json = {x['value']}")
+        # The value from JSON is correct and validated
         TPClient.createState(x["id"],descrition,str(x["value"]),x["group"])
         TPClient.stateUpdate(x["id"],str(x["value"]))
         list_choices.append(x["desc"])
@@ -61,6 +60,11 @@ def onStart(data):
     if CanCallXPLANE:
         NEW = XPUPD.GetValues() # see def onStart(data): XPUPD.AddDataRef
         for key, value in NEW.items():
+            ##################################### Check here the type from STATES
+            ##################################### corresponding to the dataref
+            ##################################### convert float to int if necessary
+            ############# Faire le tour de mes variables dans touch portal écran et mettre les
+            ################# valeur INT s'il y a lieu sinon des FLOAT sinon des STR
             TPClient.stateUpdate(key,str(value))
         LOGGER.info(f"Touch Portal States value updated from X-Plane")
     #LOGGER.info(f"Voici la liste des states {TPClient.getStatelist()}")
@@ -106,7 +110,7 @@ def onAction(data):
                     LOGGER.info(f"Value before is {x['value']}")
                     x["value"] = data.get('data')[1]['value']
                     LOGGER.info(f"Value after is {x['value']}")
-                    TPClient.stateUpdate(x["id"],str(x["value"]))
+                    TPClient.stateUpdate(x["id"],str(float(x["value"])))
                     LOGGER.info(f"Touch Portal value of the States Id {x['id']} updated with {x['value']}")
 
         case _:
@@ -152,6 +156,7 @@ def foo():
         OLD_VALUE = NEW_VALUE
     ''' 
     threading.Timer(WAIT_SECONDS, foo()).start()
+
 def GetDatarefValuesFromJsonFile(JsonFile):
     
     STATES = {"datarefs": []}
@@ -161,6 +166,22 @@ def GetDatarefValuesFromJsonFile(JsonFile):
     LOGGER.info(f"{os.getcwd()}\{JsonFile}")
     LOGGER.info(f"---------------------------------")
     
+    ######
+    ######
+    # After this, validate that each value correcponding to the type Float or Int or Data (str)(validation)
+    '''
+    def is_float(number):
+        if isinstance(number, float):
+            return True
+        else:
+            return False
+
+    if is_float(number_1):
+    # do something
+
+    '''
+    ######
+    ######
     try:
         file = open(JsonFile, 'r')
         STATES = json.load(file)
