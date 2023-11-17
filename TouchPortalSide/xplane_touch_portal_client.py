@@ -9,6 +9,9 @@ import TouchPortalAPI as TP
 import sys 
 import os 
 import json 
+import socket
+import threading
+from time import sleep
 import XPlaneUPD
 
 # imports below are optional, to provide argument parsing and logging functionality
@@ -17,6 +20,11 @@ from TouchPortalAPI.logger import Logger
 
 __version__ = "1.0"
 PLUGIN_ID = "XPlanePlugin"
+
+HOST = socket.gethostbyname(socket.gethostname())
+PORT = 65432
+global running
+running = False
 
 # Create the Touch Portal API client instance.
 try:
@@ -35,6 +43,32 @@ except Exception as e:
 # Create the (optional) global logger, an instance of `TouchPortalAPI::Logger` helper class.
 # Logging configuration is set up in main().
 LOGGER = Logger(name = PLUGIN_ID)
+
+def check_dataref_from_xplane(running):
+    LOGGER.info(f"inside check_dataref_from_xplane")
+    print(running)
+    while running:
+        try:
+            LOGGER.info(f"Before connection")
+            clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            clientSocket.connect((HOST,PORT))
+        except Exception as e:        
+            LOGGER.info(f"Server is not running")
+            sys.exit(f"Could not create running {PLUGIN_ID} because the X-Plane server is not running. Error was:\n{repr(e)}")
+            is_xplane_server_running = False
+            clientSocket.close()
+            sys.exit(f"Could not create running {PLUGIN_ID} because the X-Plane server is not running. Error was:\n{repr(e)}")
+            break
+        except Exception as e:
+            is_xplane_server_running = False
+            if connectionStatus != is_xplane_server_running:
+                LOGGER.info(f"X-Plane server shutdown")
+                connectionStatus = is_xplane_server_running
+        if is_xplane_server_running:
+            # get dataref value from x-plane server
+            #TPClient.stateUpdate("KillerBOSS.TouchPortal.Plugin.YTMD.States.TrackCurrentLyrics", Lyricsdata["data"])
+            pass
+        sleep(0.23)
 
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
@@ -75,48 +109,51 @@ def onStart(data):
             TPClient.stateUpdate(key,str(new_value))
         LOGGER.info(f"Touch Portal States value updated from X-Plane")
     #LOGGER.info(f"Voici la liste des states {TPClient.getStatelist()}")
+    running = True
+    LOGGER.info(f"Trying to Connect to X-Plane server")
+    print(running)
+    threading.Thread(target=check_dataref_from_xplane,args=[running]).start()
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on(TP.TYPES.onAction)
 def onAction(data):
-
-    LOGGER.info(f"=================")
-    LOGGER.info(f"SECTION {data.get('type')}")
-    LOGGER.info(f"=================")
-    LOGGER.info(f"{data}")
-    # dispatch Touch Portal Action Id
-    match data.get('actionId'):
-        case "XPlanePlugin.Dataref.ToggleTwoStates":
-            for x in STATES["datarefs"]:
-                if x['desc'] == data.get('data')[0]['value']:
-                    LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']}") 
-        case "XPlanePlugin.Dataref.SetTwoStates":
-            for x in STATES["datarefs"]:
-                # 
-                # call MyXplane python server with : XPlanePlugin.Dataref.SetTwoStates  
-                #                                    and AirbusFBW/ElecOHPArray[3]  with value 1
-                # value before = 0
-                # value after = 1
-                #
-                if x['desc'] == data.get('data')[0]['value']:
-                    la_liste = TPClient.getStatelist()
-                    LOGGER.info("##################")
-                    LOGGER.info("# CALL XPLANEUDP #")
-                    LOGGER.info("##################")
-                    LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']} with value {data.get('data')[1]['value']}")
-                    ##############################
-                    ###### CALL XPLANE UDP #######
-                    ##############################
-                    dataref = x["dataref"]
-                    value = data.get('data')[1]['value']
-                    if CanCallXPLANE:
-                        XPUPD.WriteDataRef(str(dataref),float(value)) # write alway float for XUPD
-                    x["value"] = data.get('data')[1]['value']
-                    TPClient.stateUpdate(x["id"],str(x["value"]))
-                    LOGGER.info(f"Touch Portal value of the States Id {x['id']} updated with {x['value']}")
-
-        case _:
-            LOGGER.error(f"There is no action like : {data.get('actionId')}") 
+    if is_xplane_server_running:
+        LOGGER.info(f"=================")
+        LOGGER.info(f"SECTION {data.get('type')}")
+        LOGGER.info(f"=================")
+        LOGGER.info(f"{data}")
+        # dispatch Touch Portal Action Id
+        match data.get('actionId'):
+            case "XPlanePlugin.Dataref.ToggleTwoStates":
+                for x in STATES["datarefs"]:
+                    if x['desc'] == data.get('data')[0]['value']:
+                        LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']}") 
+            case "XPlanePlugin.Dataref.SetTwoStates":
+                for x in STATES["datarefs"]:
+                    # 
+                    # call MyXplane python server with : XPlanePlugin.Dataref.SetTwoStates  
+                    #                                    and AirbusFBW/ElecOHPArray[3]  with value 1
+                    # value before = 0
+                    # value after = 1
+                    #
+                    if x['desc'] == data.get('data')[0]['value']:
+                        la_liste = TPClient.getStatelist()
+                        LOGGER.info("##################")
+                        LOGGER.info("# CALL XPLANEUDP #")
+                        LOGGER.info("##################")
+                        LOGGER.info(f"Call XPlaneUDP python with : {data.get('actionId')} and {x['dataref']} with value {data.get('data')[1]['value']}")
+                        ##############################
+                        ###### CALL XPLANE UDP #######
+                        ##############################
+                        dataref = x["dataref"]
+                        value = data.get('data')[1]['value']
+                        if CanCallXPLANE:
+                            XPUPD.WriteDataRef(str(dataref),float(value)) # write alway float for XUPD
+                        x["value"] = data.get('data')[1]['value']
+                        TPClient.stateUpdate(x["id"],str(x["value"]))
+                        LOGGER.info(f"Touch Portal value of the States Id {x['id']} updated with {x['value']}")
+            case _:
+                LOGGER.error(f"There is no action like : {data.get('actionId')}") 
 
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
 @TPClient.on(TP.TYPES.onShutdown) # or 'closePlugin'
@@ -127,6 +164,10 @@ def onShutdown(data):
     LOGGER.info(f"{data}")
     LOGGER.info(f"Got Shutdown Message! Shutting Down the Plugin!")
     TPClient.disconnect()
+    if is_xplane_server_running:
+        is_xplane_server_running = true
+        clientSocket.close()
+        LOGGER.info(f"X-Plane client Close")
 
 def GetDatarefValuesFromJsonFile(JsonFile):
     
@@ -192,7 +233,7 @@ def OpenGatewayXPlane():
 
 def main():
 
-    global LOGGER, TPClient, STATES, BeaconData, XPUPD, CanCallXPLANE
+    global LOGGER, TPClient, STATES, BeaconData, XPUPD, CanCallXPLANE, is_xplane_server_running, clientSocket
     #global LOGGER, TPClient, STATES, XPUPD, CanCallXPLANE
 
 ##################################
@@ -257,6 +298,8 @@ def main():
     CanCallXPLANE = False
     WAIT_SECONDS = 1
     JsonFile = 'Datarefs.json'
+    is_xplane_server_running = False
+    running = False
 
     successful, STATES = GetDatarefValuesFromJsonFile(JsonFile)
     

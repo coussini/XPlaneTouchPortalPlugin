@@ -2,13 +2,16 @@
 import socket
 import time
 
+HOST = socket.gethostbyname(socket.gethostname())
+PORT = 65432
+
 i = 0
 print("Trying to connect to the server")
 # several connection and close
 while i < 15:
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        clientSocket.connect(('localhost', 10000))
+        clientSocket.connect((HOST,PORT))
     except Exception as e:        
         print("Server is not running")
         clientSocket.close()
