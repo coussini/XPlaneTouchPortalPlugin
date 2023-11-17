@@ -10,6 +10,7 @@ import sys
 import os 
 import json 
 import socket
+import select
 import threading
 from time import sleep
 import XPlaneUPD
@@ -23,8 +24,8 @@ PLUGIN_ID = "XPlanePlugin"
 
 HOST = socket.gethostbyname(socket.gethostname())
 PORT = 65432
-global running
 running = False
+is_xplane_server_running = False
 
 # Create the Touch Portal API client instance.
 try:
@@ -44,35 +45,74 @@ except Exception as e:
 # Logging configuration is set up in main().
 LOGGER = Logger(name = PLUGIN_ID)
 
-def check_dataref_from_xplane(running):
-    LOGGER.info(f"inside check_dataref_from_xplane")
-    print(running)
-    while running:
-        try:
-            LOGGER.info(f"Before connection")
-            clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            clientSocket.connect((HOST,PORT))
-        except Exception as e:        
-            LOGGER.info(f"Server is not running")
-            sys.exit(f"Could not create running {PLUGIN_ID} because the X-Plane server is not running. Error was:\n{repr(e)}")
-            is_xplane_server_running = False
-            clientSocket.close()
-            sys.exit(f"Could not create running {PLUGIN_ID} because the X-Plane server is not running. Error was:\n{repr(e)}")
+def check_dataref_from_xplane():
+    global running, is_xplane_server_running
+    '''    
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        clientSocket.connect((HOST,PORT))
+    except Exception as e:        
+        print("X-Plane Server is not running")
+        clientSocket.close()
+    is_xplane_server_running = True
+    clientSocket.send(bytes(str(f"{PLUGIN_ID} is running"), 'utf-8'))
+    receiving = True
+    while receiving:
+        data = clientSocket.recv(1024)
+        if data == "":
+            pass 
+        else:
+            receiving = False
+    print(f"Donnée venant du server: {data}")
+    '''
+    LOGGER.info('Non Blocking - creating socket')
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+    LOGGER.info('Non Blocking - connecting')
+    ret = s.connect_ex((HOST,PORT)) #BLOCKING
+
+    if ret != 0:
+        LOGGER.info('Non Blocking - failed to connect!')
+        return
+    
+    LOGGER.info('Non Blocking - connected!')
+    s.setblocking(False)
+
+    inputs = [s]
+    outputs = [s]
+    while inputs:
+        LOGGER.info('Non Blocking - waiting...')
+        readable,writable,exceptional = select.select(inputs,outputs,inputs,0.5)
+
+        for s in writable:
+            LOGGER.info('Non Blocking - sending...')
+            message = (f"{PLUGIN_ID} is running")
+            s.send(bytes(message, 'utf-8'))
+            LOGGER.info(f'Non Blocking - sent: {message}')
+            outputs.remove(s)
+
+        for s in readable:
+            LOGGER.info(f'Non Blocking - reading...')
+            data = s.recv(1024)
+            data_str = data.decode()
+            LOGGER.info(f'Non Blocking - data: {data_str}')
+            if data_str == "_selServ.py Closed":
+                LOGGER.info(f'Non Blocking - closing...')
+                s.close()
+                inputs.remove(s)
+                break
+
+        for s in exceptional:
+            LOGGER.info(f'Non Blocking - error')
+            inputs.remove(s)
+            outputs.remove(s)
             break
-        except Exception as e:
-            is_xplane_server_running = False
-            if connectionStatus != is_xplane_server_running:
-                LOGGER.info(f"X-Plane server shutdown")
-                connectionStatus = is_xplane_server_running
-        if is_xplane_server_running:
-            # get dataref value from x-plane server
-            #TPClient.stateUpdate("KillerBOSS.TouchPortal.Plugin.YTMD.States.TrackCurrentLyrics", Lyricsdata["data"])
-            pass
-        sleep(0.23)
+
 
 # This event handler will run once when the client connects to Touch Portal
 @TPClient.on(TP.TYPES.onConnect)
 def onStart(data):
+    global running
     LOGGER.info(f"Connected to Touch Portal Version {data.get('tpVersionString', '?')} plugin v {data.get('pluginVersion', '?')})")
     LOGGER.info(f"=================")
     LOGGER.info(f"SECTION {data.get('type')}")
@@ -112,11 +152,12 @@ def onStart(data):
     running = True
     LOGGER.info(f"Trying to Connect to X-Plane server")
     print(running)
-    threading.Thread(target=check_dataref_from_xplane,args=[running]).start()
+    threading.Thread(target=check_dataref_from_xplane).start()
 
 # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
 @TPClient.on(TP.TYPES.onAction)
 def onAction(data):
+    global is_xplane_server_running
     if is_xplane_server_running:
         LOGGER.info(f"=================")
         LOGGER.info(f"SECTION {data.get('type')}")
@@ -158,6 +199,7 @@ def onAction(data):
 # Shutdown handler, called when Touch Portal wants to stop your plugin.
 @TPClient.on(TP.TYPES.onShutdown) # or 'closePlugin'
 def onShutdown(data):
+    global is_xplane_server_running
     LOGGER.info(f"=================")
     LOGGER.info(f"SECTION {data.get('type')}")
     LOGGER.info(f"=================")
@@ -233,7 +275,7 @@ def OpenGatewayXPlane():
 
 def main():
 
-    global LOGGER, TPClient, STATES, BeaconData, XPUPD, CanCallXPLANE, is_xplane_server_running, clientSocket
+    global LOGGER, TPClient, STATES, BeaconData, XPUPD, CanCallXPLANE, clientSocket
     #global LOGGER, TPClient, STATES, XPUPD, CanCallXPLANE
 
 ##################################
@@ -298,8 +340,6 @@ def main():
     CanCallXPLANE = False
     WAIT_SECONDS = 1
     JsonFile = 'Datarefs.json'
-    is_xplane_server_running = False
-    running = False
 
     successful, STATES = GetDatarefValuesFromJsonFile(JsonFile)
     
