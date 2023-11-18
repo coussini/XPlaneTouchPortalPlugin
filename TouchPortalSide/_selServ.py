@@ -34,6 +34,8 @@ try:
                 threading.Thread(target=handle_client, args=(connection, client_address)).start()
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
+    inputs[1].close()
+
 finally:
     print('shutting down')
     server_socket.close()

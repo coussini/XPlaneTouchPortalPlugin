@@ -8,7 +8,7 @@ PORT = 65432
 i = 0
 print("Trying to connect to the server")
 # several connection and close
-while i < 15:
+while i < 1000:
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         clientSocket.connect((HOST,PORT))

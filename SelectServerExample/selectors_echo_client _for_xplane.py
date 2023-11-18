@@ -1,5 +1,6 @@
 import selectors
 import socket
+import sys
 
 mysel = selectors.DefaultSelector()
 keep_running = True
@@ -12,10 +13,16 @@ bytes_received = 0
 
 # Connecting is a blocking operation, so call setblocking()
 # after it returns.
-server_address = ('localhost', 65432)
-print('connecting to {} port {}'.format(*server_address))
+HOST = socket.gethostbyname(socket.gethostname())
+PORT = 65432
+print(f'starting up on {HOST},{PORT}')
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect(server_address)
+
+try:
+    sock.connect((HOST,PORT))
+except Exception as e:        
+    print("X-Plane server is not running")
+    sys.exit(-1)
 sock.setblocking(False)
 
 # Set up the selector to watch for when the socket is ready

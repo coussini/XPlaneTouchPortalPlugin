@@ -28,24 +28,28 @@ def accept(sock, mask):
     mysel.register(new_connection, selectors.EVENT_READ, read)
 
 
-server_address = ('localhost', 65432)
-print('starting up on {} port {}'.format(*server_address))
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.setblocking(False)
-server.bind(server_address)
-server.listen(5)
+try:
+    HOST = socket.gethostbyname(socket.gethostname())
+    PORT = 65432
+    print(f'starting X-Plane server on {HOST},{PORT}')
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setblocking(False)
+    server.bind((HOST,PORT))
+    server.listen(5)
 
-mysel.register(server, selectors.EVENT_READ, accept)
+    mysel.register(server, selectors.EVENT_READ, accept)
 
-while keep_running:
-    print('waiting for I/O')
-    for key, mask in mysel.select(timeout=1):
-        callback = key.data
-        callback(key.fileobj, mask)
+    while keep_running:
+        print('waiting for I/O')
+        for key, mask in mysel.select(timeout=1):
+            callback = key.data
+            callback(key.fileobj, mask)
 
-for connection in list_connections:
-    mysel.unregister(connection)
-    connection.close()
-
-print('shutting down')
-mysel.close()
+    for connection in list_connections:
+        mysel.unregister(connection)
+        connection.close()
+except KeyboardInterrupt:
+    print("Caught keyboard interrupt, exiting")
+finally:
+    print('shutting down')
+    mysel.close()
