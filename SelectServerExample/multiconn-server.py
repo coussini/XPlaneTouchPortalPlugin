@@ -21,6 +21,7 @@ def service_connection(key, mask):
     data = key.data
     if mask & selectors.EVENT_READ:
         recv_data = sock.recv(1024)  # Should be ready to read
+        print(f"Receving {recv_data}")
         if recv_data:
             data.outb += recv_data
         else:
@@ -33,19 +34,19 @@ def service_connection(key, mask):
             sent = sock.send(data.outb)  # Should be ready to write
             data.outb = data.outb[sent:]
 
-host = socket.gethostbyname(socket.gethostname())
-port = 65432
-lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-lsock.bind((host, port))
-lsock.listen()
-print(f"Listening on {(host, port)}")
-lsock.setblocking(False)
-sel.register(lsock, selectors.EVENT_READ, data=None)
-
 try:
+    host = socket.gethostbyname(socket.gethostname())
+    port = 65432
+    lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    lsock.bind((host, port))
+    lsock.listen()
+    print(f"Listening on {(host, port)}")
+    lsock.setblocking(False)
+    sel.register(lsock, selectors.EVENT_READ, data=None)
+
     while True:
-        events = sel.select(timeout=None)
-        for key, mask in events:
+        print('waiting for I/O')
+        for key, mask in sel.select(timeout=1):
             if key.data is None:
                 accept_wrapper(key.fileobj)
             else:
@@ -53,4 +54,5 @@ try:
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
+    print('shutting down')
     sel.close()

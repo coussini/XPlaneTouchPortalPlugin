@@ -13,7 +13,7 @@ outgoing = [
 '''
 
 # type class 'dict'
-data_json = [{
+data_json = {
     "command": "init",
     "datarefs": [
         {
@@ -26,13 +26,12 @@ data_json = [{
             "dataref": "AirbusFBW/APUStarter" # APU Start -> int
         }
     ]
-}]
-data_json_encode = json.dumps(data_json).encode('utf-8')
+}
+print(type(data_json))
+data_json_encode = json.dumps(data_json).encode()
+print(type(data_json_encode))
 outgoing = []
 outgoing.append(data_json_encode)
-
-bytes_sent = 0
-bytes_received = 0
 
 # Connecting is a blocking operation, so call setblocking()
 # after it returns.
@@ -43,9 +42,9 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
     sock.connect((HOST,PORT))
-except Exception as e:        
-    print("X-Plane server is not running")
-    sys.exit(-1)
+except socket.error:
+        print(f"X-Plane server is not running")
+        sys.exit(-1)
 
 sock.setblocking(False)
 
@@ -60,8 +59,6 @@ while keep_running:
     print('waiting for I/O')
     for key, mask in mysel.select(timeout=1):
         connection = key.fileobj
-        #client_address = connection.getpeername()
-        #print('client({})'.format(client_address))
 
         if mask & selectors.EVENT_READ:
             print('  ready to read')
@@ -69,16 +66,13 @@ while keep_running:
             if data:
                 # A readable client socket has data
                 print('  received {!r}'.format(data))
-                bytes_received += len(data)
+                mydata = data.decode()
+                mydata_json = json.loads(mydata)
+                print(type(mydata_json))
+                print(mydata_json)
 
-            # Interpret empty result as closed connection,
-            # and also close when we have received a copy
-            # of all of the data sent.
-            keep_running = not (
-                data or
-                (bytes_received and
-                 (bytes_received == bytes_sent))
-            )
+            # Interpret empty result as closed connection
+            keep_running = not data
 
         if mask & selectors.EVENT_WRITE:
             print('  ready to write')
@@ -93,7 +87,6 @@ while keep_running:
                 next_msg = outgoing.pop()
                 print('  sending {!r}'.format(next_msg))
                 sock.sendall(next_msg)
-                bytes_sent += len(next_msg)
 
 print('shutting down')
 mysel.unregister(connection)

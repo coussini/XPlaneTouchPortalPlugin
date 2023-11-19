@@ -1,13 +1,13 @@
 import selectors
 import socket
-import ast 
 import json
+import random
 
 mysel = selectors.DefaultSelector()
 keep_running = True
 list_connections = []
 
-def get_dataref_name_and_index(cls,dataref):
+def get_dataref_name_and_index(dataref):
     
     """
     receive a dataref from a JSON
@@ -32,35 +32,55 @@ def get_dataref_name_and_index(cls,dataref):
 
     return dataref_name,dataref_index 
 
-def socket_reception():
-    #get_dataref_name_and_index(x["dataref"])
-    pass
+def init_command(data):
+
+    print("--> INIT section")
+    for x in data["datarefs"]:
+        dataref_name,dataref_index = get_dataref_name_and_index(x['dataref'])
+        print(f"Dataref name = {dataref_name} and dataref index = {dataref_index}")
+        x['value'] = str(random.randrange(0,5))
+
+    return data
+
+def write_command(data):
+
+    print("--> WRITE section")
+
+def reception(data):
+
+    send_data = None
+
+    command = data["command"]
+    match command:
+        case "init":
+            send_data = init_command(data)
+        case "write":
+            send_data = write_command(data)
+        case _:
+            print('This command is not recognized by the server')
+
+    return send_data
 
 def read(connection, mask):
     #Callback for read events
     global keep_running
 
-    #client_address = connection.getpeername()
-    #print('read({})'.format(client_address))
     data = connection.recv(1024)
     if not data:
         print("No data")
         keep_running = False
     else:
-        print('  received {!r}'.format(data))
-        mydata = data.decode("utf-8")
+        # transforming byte to json format
+        mydata = data.decode()
         mydata_json = json.loads(mydata)
-        print(type(mydata_json))
-        socket_reception()
-        #if mydata_json["command"] == "init":
-        #    print("--> INIT section")
-        connection.sendall(data)
+        send_data = reception(mydata_json)
+        send_data_encode = json.dumps(send_data).encode()
+        connection.sendall(send_data_encode)
 
 def accept(sock, mask):
     #Callback for new connections
     new_connection, addr = sock.accept()
     list_connections.append(new_connection) 
-    #print('accept({})'.format(addr))
     new_connection.setblocking(False)
     mysel.register(new_connection, selectors.EVENT_READ, read)
 
