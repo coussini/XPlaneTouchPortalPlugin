@@ -2,6 +2,9 @@ import selectors
 import socket
 import sys
 import json
+import time
+from random import random
+
 
 mysel = selectors.DefaultSelector()
 keep_running = True
@@ -70,9 +73,15 @@ while keep_running:
                 mydata_json = json.loads(mydata)
                 print(type(mydata_json))
                 print(mydata_json)
-
-            # Interpret empty result as closed connection
-            keep_running = not data
+                value = random()
+                time.sleep(1)
+                if value > 0.9:
+                    print('Closing thread')
+                    keep_running = False
+                    break
+                else:
+                    outgoing.append(data_json_encode)
+                    mysel.modify(sock, selectors.EVENT_WRITE)
 
         if mask & selectors.EVENT_WRITE:
             print('  ready to write')

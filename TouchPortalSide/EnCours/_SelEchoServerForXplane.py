@@ -2,6 +2,7 @@ import selectors
 import socket
 import json
 import random
+import time
 
 mysel = selectors.DefaultSelector()
 keep_running = True
@@ -67,7 +68,6 @@ def read(connection, mask):
 
     data = connection.recv(1024)
     if not data:
-        print("No data")
         keep_running = False
     else:
         # transforming byte to json format
@@ -84,6 +84,8 @@ def accept(sock, mask):
     new_connection.setblocking(False)
     mysel.register(new_connection, selectors.EVENT_READ, read)
 
+
+connection = None 
 
 try:
     HOST = socket.gethostbyname(socket.gethostname())
@@ -107,6 +109,7 @@ try:
         connection.close()
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
+
 finally:
     print('shutting down')
     mysel.close()
