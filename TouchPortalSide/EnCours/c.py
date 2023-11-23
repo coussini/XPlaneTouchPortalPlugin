@@ -1,18 +1,16 @@
 import socket
 
-
 def run_client():
     # create a socket object
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    server_ip = "127.0.0.1"  # replace with the server's IP address
-    server_port = 1234  # replace with the server's port number
+    HOST = socket.gethostbyname(socket.gethostname())
+    PORT = 65432
     # establish connection with server
-    client.connect((server_ip, server_port))
+    client.connect((HOST, PORT))
 
     try:
-        while True:close
-        close
+        while True:
             # get input message from user and send it to the server
             msg = input("Enter message: ")
             client.send(msg.encode("utf-8")[:1024])
@@ -29,10 +27,13 @@ def run_client():
             print(f"Received: {response}")
     except Exception as e:
         print(f"Error: {e}")
+    except KeyboardInterrupt:
+        # close client socket (connection to the server)
+        client.close()
+        print("Connection to server closed")
     finally:
         # close client socket (connection to the server)
         client.close()
         print("Connection to server closed")
-
 
 run_client()
