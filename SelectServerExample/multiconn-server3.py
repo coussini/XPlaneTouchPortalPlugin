@@ -37,19 +37,20 @@ def service_connection(key, mask):
     except KeyboardInterrupt:
         print("[1] Caught keyboard interrupt, exiting")
 
-host = socket.gethostbyname(socket.gethostname())
-port = 65432
-lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-lsock.bind((host, port))
-lsock.listen()
-print(f"Listening on {(host, port)}")
-lsock.setblocking(False)
-sel.register(lsock, selectors.EVENT_READ, data=None)
-
 try:
+    host = socket.gethostbyname(socket.gethostname())
+    port = 65432
+    lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    lsock.bind((host, port))
+    # queue upto max 6 connection requests
+    lsock.listen(6)
+    print(f"Listening on {(host, port)}")
+    lsock.setblocking(False)
+    sel.register(lsock, selectors.EVENT_READ, data=None)
+
     while True:
-        events = sel.select(timeout=1)
-        for key, mask in events:
+        #print('waiting for I/O')
+        for key, mask in sel.select(timeout=0.1):
             if key.data is None:
                 accept_wrapper(key.fileobj)
             else:
@@ -57,4 +58,5 @@ try:
 except KeyboardInterrupt:
     print("[2] Caught keyboard interrupt, exiting")
 finally:
+    print('shutting down')
     sel.close()

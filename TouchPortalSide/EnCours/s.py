@@ -22,7 +22,7 @@ try:
         readable, writable, exceptional = select.select(inputs, outputs, inputs)
         for s in readable:
             if s is server:
-                # A "readable" server socket is ready to accept a connection
+                # C'est un nouveau client a accepter
                 connection, client_address = s.accept()
                 print ("new connection from", client_address)
                 connection.setblocking(0)
@@ -57,6 +57,11 @@ try:
         for s in writable:
             try:
                 next_msg = message_queues[s].get_nowait()
+                print(f"objet s {s}")
+            # this handles a condition where client socket is in the writable list
+            # even though it's been removed from the dictionary.
+            except KeyError as err:
+                pass
             except queue.Empty:
                 # No messages waiting so stop checking for writability.
                 print ("output queue for", s.getpeername(), "is empty")

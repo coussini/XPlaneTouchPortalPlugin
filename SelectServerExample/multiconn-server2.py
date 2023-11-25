@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-
-import sys
 import socket
 import selectors
 import types
 
 sel = selectors.DefaultSelector()
-
 
 def accept_wrapper(sock):
     try:
@@ -17,7 +14,7 @@ def accept_wrapper(sock):
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         sel.register(conn, events, data=data)
     except KeyboardInterrupt:
-        print("Caught keyboard interrupt, exiting")
+        print("[0] Caught keyboard interrupt, exiting")
 
 
 def service_connection(key, mask):
@@ -38,14 +35,10 @@ def service_connection(key, mask):
                 sent = sock.send(data.outb)  # Should be ready to write
                 data.outb = data.outb[sent:]
     except KeyboardInterrupt:
-        print("Caught keyboard interrupt, exiting")
+        print("[1] Caught keyboard interrupt, exiting")
 
-
-if len(sys.argv) != 3:
-    print(f"Usage: {sys.argv[0]} <host> <port>")
-    sys.exit(1)
-
-host, port = sys.argv[1], int(sys.argv[2])
+host = socket.gethostbyname(socket.gethostname())
+port = 65432
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 lsock.bind((host, port))
 lsock.listen()
@@ -55,13 +48,13 @@ sel.register(lsock, selectors.EVENT_READ, data=None)
 
 try:
     while True:
-        events = sel.select(timeout=None)
+        events = sel.select(timeout=1)
         for key, mask in events:
             if key.data is None:
                 accept_wrapper(key.fileobj)
             else:
                 service_connection(key, mask)
 except KeyboardInterrupt:
-    print("Caught keyboard interrupt, exiting")
+    print("[2] Caught keyboard interrupt, exiting")
 finally:
     sel.close()

@@ -26,7 +26,8 @@ def run_client():
 
             print(f"Received: {response}")
     except Exception as e:
-        print(f"Error: {e}")
+        #print(f"Error: {e}")
+        pass
     except KeyboardInterrupt:
         # close client socket (connection to the server)
         client.close()

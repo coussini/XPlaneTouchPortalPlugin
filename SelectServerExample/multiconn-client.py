@@ -39,9 +39,12 @@ try:
     sel.register(sock, selectors.EVENT_WRITE, data=None)
 
     while True:
-        print('waiting for I/O')
-        for key, mask in sel.select(timeout=1):
+        #print('waiting for I/O')
+        for key, mask in sel.select(timeout=0.1):
             service_connection(key, mask)
+except socket.error:
+        print(f"X-Plane server is not running")
+        sys.exit(-1)
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
