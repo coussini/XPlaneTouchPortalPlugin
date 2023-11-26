@@ -8,7 +8,6 @@ def run_client():
     PORT = 65432
     # establish connection with server
     client.connect((HOST, PORT))
-
     try:
         while True:
             # get input message from user and send it to the server

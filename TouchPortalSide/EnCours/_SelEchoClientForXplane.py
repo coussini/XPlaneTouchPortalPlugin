@@ -1,3 +1,5 @@
+# come from https://pymotw.com/3/selectors/
+
 import selectors
 import socket
 import sys
@@ -53,7 +55,13 @@ try:
     while keep_running:
         print('waiting for I/O')
         for key, mask in mysel.select(timeout=1):
+            print(mask)
+            print(selectors.EVENT_WRITE)
             connection = key.fileobj
+            print(connection)
+            print(key.data)
+            # connection -> laddr = (host, port) local address
+            # connection -> raddr = (host port) remote address of the socket (server address)
 
             if mask & selectors.EVENT_READ:
                 print('  ready to read')
