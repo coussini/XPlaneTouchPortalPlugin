@@ -1,29 +1,54 @@
-# Initialize a queue
+import json 
+import sys
 
-queue_exm = []
+json_data = {
+    "command": "init",
+    "datarefs": [
+        {
+            "dataref": "AirbusFBW/OHPLightSwitches[7]" # Strobe  -> int
+        },
+        {
+            "dataref": "AirbusFBW/RMP3Lights[0]" # OVHD INTEG LT Brightness Knob -> float
+        },
+        {
+            "dataref": "AirbusFBW/APUStarter" # APU Start -> int
+        }
+    ]
+}
 
-# Adding elements to the queue
+json_data = ''
+recv_data = json.dumps(json_data).encode() # OUI temporairement
+print()
+print()
+print(recv_data)
 
-queue_exm.append('x')
+recv_data_decode = recv_data.decode()
+print(recv_data_decode)
+print()
 
-queue_exm.append('y')
+dummy = recv_data_decode
+tb_message = []
+tb_message.append(recv_data_decode)
 
-queue_exm.append('z')
+i = tb_message.find('"command": "init"',2,-1)
+if i == -1:
+    pass
+else:
+    tb = []
+    while True:
+        i = tb_message.find('"command": "init"',2,-1)
+        print(i)
+        break 
 
-print("Queue before any operations")
+sys.exit(-1)
 
-print(queue_exm)
+recv_data_decode = recv_data_decode[2:-2].replace("'", "").replace('"', '').replace('{', '').replace('}', '').split(',')
+print('received decode without guille',recv_data_decode)
 
-# Removing elements from the queue
+fave_phrase = "Hello world et les cochon!"
 
-print("\nDequeuing items")
-
-print(queue_exm.pop(0))
-
-#print(queue_exm.pop(0))
-
-#print(queue_exm.pop(0))
-
-print("\nQueue after deque operations")
-
-print(queue_exm)
+# find the index of the letter 'w' between the positions 3 and 8
+index = fave_phrase.find("world",1,-1)
+print()
+print(index)
+print()

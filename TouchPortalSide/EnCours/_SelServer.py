@@ -4,6 +4,9 @@ import selectors
 import types
 
 selectors_server = selectors.DefaultSelector()
+''' create a structure for client '''
+client_data = types.SimpleNamespace()
+
 
 def accept_wrapper(sock):
     try:
@@ -15,24 +18,32 @@ def accept_wrapper(sock):
         selectors_server.register(conn, events, data=data)
     except KeyboardInterrupt:
         print("[0] Caught keyboard interrupt, exiting")
+    except ConnectionAbortedError:
+        print("X-Plane server closed suddenly")
 
 
 def service_connection(key, mask):
-    sock = key.fileobj
-    data = key.data # use the simple name spaces "data", created in accept wrapper
-    if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(1024)  # Should be ready to read
-        if recv_data:
-            data.outb += recv_data
-        else:
-            print(f"Closing connection to {data.addr}")
-            selectors_server.unregister(sock)
-            sock.close()
-    if mask & selectors.EVENT_WRITE:
-        if data.outb:
-            print(f"Echoing {data.outb!r} to {data.addr}")
-            sent = sock.send(data.outb)  # Should be ready to write
-            data.outb = data.outb[sent:]
+    try:
+        sock = key.fileobj
+        data = key.data # use the simple name spaces "data", created in accept wrapper
+        if mask & selectors.EVENT_READ:
+            recv_data = sock.recv(1024)  # Should be ready to read
+            if recv_data:
+                data.outb += recv_data
+            else:
+                print(f"Closing connection to {data.addr}")
+                selectors_server.unregister(sock)
+                sock.close()
+        if mask & selectors.EVENT_WRITE:
+            if data.outb:
+                print(f"Echoing {data.outb!r} to {data.addr}")
+                sent = sock.send(data.outb)  # Should be ready to write
+                data.outb = data.outb[sent:]    
+    except KeyboardInterrupt:
+        print("[0] Caught keyboard interrupt, exiting")
+    except ConnectionResetError:
+        print("X-Plane server closed suddenly")
+
 
 try:
     host = socket.gethostbyname(socket.gethostname())
