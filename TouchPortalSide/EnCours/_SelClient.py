@@ -9,113 +9,143 @@ import random
 import types
 import threading
 
-#----------------------
-# Create some instances
-#----------------------
 
-''' create a selectors object '''
-sel = selectors.DefaultSelector()
-''' create a socket for a client '''
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-update_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-''' create a structure for client '''
-client_data = types.SimpleNamespace()
+class Communication:
+    def __init__(cls):
+        cls.sel = selectors.DefaultSelector()
+        cls.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cls.host = socket.gethostbyname(socket.gethostname())
+        cls.port = 65432
+        cls.outgoing = []
+        cls.keep_running = threading.Event()
+        cls.random_msg1 = None # temporary
+        cls.random_msg2 = None # temporary
 
-def service_connection(key, mask):
-    # client_connection content local address (adress of the client) and remote address (the server) 
-    client_connection = key.fileobj
+    def connect(cls):
+        try:    
+            cls.sock.connect((cls.host,cls.port))
+        except socket.error:
+            print(f"X-Plane server is not running")
+            return False
+        else:
+            return True
 
-    # does the server receive a message (the EVENT-WRITE must be the first event) or send a message (the EVENT-READ must be the first event)
-    if mask & selectors.EVENT_READ:
-        print('*** ready to read')
-        recv_data = client_socket.recv(1024)  # Should be ready to read
-        if recv_data:
-            recv_data_decode = recv_data.decode()
-            print('---> received decode:',recv_data_decode)
+    def preparing_running(cls):
+        print(f"Connecting on {(cls.host, cls.port)}")
+        # unblocking socket
+        cls.sock.setblocking(False)
+        # register a file object for selection, monitoring it for I/O events
+        cls.sel.register(
+            cls.sock,
+            selectors.EVENT_READ | selectors.EVENT_WRITE,
+        )
 
-    if mask & selectors.EVENT_WRITE:
-        print('*** ready to write')
+    def run(cls):
+        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
+        for key, mask in cls.sel.select(timeout=0.1):
+            cls.service_connection(key, mask)
+            cls.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
 
-        if client_data.outgoing:
-            # Send the next message.
-            next_msg = client_data.outgoing.pop()
-            print('---> sending:',next_msg)
-            client_socket.sendall(next_msg)
+    def put_some_random_message(cls):
+        value = random.randint(1,20)
+        print("value = ",value)
+        if value == 5:
+            print("generate message")
+            message = json.dumps(cls.random_msg1).encode()
+            cls.outgoing.append(message)
+        elif value == 7:
+            print("generate message")
+            message = json.dumps(cls.random_msg2).encode()
+            cls.outgoing.append(message)
+        time.sleep(1)
 
-def read_client_data_from_xplane(key):
-    print('inside thread')
-    value = random.randint(1,5)
-    print("value = ",value)
-    if value == 4:
-        print("generate message")
-        update_socket.sendall(client_data.json_update_encode)
-    time.sleep(1)
+    def shutting_down(cls):
+        if cls.sel:
+            cls.sel.unregister(cls.sock)
+            cls.sel.close()
+        if cls.sock: 
+            cls.sock.close()
 
-def main():
+    def service_connection(cls, key, mask):
+        service_socket = key.fileobj
+    
+        if mask & selectors.EVENT_READ:
+            recv_data = service_socket.recv(1024) 
+            if recv_data:
+                cls.managing_received_data(recv_data)
 
-    client_data.keep_running = True #OUI
-    json_data = {
+        if mask & selectors.EVENT_WRITE:
+            if cls.outgoing:
+                next_msg = cls.outgoing.pop()
+                service_socket.sendall(next_msg)
+
+    def managing_received_data(cls, recv_data):
+        print(recv_data)
+        pass 
+
+def main(): 
+    # a test for a Touch Portal Action
+    json_data_init = {
         "command": "init",
         "datarefs": [
             {
-                "dataref": "AirbusFBW/OHPLightSwitches[7]" # Strobe  -> int
+                "dataref": "AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
+                "value":   "2" # Strobe  -> int
             },
             {
-                "dataref": "AirbusFBW/RMP3Lights[0]" # OVHD INTEG LT Brightness Knob -> float
+                "dataref": "AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
+                "value":   "0.50" # OVHD INTEG LT Brightness Knob -> float
             },
             {
-                "dataref": "AirbusFBW/APUStarter" # APU Start -> int
+                "dataref": "AirbusFBW/APUStarter", # APU Start -> int
+                "value":   "4" # APU Start -> int
             }
         ]
     }
-    client_data.json_encode = json.dumps(json_data).encode() # OUI temporairement
-    json_data = {
-        "command": "update"
+    json_data_write = {
+        "command": "write",
+        "datarefs": [
+            {
+                "dataref": "AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
+                "value":   "0"
+            },
+            {
+                "dataref": "AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
+                "value":   "0.30"
+            },
+            {
+                "dataref": "AirbusFBW/APUStarter", # APU Start -> int
+                "value":   "2"
+            }
+        ]
     }
-    client_data.json_update_encode = json.dumps(json_data).encode() # OUI temporairement
-    client_data.outgoing = [] #OUI
-    client_data.outgoing.append(client_data.json_encode)
-    client_data.pending_messages = [] #OUI
+    # a test for schedulling update process
+    # for a dataref update from X-Plane
+    json_data_update = {"command": "update"}
 
-    host = socket.gethostbyname(socket.gethostname())
-    port = 65432
-            
-    try:    
-        client_socket.connect((host,port))
-        update_socket.connect((host,port))
-    except socket.error:
-            print(f"X-Plane server is not running")
-            sys.exit(-1)
 
-    try:
-        print(f"Connecting on {(host, port)}")
-        # unblocking socket
-        client_socket.setblocking(False)
-        # register a file object for selection, monitoring it for I/O events
-        sel.register(
-            client_socket,
-            selectors.EVENT_READ | selectors.EVENT_WRITE,
-        )
-        first_time = True
-        while client_data.keep_running:
-            #print('waiting for I/O')
-            # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-            for key, mask in sel.select(timeout=0.1):
-                service_connection(key, mask)
-            read_client_data_from_xplane(key)
-
-    except KeyboardInterrupt:
-        client_data.keep_running = False
-        print("Caught keyboard interrupt, exiting")
-    except ConnectionAbortedError:
-        print("X-Plane server closed suddenly")
-    finally:
-        print('shutting down')
-        if sel:
-            sel.unregister(client_socket)
-            sel.close()
-        if client_socket: 
-            client_socket.close()
+    ''' Prepare an communication object for the Touch Portal Action purposes '''
+    ''' Prepare an communication object for the Touch Portal Action purposes '''
+    ''' Prepare an communication object for the Touch Portal Action purposes '''
+    client_action = Communication()
+    client_action.keep_running.set()
+    client_action.random_msg1 = json_data_init
+    client_action.random_msg2 = json_data_write
+    
+    if client_action.connect():
+        client_action.preparing_running()
+        try:
+            while client_action.keep_running.is_set():
+                client_action.run()
+        except KeyboardInterrupt:
+            client_action.keep_running.clear()
+            print("Caught keyboard interrupt, exiting")
+        except ConnectionAbortedError:
+            client_action.keep_running.clear()
+            print("X-Plane server closed suddenly")
+        finally:
+            print('shutting down')
+            client_action.shutting_down()
 
 if __name__ == '__main__':
     main()
