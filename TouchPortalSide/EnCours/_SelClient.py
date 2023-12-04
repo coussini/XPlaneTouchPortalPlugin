@@ -1,14 +1,12 @@
+#!/usr/bin/env python3
 # from https://cppsecrets.com/users/110711510497115104971101075756514864103109971051084699111109/Python-TCP-Server-Non-Blocking.php?fbclid=IwAR04S84RX1Zo0MkbyGWbvcSxf3PL8PKs9OJpkaY7yd6SGJIm2WLB6wEhDTg
 # also from https://pymotw.com/3/selectors/
 import selectors
 import socket
-import sys
 import json
 import time
 import random
-import types
 import threading
-
 
 class Communication:
     def __init__(cls):
@@ -57,7 +55,7 @@ class Communication:
             print("generate message")
             message = json.dumps(cls.random_msg2).encode()
             cls.outgoing.append(message)
-        time.sleep(1)
+        time.sleep(0.1)
 
     def shutting_down(cls):
         if cls.sel:
@@ -80,7 +78,7 @@ class Communication:
                 service_socket.sendall(next_msg)
 
     def managing_received_data(cls, recv_data):
-        print(recv_data)
+        print(f"recv_data = {recv_data}")
         pass 
 
 def main(): 
@@ -123,9 +121,6 @@ def main():
     # for a dataref update from X-Plane
     json_data_update = {"command": "update"}
 
-
-    ''' Prepare an communication object for the Touch Portal Action purposes '''
-    ''' Prepare an communication object for the Touch Portal Action purposes '''
     ''' Prepare an communication object for the Touch Portal Action purposes '''
     client_action = Communication()
     client_action.keep_running.set()

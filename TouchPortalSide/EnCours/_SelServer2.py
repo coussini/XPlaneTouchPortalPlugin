@@ -44,6 +44,7 @@ class Communication:
     def service_connection(cls, key, mask):
         sock = key.fileobj
         cls.namespace_data = key.data # use the simple name spaces "cls.namespace_data", created in accept wrapper
+        
         if mask & selectors.EVENT_READ:
             recv_data = sock.recv(1024)  # Should be ready to read
             if recv_data:
@@ -52,6 +53,7 @@ class Communication:
                 print(f"Closing connection to {cls.namespace_data.addr}")
                 cls.sel.unregister(sock)
                 sock.close()
+        
         if mask & selectors.EVENT_WRITE:
             if cls.namespace_data.outb:
                 print(f"Echoing {cls.namespace_data.outb!r} to {cls.namespace_data.addr}")
