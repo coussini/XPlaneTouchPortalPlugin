@@ -5,12 +5,12 @@ import json
 import threading
 import types
 
-class Communication:
-    def __init__(cls):
+class ServerXP:
+    def __init__(cls, host, port):
         cls.sel = selectors.DefaultSelector()
         cls.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        cls.host = socket.gethostbyname(socket.gethostname())
-        cls.port = 65432
+        cls.host = host
+        cls.port = port
         cls.outgoing = []
         cls.keep_running = threading.Event()
         cls.namespace_data = types.SimpleNamespace()
@@ -27,12 +27,12 @@ class Communication:
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
         for key, mask in cls.sel.select(timeout=0.1):
             if key.data is None:
-                cls.accept_wrapper(key.fileobj)
+                cls.accept_wrapper()
             else:
                 cls.service_connection(key, mask)
 
-    def accept_wrapper(cls, sock):
-        conn, addr = sock.accept()  # Should be ready to read
+    def accept_wrapper(cls):
+        conn, addr = cls.sock.accept()  # Should be ready to read
         print(f"Accepted connection from {addr}")
         conn.setblocking(False)
         setattr(cls.namespace_data,'addr',addr)
@@ -45,16 +45,17 @@ class Communication:
         sock = key.fileobj
         cls.namespace_data = key.data # use the simple name spaces "cls.namespace_data", created in accept wrapper
         if mask & selectors.EVENT_READ:
-            recv_data = sock.recv(1024)  # Should be ready to read
-            if recv_data:
-                cls.managing_received_data(recv_data)
-            else:
-                print(f"Closing connection to {cls.namespace_data.addr}")
-                cls.sel.unregister(sock)
-                sock.close()
+            if sock:
+                recv_data = sock.recv(1024)  # Should be ready to read
+                if recv_data:
+                    cls.managing_received_data(recv_data)
+                else:
+                    print(f"Closing connection to {cls.namespace_data.addr}")
+                    cls.sel.unregister(sock)
+                    sock.close()
         if mask & selectors.EVENT_WRITE:
             if cls.namespace_data.outb:
-                print(f"Echoing {cls.namespace_data.outb!r} to {cls.namespace_data.addr}")
+                print(f"send_data = {cls.namespace_data.outb!r} to {cls.namespace_data.addr}")
                 # sent value is the length of the string that was sent
                 sent = sock.send(cls.namespace_data.outb)  
                 # remove the sent string from the cls.namespace_data.outb
@@ -64,12 +65,14 @@ class Communication:
         cls.sel.close()
 
     def managing_received_data(cls, recv_data):
-        print(f"recv_data = {recv_data}")
+        print(f"recv_data = {recv_data} to {cls.namespace_data.addr}")
         cls.namespace_data.outb += recv_data
 
 def main(): 
 
-    ser_xp = Communication()
+    host = socket.gethostbyname(socket.gethostname())
+    port = 65432
+    ser_xp = ServerXP(host,port)
     ser_xp.keep_running.set()
     ser_xp.setup()
 

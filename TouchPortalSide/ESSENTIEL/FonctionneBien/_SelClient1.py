@@ -44,6 +44,7 @@ class Communication:
             cls.service_connection(key, mask)
             cls.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
 
+    # create some action to send to server
     def put_some_random_message(cls):
         value = random.randint(1,20)
         print("value = ",value)
@@ -87,15 +88,15 @@ def main():
         "command": "init",
         "datarefs": [
             {
-                "dataref": "AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
+                "dataref": "C1_AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
                 "value":   "2" # Strobe  -> int
             },
             {
-                "dataref": "AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
+                "dataref": "C1_AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
                 "value":   "0.50" # OVHD INTEG LT Brightness Knob -> float
             },
             {
-                "dataref": "AirbusFBW/APUStarter", # APU Start -> int
+                "dataref": "C1_AirbusFBW/APUStarter", # APU Start -> int
                 "value":   "4" # APU Start -> int
             }
         ]
@@ -104,15 +105,15 @@ def main():
         "command": "write",
         "datarefs": [
             {
-                "dataref": "AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
+                "dataref": "C1_AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
                 "value":   "0"
             },
             {
-                "dataref": "AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
+                "dataref": "C1_AirbusFBW/RMP3Lights[0]", # OVHD INTEG LT Brightness Knob -> float
                 "value":   "0.30"
             },
             {
-                "dataref": "AirbusFBW/APUStarter", # APU Start -> int
+                "dataref": "C1_AirbusFBW/APUStarter", # APU Start -> int
                 "value":   "2"
             }
         ]

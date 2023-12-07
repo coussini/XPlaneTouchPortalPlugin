@@ -1,3 +1,14 @@
+ATTENTION, TESTER MULTI CLIENT ET S'ASSURER QU'IL REÇOIVENT LEUR PRORE MESSAGE
+PEUT ETRE FAIRE UN THREAD SUR ACCEPT ?
+
+_SelServer.py semble solide
+_SelClient.py est le compagnon de ce premier
+
+
+#######################
+ATTENTION: Quand on ferme les fenetre de test _SelClient1.py, _SelClient2.py et _SelClient3.py il y a erreur  
+#######################
+
 s'assurer que le def service_connection(key, mask) soit identique entre les deux
 
 il faut permettre à service_connection du client à échanger le parametre keep_running afin de cesser la boucle lorsque l'on désire. Le serveur dans x-plane sera arrêté quand x-plane fermera

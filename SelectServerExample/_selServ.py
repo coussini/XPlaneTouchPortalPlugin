@@ -29,6 +29,7 @@ try:
         for s in readable:
             if s is server_socket:
                 connection, client_address = s.accept()
+                print(f"new connection: {client_address}")
                 connection.setblocking(0)
                 inputs.append(connection)
                 threading.Thread(target=handle_client, args=(connection, client_address)).start()

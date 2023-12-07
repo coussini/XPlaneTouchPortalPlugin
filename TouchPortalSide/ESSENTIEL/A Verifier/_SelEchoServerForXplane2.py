@@ -4,6 +4,7 @@ import tcp_server
 import queue
 import random
 import json
+import time
 
 class TCPServerNonBlocking(tcp_server.TCPServer):
     ''' A Non-blocking multi-client TCP Server '''
@@ -87,7 +88,7 @@ class TCPServerNonBlocking(tcp_server.TCPServer):
                 client_address = self.client_requests[client_sock][0]
                 self.printwt(f'[ REQUEST from {client_address} ]')
                 print('\n', data_enc, '\n')
-
+                time.sleep(3)
                 # save request in the client's request queue
                 self.client_requests[client_sock][1].put(data_enc)
 

@@ -7,14 +7,12 @@ list_connections = []
 
 def read(connection, mask):
     #Callback for read events
-    global keep_running
 
     client_address = connection.getpeername()
     print('read({})'.format(client_address))
     data = connection.recv(1024)
     if not data:
         print("No data")
-        #keep_running = False
     else:
         print('  received {!r}'.format(data))
         connection.sendall(data)
