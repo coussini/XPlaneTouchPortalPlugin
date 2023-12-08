@@ -1,3 +1,27 @@
+#
+# MÉNAGE
+# cls.sock -> cls.server_socket
+# cls.sel -> cls.server_selectors
+# conn -> client_socket
+# addr -> client_address
+# sock -> client_socket
+# outgoing -> outgoing_data
+# recv_data -> ingoing_data
+#
+#
+# 1-client_socket_list = []
+# 2-client_socket_list.append(client_socket)
+# 3-client_socket_list.remove(client_socket)
+# AT THE END OF THE PROGRAM, WHEN CLOSING X-PLANE PROGRAM....
+# when server_xp.keep_running.clear():
+#   for each accepted client_socket
+#       cls.sel.unregister(client_socket)
+#       client_socket.close()
+#       client_socket_list.remove(client_socket)
+#
+
+
+
 #!/usr/bin/env python3
 import selectors
 import socket
@@ -12,9 +36,8 @@ class ServerXP:
         cls.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         cls.host = host
         cls.port = port
-        cls.outgoing = []
         cls.keep_running = threading.Event()
-        cls.namespace_data = types.SimpleNamespace()
+        cls.outgoing = types.SimpleNamespace()
 
     def preparing_running(cls):
         cls.sock.bind((cls.host, cls.port))
@@ -38,15 +61,13 @@ class ServerXP:
         conn, addr = cls.sock.accept()  # Should be ready to read
         print(f'X-Plane client connected: connection {addr}')
         conn.setblocking(False)
-        setattr(cls.namespace_data,'addr',addr)
-        setattr(cls.namespace_data,'inb',b'')
-        setattr(cls.namespace_data,'outb',b'')
+        setattr(cls.outgoing,'outb',b'')
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        cls.sel.register(conn, events, data=cls.namespace_data)
+        cls.sel.register(conn, events, data=cls.outgoing)
 
     def service_connection(cls, key, mask):
         sock = key.fileobj
-        cls.namespace_data = key.data # use the simple name spaces 'cls.namespace_data', created in accept wrapper
+        cls.outgoing = key.data # use the simple name spaces 'cls.outgoing', created in accept wrapper
 
         if mask & selectors.EVENT_READ:
             try:
@@ -65,12 +86,12 @@ class ServerXP:
                     cls.socket_die(sock)
 
         if mask & selectors.EVENT_WRITE:
-            if cls.namespace_data.outb:
-                print(f'send_data = {cls.namespace_data.outb!r} to {sock.getpeername()}')
+            if cls.outgoing.outb:
+                print(f'send_data = {cls.outgoing.outb!r} to {sock.getpeername()}')
                 # sent value is the length of the string that was sent
-                sent = sock.send(cls.namespace_data.outb)  
-                # remove the sent string from the cls.namespace_data.outb
-                cls.namespace_data.outb = cls.namespace_data.outb[sent:]    
+                sent = sock.send(cls.outgoing.outb)  
+                # remove the sent string from the cls.outgoing.outb
+                cls.outgoing.outb = cls.outgoing.outb[sent:]    
 
     def socket_die(cls, sock):
         print(f"Closing connection to {sock.getpeername()}")
@@ -82,7 +103,8 @@ class ServerXP:
 
     def managing_received_data(cls, sock, recv_data):
         print(f'recv_data = {recv_data} to {sock.getpeername()}')
-        cls.namespace_data.outb += recv_data
+        # echoing data
+        cls.outgoing.outb += recv_data
 
 def main(): 
 

@@ -1,3 +1,15 @@
+#
+# MÉNAGE
+# cls.sock -> cls.client_socket
+# cls.sel -> cls.client_selectors
+# service_socket -> server_socket
+# cls.outgoing -> cls.outgoing_data
+# recv_data -> ingoing_data
+#
+# dans xplane_touch_portal_client.py... injecter les données à envoyer comme  "put_some_random_message"
+#
+
+
 #!/usr/bin/env python3
 # also from https://pymotw.com/3/selectors/
 import selectors
