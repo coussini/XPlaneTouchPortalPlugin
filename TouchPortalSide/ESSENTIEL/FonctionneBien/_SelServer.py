@@ -45,7 +45,7 @@ class ServerXP:
         sock = key.fileobj
         cls.namespace_data = key.data # use the simple name spaces "cls.namespace_data", created in accept wrapper
         if mask & selectors.EVENT_READ:
-            if sock:
+            try:
                 recv_data = sock.recv(1024)  # Should be ready to read
                 if recv_data:
                     cls.managing_received_data(recv_data)
@@ -53,6 +53,11 @@ class ServerXP:
                     print(f"Closing connection to {cls.namespace_data.addr}")
                     cls.sel.unregister(sock)
                     sock.close()
+            # handle any forced / unexpected closing of connection by the client
+            except OSError:
+                print(f"Closing connection to {cls.namespace_data.addr}")
+                cls.sel.unregister(sock)
+                sock.close()
         if mask & selectors.EVENT_WRITE:
             if cls.namespace_data.outb:
                 print(f"send_data = {cls.namespace_data.outb!r} to {cls.namespace_data.addr}")
@@ -60,6 +65,7 @@ class ServerXP:
                 sent = sock.send(cls.namespace_data.outb)  
                 # remove the sent string from the cls.namespace_data.outb
                 cls.namespace_data.outb = cls.namespace_data.outb[sent:]    
+
 
     def shutting_down(cls):
         cls.sel.close()
