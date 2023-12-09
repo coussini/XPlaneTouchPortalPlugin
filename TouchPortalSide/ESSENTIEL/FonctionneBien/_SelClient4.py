@@ -101,15 +101,15 @@ def main():
         'command': 'init',
         'datarefs': [
             {
-                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'dataref': 'C4_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
                 'value':   '2' # Strobe  -> int
             },
             {
-                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'dataref': 'C4_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
                 'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
             },
             {
-                'dataref': 'C1_AirbusFBW/APUStarter', # APU Start -> int
+                'dataref': 'C4_AirbusFBW/APUStarter', # APU Start -> int
                 'value':   '4' # APU Start -> int
             }
         ]
@@ -118,15 +118,15 @@ def main():
         'command': 'write',
         'datarefs': [
             {
-                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'dataref': 'C4_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
                 'value':   '0'
             },
             {
-                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'dataref': 'C4_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
                 'value':   '0.30'
             },
             {
-                'dataref': 'C1_AirbusFBW/APUStarter', # APU Start -> int
+                'dataref': 'C4_AirbusFBW/APUStarter', # APU Start -> int
                 'value':   '2'
             }
         ]

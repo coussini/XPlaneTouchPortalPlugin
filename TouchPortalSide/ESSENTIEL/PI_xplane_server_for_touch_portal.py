@@ -1,6 +1,3 @@
-### Isoler la petite lenteur avant que le test de serveur fonctionne
-### Une fois partie.... Il n'y a pas de lenteur quand on touche les boutons
-
 import xp
 import selectors
 import socket

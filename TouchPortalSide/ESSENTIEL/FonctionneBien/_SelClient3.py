@@ -1,3 +1,5 @@
+# dans xplane_touch_portal_client.py... injecter les données à envoyer comme  "put_some_random_message"
+
 #!/usr/bin/env python3
 # also from https://pymotw.com/3/selectors/
 import selectors
@@ -8,68 +10,68 @@ import random
 import threading
 import sys
 
-class Communication:
-    def __init__(cls):
-        cls.sel = selectors.DefaultSelector()
-        cls.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        cls.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        cls.host = socket.gethostbyname(socket.gethostname())
-        cls.port = 65432
-        cls.outgoing = []
-        cls.keep_running = threading.Event()
-        cls.random_msg1 = None # temporary
-        cls.random_msg2 = None # temporary
+class ClientXP:
+    def __init__(self):
+        self.client_selectors = selectors.DefaultSelector()
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.host = socket.gethostbyname(socket.gethostname())
+        self.port = 65432
+        self.keep_running = threading.Event()
+        self.outgoing_data = []
+        self.random_msg1 = None # temporary
+        self.random_msg2 = None # temporary
 
-    def connect(cls):
+    def connect(self):
         try:    
-            cls.sock.connect((cls.host,cls.port))
+            self.client_socket.connect((self.host,self.port))
         except socket.error:
             print(f'X-Plane server is not running')
             return False
         else:
             return True
 
-    def preparing_running(cls):
-        print(f'Connecting on {(cls.host, cls.port)}')
+    def preparing_running(self):
+        print(f'Connecting on {(self.host, self.port)}')
         # unblocking socket
-        cls.sock.setblocking(False)
+        self.client_socket.setblocking(False)
         # register a file object for selection, monitoring it for I/O events
-        cls.sel.register(cls.sock, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
+        self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
 
-    def run(cls):
+    def run(self):
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-        for key, mask in cls.sel.select(timeout=0.1):
-            cls.service_connection(key, mask)
-            cls.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
+        for key, mask in self.client_selectors.select(timeout=0.1):
+            self.service_connection(key, mask)
+            self.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
 
     # create some action to send to server
-    def put_some_random_message(cls):
-        value = random.randint(1,20)
+    def put_some_random_message(self):
+        value = random.randint(1,7)
         print('value = ',value)
         if value == 5:
             print('generate message')
-            message = json.dumps(cls.random_msg1).encode()
-            cls.outgoing.append(message)
+            message = json.dumps(self.random_msg1).encode()
+            self.outgoing_data.append(message)
         elif value == 7:
             print('generate message')
-            message = json.dumps(cls.random_msg2).encode()
-            cls.outgoing.append(message)
+            message = json.dumps(self.random_msg2).encode()
+            self.outgoing_data.append(message)
         time.sleep(0.1)
 
-    def shutting_down(cls):
-        if cls.sel:
-            cls.sel.unregister(cls.sock)
-            cls.sel.close()
-        if cls.sock: 
-            cls.sock.close()
+    def shutting_down(self):
+        if self.client_selectors:
+            self.client_selectors.unregister(self.client_socket)
+            self.client_selectors.close()
+        if self.client_socket: 
+            self.client_socket.close()
 
-    def service_connection(cls, key, mask):
-        service_socket = key.fileobj
+    def service_connection(self, key, mask):
+        server_socket = key.fileobj
     
         if mask & selectors.EVENT_READ:
             try:
                 # Should be ready to read
-                recv_data = service_socket.recv(1024) 
+                ingoing_data = server_socket.recv(1024) 
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
@@ -77,20 +79,20 @@ class Communication:
                 #raise Exception('X-Plane server closed suddenly')
                 raise
             else:
-                if recv_data:
-                    cls.managing_received_data(recv_data)
+                if ingoing_data:
+                    self.managing_received_data(ingoing_data)
                 else:
                     # No connection
                     #raise Exception('X-Plane server closed suddenly')
                     raise
 
         if mask & selectors.EVENT_WRITE:
-            if cls.outgoing:
-                next_msg = cls.outgoing.pop()
-                service_socket.sendall(next_msg)
+            if self.outgoing_data:
+                next_msg = self.outgoing_data.pop()
+                server_socket.sendall(next_msg)
 
-    def managing_received_data(cls, recv_data):
-        print(f'recv_data = {recv_data}')
+    def managing_received_data(self, ingoing_data):
+        print(f'ingoing_data = {ingoing_data}')
         pass 
 
 def main(): 
@@ -133,8 +135,8 @@ def main():
     # for a dataref update from X-Plane
     json_data_update = {'command': 'update'}
 
-    ''' Prepare an communication object for the Touch Portal Action purposes '''
-    client_xp = Communication()
+    ''' Prepare an ClientXP object for the Touch Portal Action purposes '''
+    client_xp = ClientXP()
     client_xp.keep_running.set()
     client_xp.random_msg1 = json_data_init
     client_xp.random_msg2 = json_data_write
