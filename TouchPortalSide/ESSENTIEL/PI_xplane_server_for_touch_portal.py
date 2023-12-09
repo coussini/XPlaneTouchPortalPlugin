@@ -1,3 +1,7 @@
+#######################################################
+### Essayer de mettre les prints dans un log à part ###
+#######################################################
+
 import xp
 import selectors
 import socket
