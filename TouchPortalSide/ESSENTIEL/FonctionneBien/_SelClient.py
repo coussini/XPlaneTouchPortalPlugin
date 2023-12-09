@@ -11,61 +11,61 @@ import threading
 import sys
 
 class ClientXP:
-    def __init__(cls):
-        cls.client_selectors = selectors.DefaultSelector()
-        cls.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        cls.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        cls.host = socket.gethostbyname(socket.gethostname())
-        cls.port = 65432
-        cls.keep_running = threading.Event()
-        cls.outgoing_data = []
-        cls.random_msg1 = None # temporary
-        cls.random_msg2 = None # temporary
+    def __init__(self):
+        self.client_selectors = selectors.DefaultSelector()
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.host = socket.gethostbyname(socket.gethostname())
+        self.port = 65432
+        self.keep_running = threading.Event()
+        self.outgoing_data = []
+        self.random_msg1 = None # temporary
+        self.random_msg2 = None # temporary
 
-    def connect(cls):
+    def connect(self):
         try:    
-            cls.client_socket.connect((cls.host,cls.port))
+            self.client_socket.connect((self.host,self.port))
         except socket.error:
             print(f'X-Plane server is not running')
             return False
         else:
             return True
 
-    def preparing_running(cls):
-        print(f'Connecting on {(cls.host, cls.port)}')
+    def preparing_running(self):
+        print(f'Connecting on {(self.host, self.port)}')
         # unblocking socket
-        cls.client_socket.setblocking(False)
+        self.client_socket.setblocking(False)
         # register a file object for selection, monitoring it for I/O events
-        cls.client_selectors.register(cls.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
+        self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
 
-    def run(cls):
+    def run(self):
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-        for key, mask in cls.client_selectors.select(timeout=0.1):
-            cls.service_connection(key, mask)
-            cls.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
+        for key, mask in self.client_selectors.select(timeout=0.1):
+            self.service_connection(key, mask)
+            self.put_some_random_message() # (1) run a class inside a thread... and from outside, feed class.outgoing with action message... (init...write...)
 
     # create some action to send to server
-    def put_some_random_message(cls):
+    def put_some_random_message(self):
         value = random.randint(1,7)
         print('value = ',value)
         if value == 5:
             print('generate message')
-            message = json.dumps(cls.random_msg1).encode()
-            cls.outgoing_data.append(message)
+            message = json.dumps(self.random_msg1).encode()
+            self.outgoing_data.append(message)
         elif value == 7:
             print('generate message')
-            message = json.dumps(cls.random_msg2).encode()
-            cls.outgoing_data.append(message)
+            message = json.dumps(self.random_msg2).encode()
+            self.outgoing_data.append(message)
         time.sleep(0.1)
 
-    def shutting_down(cls):
-        if cls.client_selectors:
-            cls.client_selectors.unregister(cls.client_socket)
-            cls.client_selectors.close()
-        if cls.client_socket: 
-            cls.client_socket.close()
+    def shutting_down(self):
+        if self.client_selectors:
+            self.client_selectors.unregister(self.client_socket)
+            self.client_selectors.close()
+        if self.client_socket: 
+            self.client_socket.close()
 
-    def service_connection(cls, key, mask):
+    def service_connection(self, key, mask):
         server_socket = key.fileobj
     
         if mask & selectors.EVENT_READ:
@@ -80,18 +80,18 @@ class ClientXP:
                 raise
             else:
                 if ingoing_data:
-                    cls.managing_received_data(ingoing_data)
+                    self.managing_received_data(ingoing_data)
                 else:
                     # No connection
                     #raise Exception('X-Plane server closed suddenly')
                     raise
 
         if mask & selectors.EVENT_WRITE:
-            if cls.outgoing_data:
-                next_msg = cls.outgoing_data.pop()
+            if self.outgoing_data:
+                next_msg = self.outgoing_data.pop()
                 server_socket.sendall(next_msg)
 
-    def managing_received_data(cls, ingoing_data):
+    def managing_received_data(self, ingoing_data):
         print(f'ingoing_data = {ingoing_data}')
         pass 
 
