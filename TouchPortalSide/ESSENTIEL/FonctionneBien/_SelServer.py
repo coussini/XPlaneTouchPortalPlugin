@@ -1,27 +1,3 @@
-#
-# MÉNAGE
-# cls.sock -> cls.server_socket
-# cls.sel -> cls.server_selectors
-# conn -> client_socket
-# addr -> client_address
-# sock -> client_socket
-# outgoing -> outgoing_data
-# recv_data -> ingoing_data
-#
-#
-# 1-client_socket_list = []
-# 2-client_socket_list.append(client_socket)
-# 3-client_socket_list.remove(client_socket)
-# AT THE END OF THE PROGRAM, WHEN CLOSING X-PLANE PROGRAM....
-# when server_xp.keep_running.clear():
-#   for each accepted client_socket
-#       cls.sel.unregister(client_socket)
-#       client_socket.close()
-#       client_socket_list.remove(client_socket)
-#
-
-
-
 #!/usr/bin/env python3
 import selectors
 import socket
@@ -31,80 +7,89 @@ import types
 
 class ServerXP:
     def __init__(cls, host, port):
-        cls.sel = selectors.DefaultSelector()
-        cls.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        cls.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        cls.server_selectors = selectors.DefaultSelector()
+        cls.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        cls.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         cls.host = host
         cls.port = port
         cls.keep_running = threading.Event()
-        cls.outgoing = types.SimpleNamespace()
+        cls.outgoing_data = types.SimpleNamespace()
+        cls.client_socket_list = []
 
     def preparing_running(cls):
-        cls.sock.bind((cls.host, cls.port))
+        cls.server_socket.bind((cls.host, cls.port))
         print(f'Listening on {(cls.host, cls.port)}')
         # upto max 6 connection requests
-        cls.sock.listen(6)
+        cls.server_socket.listen(6)
         # unblocking socket
-        cls.sock.setblocking(False)
+        cls.server_socket.setblocking(False)
         # register a file object for selection, monitoring it for I/O events
-        cls.sel.register(cls.sock, selectors.EVENT_READ, data=None)
+        cls.server_selectors.register(cls.server_socket, selectors.EVENT_READ, data=None)
 
     def run(cls):
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-        for key, mask in cls.sel.select(timeout=0.1):
+        for key, mask in cls.server_selectors.select(timeout=0.1):
             if key.data is None:
                 cls.accept_wrapper()
             else:
                 cls.service_connection(key, mask)
 
     def accept_wrapper(cls):
-        conn, addr = cls.sock.accept()  # Should be ready to read
-        print(f'X-Plane client connected: connection {addr}')
-        conn.setblocking(False)
-        setattr(cls.outgoing,'outb',b'')
+        client_socket, client_address = cls.server_socket.accept()  # Should be ready to read
+        cls.client_socket_list.append(client_socket)
+        print(f'X-Plane client connected: connection {client_address}')
+        client_socket.setblocking(False)
+        setattr(cls.outgoing_data,'outb',b'')
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        cls.sel.register(conn, events, data=cls.outgoing)
+        cls.server_selectors.register(client_socket, events, data=cls.outgoing_data)
 
     def service_connection(cls, key, mask):
-        sock = key.fileobj
-        cls.outgoing = key.data # use the simple name spaces 'cls.outgoing', created in accept wrapper
+        client_socket = key.fileobj
+        cls.outgoing_data = key.data # use the simple name spaces 'cls.outgoing_data', created in accept wrapper
 
         if mask & selectors.EVENT_READ:
             try:
                 # Should be ready to read
-                recv_data = sock.recv(1024)
+                ingoing_data = client_socket.recv(1024)
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except ConnectionResetError:
-                cls.socket_die(sock)
+                cls.socket_die(client_socket)
             except:
                 raise  # No connection
             else:
-                if recv_data:
-                    cls.managing_received_data(sock, recv_data)
+                if ingoing_data:
+                    cls.managing_received_data(client_socket, ingoing_data)
                 else:
-                    cls.socket_die(sock)
+                    cls.socket_die(client_socket)
 
         if mask & selectors.EVENT_WRITE:
-            if cls.outgoing.outb:
-                print(f'send_data = {cls.outgoing.outb!r} to {sock.getpeername()}')
+            if cls.outgoing_data.outb:
+                print(f'send_data = {cls.outgoing_data.outb!r} to {client_socket.getpeername()}')
                 # sent value is the length of the string that was sent
-                sent = sock.send(cls.outgoing.outb)  
-                # remove the sent string from the cls.outgoing.outb
-                cls.outgoing.outb = cls.outgoing.outb[sent:]    
+                sent = client_socket.send(cls.outgoing_data.outb)  
+                # remove the sent string from the cls.outgoing_data.outb
+                cls.outgoing_data.outb = cls.outgoing_data.outb[sent:]    
 
-    def socket_die(cls, sock):
-        print(f"Closing connection to {sock.getpeername()}")
-        cls.sel.unregister(sock)
-        sock.close()
+    def socket_die(cls, client_socket):
+        print(f'Closing connection to {client_socket.getpeername()}')
+        cls.server_selectors.unregister(client_socket)
+        client_socket.close()
+        cls.client_socket_list.remove(client_socket)
 
     def shutting_down(cls):
-        cls.sel.close()
+        # in case there are some unclosed client socket
+        for client_socket in list(cls.client_socket_list):
+            cls.server_selectors.unregister(client_socket)
+            client_socket.close()
+            cls.client_socket_list.remove(client_socket)
 
-    def managing_received_data(cls, sock, recv_data):
-        print(f'recv_data = {recv_data} to {sock.getpeername()}')
+        cls.server_selectors.close()
+
+    def managing_received_data(cls, client_socket, ingoing_data):
+        print(f'ingoing_data = {ingoing_data} to {client_socket.getpeername()}')
         # echoing data
-        cls.outgoing.outb += recv_data
+        cls.outgoing_data.outb += ingoing_data
 
 def main(): 
 
