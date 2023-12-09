@@ -38,7 +38,7 @@ class ServerXP:
         client_socket, client_address = cls.server_socket.accept()  # Should be ready to read
         cls.client_socket_list.append(client_socket)
         print(f'X-Plane client connected: connection {client_address}')
-        client_socket.setblocking(False)
+        #client_socket.setblocking(False)
         setattr(cls.outgoing_data,'outb',b'')
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         cls.server_selectors.register(client_socket, events, data=cls.outgoing_data)
@@ -79,6 +79,7 @@ class ServerXP:
 
     def shutting_down(cls):
         # in case there are some unclosed client socket
+        print('threat unclosed client socket')
         for client_socket in list(cls.client_socket_list):
             cls.server_selectors.unregister(client_socket)
             client_socket.close()

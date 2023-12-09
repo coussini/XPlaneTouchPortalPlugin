@@ -10,15 +10,15 @@ import random
 import threading
 import sys
 
-class Communication:
+class ClientXP:
     def __init__(cls):
         cls.client_selectors = selectors.DefaultSelector()
         cls.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         cls.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         cls.host = socket.gethostbyname(socket.gethostname())
         cls.port = 65432
-        cls.outgoing_data = []
         cls.keep_running = threading.Event()
+        cls.outgoing_data = []
         cls.random_msg1 = None # temporary
         cls.random_msg2 = None # temporary
 
@@ -46,7 +46,7 @@ class Communication:
 
     # create some action to send to server
     def put_some_random_message(cls):
-        value = random.randint(1,20)
+        value = random.randint(1,7)
         print('value = ',value)
         if value == 5:
             print('generate message')
@@ -135,8 +135,8 @@ def main():
     # for a dataref update from X-Plane
     json_data_update = {'command': 'update'}
 
-    ''' Prepare an communication object for the Touch Portal Action purposes '''
-    client_xp = Communication()
+    ''' Prepare an ClientXP object for the Touch Portal Action purposes '''
+    client_xp = ClientXP()
     client_xp.keep_running.set()
     client_xp.random_msg1 = json_data_init
     client_xp.random_msg2 = json_data_write
