@@ -1,5 +1,6 @@
 import sys 
 import os
+import platform
 import argparse # argparse.ArgumentParser
 import TouchPortalAPI as TP_API
 import TouchPortalAPI.logger as TP_API_LOG # TouchPortalAPI.logger.Logger  
@@ -13,8 +14,15 @@ import threading
 class ClientTPXP:
     def __init__(self):
         self.version = '1.0'
-        self.plugin_id = 'XPlanePlugin'
+        self.plugin_id = 'XPlaneTouchPortalClient'
         self.successful = True
+        # Get OS where python is running.
+        self.is_windows = True if (platform.system() == "Windows") else False
+        self.is_linux = True if (platform.system() == "Linux") else False
+        self.is_macos = True if (platform.system() == "Darwin") else False
+        if self.is_windows: self.touch_portal_data_folder = os.getenv('APPDATA') + '\\TouchPortal\\plugins\\';
+        if self.is_linux: self.touch_portal_data_folder = '\\TouchPortal\\plugins\\';
+        if self.is_macos: self.touch_portal_data_folder = '\\Documents\\TouchPortal\\plugins\\';
         # Create the Touch Portal API client instance.
         try:
             self.tp_api = TP_API.Client(
@@ -36,6 +44,56 @@ class ClientTPXP:
         self.on_info = TP_API.TYPES.onConnect
         self.on_action = TP_API.TYPES.onAction
         self.on_close_plugin = TP_API.TYPES.onShutdown
+        # states from json file
+        self.json_file = 'Datarefs.json'
+        self.states = None
+
+    def GetDatarefValuesFromJsonFile(self):
+        
+        STATES = {'datarefs': []}
+        MSG = None
+        
+        LOGGER.info(f'Trying to load datarefs from:')
+        LOGGER.info(f'---------------------------------')
+        LOGGER.info(f'{os.getcwd()}\{self.json_file}')
+        LOGGER.info(f'---------------------------------')
+        
+        ######
+        ######
+        # After this, validate that each value correcponding to the type Float or Int or Data (str)(validation)
+        '''
+        def is_float(number):
+            if isinstance(number, float):
+                return True
+            else:
+                return False
+
+        if is_float(number_1):
+        # do something
+
+        '''
+        ######
+        ######
+        try:
+            file = open(JsonFile, 'r')
+            STATES = json.load(file)
+            file.close()
+            LOGGER.info(f'Datarefs successfully loaded from {JsonFile}')
+        except FileNotFoundError:
+            #LOGGER.error(f'File {JsonFile} does not exist')
+            MSG = f'File {JsonFile} does not exist'
+            return False, MSG, None
+        except ValueError:
+            #LOGGER.error(f'Invalid JSON syntax in {JsonFile}')
+            MSG = f'Invalid JSON syntax in {JsonFile}'
+            return False, MSG, None
+        except Exception as err:
+            from traceback import format_exc
+            #LOGGER.error(f'str({err})')
+            MSG = f'An exception occured for {JsonFile}'
+            return False, MSG, None
+
+        return True, MSG, STATES
 
 
 class ClientXP:
@@ -127,10 +185,12 @@ def main():
     
     # Create a mega instance that concern Touch Portal and X-Plane.
     client_tpxp = ClientTPXP() 
+    # extract all datarefs from the JSON file.
+    client_tpxp.states = client_tpxp.GetDatarefValuesFromJsonFile(self, JsonFile)
     
-    # Create object concerning Touch Portal API
+    # Create an object concerning Touch Portal API
     client_tp_api = client_tpxp.tp_api
-    # Create object concerning Touch Portal API events
+    # Create some objects concerning Touch Portal API events
     on_info = client_tpxp.on_info
     on_action = client_tpxp.on_action
     on_close_plugin = client_tpxp.on_close_plugin
