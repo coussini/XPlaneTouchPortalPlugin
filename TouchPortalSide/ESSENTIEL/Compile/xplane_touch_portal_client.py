@@ -1,3 +1,5 @@
+############ pourquoi on info passe pas par là...............
+
 import sys 
 import os
 import platform
@@ -14,8 +16,8 @@ import threading
 class ClientTPXP:
     def __init__(self):
         self.version = '1.0'
-        self.plugin_id = 'XPlaneTouchPortalClient'
-        self.successful = True
+        self.plugin_id = 'XPlanePlugin'
+        
         # Get OS where python is running.
         self.is_windows = True if (platform.system() == "Windows") else False
         self.is_linux = True if (platform.system() == "Linux") else False
@@ -23,6 +25,7 @@ class ClientTPXP:
         if self.is_windows: self.touch_portal_data_folder = os.getenv('APPDATA') + '\\TouchPortal\\plugins\\';
         if self.is_linux: self.touch_portal_data_folder = '\\TouchPortal\\plugins\\';
         if self.is_macos: self.touch_portal_data_folder = '\\Documents\\TouchPortal\\plugins\\';
+        
         # Create the Touch Portal API client instance.
         try:
             self.tp_api = TP_API.Client(
@@ -35,66 +38,111 @@ class ClientTPXP:
             )
         except Exception as e:
             sys.exit(f'Could not create a Touch Portal API client instance, exiting. Error was:\n{repr(e)}')
+        
         # Create the (optional) global logger, an instance of `TouchPortalAPI::Logger` helper class.
         try:
             self.logger = TP_API_LOG.Logger(name = self.plugin_id)
         except Exception as e:
             sys.exit(f'Could not create a Touch Portal API client instance, exiting. Error was:\n{repr(e)}')
+        
         # Event for the Touch Portal API
         self.on_info = TP_API.TYPES.onConnect
         self.on_action = TP_API.TYPES.onAction
         self.on_close_plugin = TP_API.TYPES.onShutdown
+        
         # states from json file
-        self.json_file = 'Datarefs.json'
+        self.json_file = 'datarefs.json'
+        self.json_file_location = self.touch_portal_data_folder+ self.json_file
+
         self.states = None
 
-    def GetDatarefValuesFromJsonFile(self):
+    def get_dataref_values_from_json_file(self):
         
-        STATES = {'datarefs': []}
-        MSG = None
+        successful = False
+        states = None
         
-        LOGGER.info(f'Trying to load datarefs from:')
-        LOGGER.info(f'---------------------------------')
-        LOGGER.info(f'{os.getcwd()}\{self.json_file}')
-        LOGGER.info(f'---------------------------------')
-        
-        ######
-        ######
-        # After this, validate that each value correcponding to the type Float or Int or Data (str)(validation)
-        '''
-        def is_float(number):
-            if isinstance(number, float):
-                return True
-            else:
-                return False
+        self.logger.info(f'Trying to load datarefs from:')
+        self.logger.info(f'----------------------------')
+        self.logger.info(f'{self.json_file_location}')
+        self.logger.info(f'----------------------------')
 
-        if is_float(number_1):
-        # do something
-
-        '''
-        ######
-        ######
         try:
-            file = open(JsonFile, 'r')
-            STATES = json.load(file)
+            file = open(self.json_file, 'r')
+            states = json.load(file)
             file.close()
-            LOGGER.info(f'Datarefs successfully loaded from {JsonFile}')
+            self.logger.info(f'Datarefs successfully loaded from {self.json_file}')
+            successful = True
         except FileNotFoundError:
-            #LOGGER.error(f'File {JsonFile} does not exist')
-            MSG = f'File {JsonFile} does not exist'
-            return False, MSG, None
+            self.logger.error(f'File {self.json_file} does not exist')
         except ValueError:
-            #LOGGER.error(f'Invalid JSON syntax in {JsonFile}')
-            MSG = f'Invalid JSON syntax in {JsonFile}'
-            return False, MSG, None
+            self.logger.error(f'Invalid JSON syntax in {self.json_file}')
         except Exception as err:
             from traceback import format_exc
-            #LOGGER.error(f'str({err})')
-            MSG = f'An exception occured for {JsonFile}'
-            return False, MSG, None
+            self.logger.error(f'str({err})')
 
-        return True, MSG, STATES
+        return successful, states
 
+    def treat_touch_portal_client(self):
+
+        successful = False
+
+        # Create an object concerning Touch Portal client
+        client_tp = self.tp_api
+        # Create some objects concerning Touch Portal API events
+        on_info = self.on_info
+        on_action = self.on_action
+        on_close_plugin = self.on_close_plugin
+
+        # This event handler will run once when the client connects to Touch Portal
+        @client_tp.on(on_info) 
+        def onStart(data):
+            self.logger.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
+            self.logger.info(f'=================')
+            self.logger.info(f'SECTION on_info')
+            self.logger.info(f'=================')
+            self.logger.info(f'{data}')
+
+        # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
+        @client_tp.on(on_action) 
+        def onAction(data):
+            self.logger.info(f'=================')
+            self.logger.info(f'SECTION on_action')
+            self.logger.info(f'=================')
+            self.logger.info(f'{data}')
+
+        # Shutdown handler, called when Touch Portal wants to stop your plugin.
+        @client_tp.on(on_close_plugin) 
+        def onShutdown(data):
+            self.logger.info(f'=======================')
+            self.logger.info(f'SECTION on_close_plugin')
+            self.logger.info(f'=======================')
+            self.logger.info(f'{data}')
+            self.logger.info(f'Got Shutdown Message! Shutting Down the Plugin!')
+            client_tp.disconnect()
+
+        self.logger.info(f'Trying to connect to Touch Portal Apps')
+        
+        try:
+            client_tp.connect()
+        except KeyboardInterrupt:
+            self.logger.warning("Caught keyboard interrupt, exiting.")
+        except ConnectionRefusedError:
+            self.logger.error(f'Cannot connect to Touch Portal, probably it is not running')
+            return False
+        except Exception:
+            # This will catch and report any critical exceptions in the base client_tp code,
+            # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
+            from traceback import format_exc
+            self.logger.error(f"Exception in TP Client:\n{format_exc()}")
+            successful = False
+        finally:
+            self.logger.info(f'TP Client Disconnected')
+            client_tp.disconnect()
+            successful = True
+
+        del client_tp
+
+        return successful
 
 class ClientXP:
     def __init__(self):
@@ -186,68 +234,13 @@ def main():
     # Create a mega instance that concern Touch Portal and X-Plane.
     client_tpxp = ClientTPXP() 
     # extract all datarefs from the JSON file.
-    client_tpxp.states = client_tpxp.GetDatarefValuesFromJsonFile(self, JsonFile)
-    
-    # Create an object concerning Touch Portal API
-    client_tp_api = client_tpxp.tp_api
-    # Create some objects concerning Touch Portal API events
-    on_info = client_tpxp.on_info
-    on_action = client_tpxp.on_action
-    on_close_plugin = client_tpxp.on_close_plugin
+    successful, client_tpxp.states = client_tpxp.get_dataref_values_from_json_file()
 
-    # This event handler will run once when the client connects to Touch Portal
-    @client_tp_api.on(on_info) 
-    def onStart(data):
-        print(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
-        print(f'=================')
-        print(f'SECTION on_info')
-        print(f'=================')
-        print(f'{data}')
+    if successful:
+        successful = client_tpxp.treat_touch_portal_client()
 
-    # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
-    @client_tp_api.on(on_action) 
-    def onAction(data):
-        print(f'=================')
-        print(f'SECTION on_action')
-        print(f'=================')
-        print(f'{data}')
-
-    # Shutdown handler, called when Touch Portal wants to stop your plugin.
-    @client_tp_api.on(on_close_plugin) 
-    def onShutdown(data):
-        print(f'=======================')
-        print(f'SECTION on_close_plugin')
-        print(f'=======================')
-        print(f'{data}')
-        print(f'Got Shutdown Message! Shutting Down the Plugin!')
-        client_tp_api.disconnect()
-
-    print(f'Trying to connect to Touch Portal Apps')
-    
-    try:
-        client_tp_api.connect()
-    except KeyboardInterrupt:
-        print("Caught keyboard interrupt, exiting.")
-        client_tpxp.successful = False
-    except ConnectionRefusedError:
-        print(f'Cannot connect to Touch Portal, probably it is not running')
-        client_tpxp.successful = False
-        return
-    except Exception:
-        # This will catch and report any critical exceptions in the base client_tp_api code,
-        # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
-        from traceback import format_exc
-        print(f"Exception in TP Client:\n{format_exc()}")
-        client_tpxp.successful = False
-        return
-    finally:
-        print(f'TP Client Disconnected')
-        client_tp_api.disconnect()
-
-    del client_tp_api
-
-    print(f'Return code = {client_tpxp.successful}')
-    sys.exit(client_tpxp.successful)
+    client_tpxp.logger.info(f'Return code = {successful}')
+    sys.exit(successful)
 
 if __name__ == '__main__':
     main()

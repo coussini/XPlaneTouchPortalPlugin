@@ -16,7 +16,6 @@
             "type": "int",
             "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[1]",
-            abc
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
         {

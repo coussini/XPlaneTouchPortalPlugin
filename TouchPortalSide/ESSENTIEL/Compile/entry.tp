@@ -1,75 +1,65 @@
 {
   "sdk": 4,
   "version": 100,
-  "name": "XPlane Touch Portal Client",
-  "id": "XPlaneTouchPortalClient",
+  "name": "xplane touch portal client",
+  "id": "xplane_touch_portal_client",
   "configuration": {
     "colorDark": "#212121",
     "colorLight": "#0090ff",
     "parentCategory" : "game"    
   },
-  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XplaneTouchPortalClient.exe @XplaneTouchPortalClient-conf.txt",
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.exe @xplane_touch_portal_client-conf.txt",
   "categories": [
     {
-      "id": "XPlaneTouchPortalClient.Dataref",
-      "name": "XPlane - Dataref",
-      "imagepath": "%TP_PLUGIN_FOLDER%XplaneTouchPortalClient/XPlaneTouchPortalPlugin.png",      
+      "id": "xplane_touch_portal_client.dataref",
+      "name": "xplane dataref",
+      "imagepath": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.png",      
       "actions": [
         {
-          "id": "XPlaneTouchPortalClient.Dataref.ToggleTwoStates",
-          "name": "This Toggle between 2 values",
-          "prefix": "XPlane",
+          "id": "xplane_touch_portal_client.dataref.toggle_two_states",
+          "name": "This toggle between 2 values",
+          "prefix": "xplane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": false,
           "description": "",
-          "format": "Toggle the dataref {$XPlaneTouchPortalClient.Dataref.ToggleTwoStates.Choice$} (2 values)",
+          "format": "Toggle the dataref {$xplane_touch_portal_client.dataref.toggle_two_states.choice$} (2 values)",
           "data": [
             {
-              "id": "XPlaneTouchPortalClient.Dataref.ToggleTwoStates.Choice",
+              "id": "xplane_touch_portal_client.dataref.toggle_two_states.choice",
               "type": "choice",
-              "label": "Dataref Name",
+              "label": "dataref Name",
               "default": "Ext power",
               "valueChoices": []
             }
           ]
         },
         {
-          "id": "XPlaneTouchPortalClient.Dataref.SetTwoStates",
-          "name": "Xplane Dataref - Set Variable Value",
+          "id": "xplane_touch_portal_client.dataref.set_two_states",
+          "name": "Xplane dataref - Set Variable Value",
           "prefix": "XPlane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": true,
           "description": "",
-          "format": "Xplane Dataref - Set Variable Named:{$XPlaneTouchPortalClient.Dataref.SetTwoStates.Name$} to value:{$XPlaneTouchPortalClient.Dataref.SetTwoStates.Value$}",
+          "format": "Xplane dataref - Set Variable Named:{$xplane_touch_portal_client.dataref.set_two_states.name$} to value:{$xplane_touch_portal_client.dataref.set_two_states.value$}",
           "data": [
             {
-              "id": "XPlaneTouchPortalClient.Dataref.SetTwoStates.Name",
+              "id": "xplane_touch_portal_client.dataref.set_two_states.name",
               "type": "choice",
-              "label": "Dataref Name",
+              "label": "dataref name",
               "default": "Ext power",
               "valueChoices": []
             },
             {
-              "id": "XPlaneTouchPortalClient.Dataref.SetTwoStates.Value",
+              "id": "xplane_touch_portal_client.dataref.set_two_states.value",
               "type": "text",
-              "label": "Value",
+              "label": "value",
               "default": "0"
             }
           ]
         }
       ]
-    }
-  ],
-  "settings": [
-    {
-      "name": "XPlaneFolder",
-      "type": "text",
-      "default": "C:/X-Plane 12",
-      "maxLength": 255,
-      "isPassword": false,
-      "readOnly": false
     }
   ]
 }
