@@ -56,6 +56,14 @@ class ClientTPXP:
 
         self.states = None
 
+    def validate_json_file_contains(self, states):
+
+        jsonObject = json.loads(states)
+
+        for key in jsonObject:
+            value = jsonObject[key]
+            print("The key and value are {} = {}".format(key, value))
+
     def get_dataref_values_from_json_file(self):
         
         successful = False
@@ -71,11 +79,13 @@ class ClientTPXP:
             states = json.load(file)
             file.close()
             self.logger.info(f'Datarefs successfully loaded from {self.json_file}')
+            self.validate_json_file_contains(states)
             successful = True
         except FileNotFoundError:
             self.logger.error(f'File {self.json_file} does not exist')
-        except ValueError:
+        except ValueError as err:
             self.logger.error(f'Invalid JSON syntax in {self.json_file}')
+            self.logger.error(f'{err}')
         except Exception as err:
             from traceback import format_exc
             self.logger.error(f'str({err})')

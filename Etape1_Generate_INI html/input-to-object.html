@@ -4,69 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Creating Dataref dictionnary form html</title>
-    <style>
-        .formBox{
-            padding: 0.5rem 2rem;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Creating Dataref JSON for Touch Portal X-Plane</title>
 </head>
 <body>
-    <form>
-        <div class="formBox">
-            <label for="dataref">Dataref</label>
-            <input type="text" id="dataref" placeholder="AirbusFBW/OHPLightSwitches[7]"/>
-        </div>
-        <div class="formBox">
-            <label for="dataref_desc">Dataref Description</label>
-            <input type="text" id="dataref_desc" placeholder="Strobe Light"/>
-        </div>
-        <div class="formBox">
-            <label for="group">Group</label>
-            <input type="text" id="group" placeholder="Overhead or Electric or ..."/>
-        </div>
-        <div class="formBox">
-            <label for="type">Type</label>
-            <input type="text" id="type" placeholder="INT[6] or INT or FLOAT[16] or FLOAT"/>
-        </div>
-        <div class="formBox">
-            <label for="value">Default Value</label>
-            <input type="number" id="value" placeholder="0"/>
-        </div>
-        <div class="formBox">
-            <button id="btn">Click to Add</button>
-        </div>
-        <div id="msg">
-            <pre></pre>
-        </div>
-    </form>
+    <div class="container-fluid">
+        <form>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="desc">dataref description</label>
+                    <input type="text" class="form-control" id="desc" placeholder="description" aria-describedby="descHelp">
+                    <small id="descHelp" class="form-text text-muted">Is important as Touch Portal choice</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="group">group</label>
+                    <input type="text" class="form-control" id="group" placeholder="description" aria-describedby="groupHelp">
+                    <small id="groupHelp" class="form-text text-muted">Is important into Touch Portal for grouping choices</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="type">type</label>
+                    <select class="form-control" id="type" aria-describedby="typeHelp">
+                      <option>int</option>
+                      <option>float</option>
+                    </select>
+                    <small id="typeHelp" class="form-text text-muted">Must be int or float</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="value">value</label>
+                    <input type="number" class="form-control" id="value" min="0" placeholder="0" aria-describedby="valueHelp">
+                    <small id="valueHelp" class="form-text text-muted">Must be integer</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="dataref">dataref</label>
+                    <input type="text" class="form-control" id="dataref" placeholder="description" aria-describedby="datarefHelp">
+                    <small id="datarefHelp" class="form-text text-muted">For example AirbusFBW/ADIRUSwitchArray[1] or AirbusFBW/EnableExternalPower</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="group">comment</label>
+                    <input type="text" class="form-control" id="comment" placeholder="0" aria-describedby="commentHelp">
+                    <small id="commentHelp" class="form-text text-muted">Use a comment to enumarate whats values this datarefs use</small>
+                </div>
+            </div>
+            <button type="submit" id="btn" class="btn btn-primary">Click to Add</button>
+            <div class="formBox">
+               <button onclick = "downloadFile()"> save result to dataref.json</button>
+               <script>
+                  const downloadFile = () => {
+                     const link = document.createElement("a");
+                     const begin = '{\n"datarefs": '
+                     const middle = document.getElementsByTagName('pre')[0].innerHTML;
+                     const end = '\n}';
+                     const content = begin.concat(middle).concat(end); 
+                     console.log(JSON.stringify(content));
+                     const file = new Blob([content], { type: 'text/plain' });
+                     link.href = URL.createObjectURL(file);
+                     link.download = "dataref.json";
+                     link.click();
+                     URL.revokeObjectURL(link.href);
+                  };
+               </script>        
+            </div>
+            <div id="msg">
+                <pre>
+                </pre>
+            </div>
+        </form>
+    </div>
+    <script>
+        /*
+        $('#type').on('change', function() {
+          if ($(this).val() == "int") {
+            $('#slAgentID').removeClass('hide');
+            $('#slRetailID').addClass('hide');
+          }
+
+          if ($(this).val() == 2) {
+            $('#slAgentID').addClass('hide');
+            $('#slRetailID').removeClass('hide');
+          }
+        })
+        */
+    </script>
     <script>
         let datarefs = [];
-        let oneId = 'XPlanePlugin.'
-        // example {id:AirbusFBW/OHPLightSwitches[7], dataref: 'id:AirbusFBW/OHPLightSwitches[7]', desc: 'Strobe light', value: 0}
+        let oneId = 'XPlanePlugin.';
+        let firstTime = true;
         const addDataref = (ev)=>{
             ev.preventDefault();  //to stop the form submitting
             // Object datarefs
-            let objet_dataref = {
-                id: oneId.concat(document.getElementById('dataref_desc').value.replaceAll(' ','')),
-                desc: document.getElementById('dataref_desc').value,
-                group: document.getElementById('group').value,
-                type: document.getElementById('type').value,
-                value: document.getElementById('value').value,
-                dataref: document.getElementById('dataref').value
+            let desc = document.getElementById('desc').value;
+            let group = document.getElementById('group').value;
+            let type = document.getElementById('type').value;
+            let value = document.getElementById('value').value;
+            let dataref = document.getElementById('dataref').value;
+            let comment = document.getElementById('comment').value;
+            
+            if (desc != '' && group != '' && dataref != '' && comment != '')
+            {
+                let objet_dataref = {
+                    id: oneId.concat(document.getElementById('desc').value.replaceAll(' ','')),
+                    desc: document.getElementById('desc').value,
+                    group: document.getElementById('group').value,
+                    type: document.getElementById('type').value,
+                    value: document.getElementById('value').value,
+                    dataref: document.getElementById('dataref').value,
+                    comment: document.getElementById('comment').value
+                }
+                // sauvegarder object datarefs
+                datarefs.push(objet_dataref);
+                document.forms[0].reset(); // to clear the form for the next entries
+                //document.querySelector('form').reset();
+
+                //for display purposes only
+                //console.warn('added' , {datarefs} );
+                let pre = document.querySelector('#msg pre');
+                pre.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
+                //saving to localStorage
+                localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
             }
-            // sauvegarder object datarefs
-            datarefs.push(objet_dataref);
-            document.forms[0].reset(); // to clear the form for the next entries
-            //document.querySelector('form').reset();
-
-            //for display purposes only
-            console.warn('added' , {datarefs} );
-            let pre = document.querySelector('#msg pre');
-            pre.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
-
-            //saving to localStorage
-            localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
         }
         document.addEventListener('DOMContentLoaded', ()=>{
             document.getElementById('btn').addEventListener('click', addDataref);
