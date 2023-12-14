@@ -52,16 +52,63 @@
                     <div class="form-group">
                         <label for="desc">dataref description</label>
                         <input type="text" class="form-control" id="desc" placeholder="description" aria-describedby="descHelp" required>
-                        <small id="descHelp" class="form-text text-muted">Is important as Touch Portal choice</small>
+                        <small id="descHelp" class="form-text text-muted">Important term associated with choices in Touch Portal</small>
                     </div>
                     <div class="form-group">
-                        <label for="group">group</label>
-                        <input type="text" class="form-control" id="group" placeholder="description" aria-describedby="groupHelp" required>
+                        <label for="type">group</label>
+                        <select class="form-control" id="group" aria-describedby="groupHelp" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>APU</option>
+                            <option>ATC</option>
+                            <option>AutoPilot</option>
+                            <option>Avionics</option>
+                            <option>Brakes</option>
+                            <option>Camera</option>
+                            <option>CaptainPanel</option>
+                            <option>CenterPanel</option>
+                            <option>CircuitBreakers</option>
+                            <option>Communication</option>
+                            <option>ECAM</option>
+                            <option>EFCS</option>
+                            <option>Electrical</option>
+                            <option>Engine</option>
+                            <option>Environment</option>
+                            <option>Failures</option>
+                            <option>FireControls</option>
+                            <option>FirstOfficerPanel</option>
+                            <option>FlightControls</option>
+                            <option>FlightInstruments</option>
+                            <option>FlightSystems</option>
+                            <option>Fuel</option>
+                            <option>GlareShield</option>
+                            <option>HydraulicSystem</option>
+                            <option>Landing</option>
+                            <option>Lights</option>
+                            <option>MainInstrument</option>
+                            <option>Maintenance</option>
+                            <option>MCDU</option>
+                            <option>Miscellaneous</option>
+                            <option>Navigation</option>
+                            <option>Oil</option>
+                            <option>Other</option>
+                            <option>Overhead</option>
+                            <option>Pedestal</option>
+                            <option>Propeller</option>
+                            <option>Propulsion</option>
+                            <option>Pump</option>
+                            <option>Radar</option>
+                            <option>Radio</option>
+                            <option>SimSystem</option>
+                            <option>Throttle</option>
+                            <option>Turbine</option>
+                            <option>View</option>
+                        </select>
                         <small id="groupHelp" class="form-text text-muted">Is important into Touch Portal for grouping choices</small>
                     </div>
                     <div class="form-group">
-                        <label for="type">type</label>
+                        <label for="type">dataref type</label>
                         <select class="form-control" id="type" aria-describedby="typeHelp" required>
+                            <option selected disabled value="">Choose...</option>
                             <option>int</option>
                             <option>float</option>
                         </select>
@@ -69,18 +116,20 @@
                     </div>
                     <div class="form-group">
                         <label for="value">value</label>
-                        <input type="number" class="form-control" id="value" min="0" placeholder="0" aria-describedby="valueHelp" required>
+                        <input type="number" class="form-control" id="value" min="0" value="0" placeholder="0" aria-describedby="valueHelp" required>
                         <small id="valueHelp" class="form-text text-muted">Must be integer</small>
                     </div>
                     <div class="form-group">
-                        <label for="dataref">dataref</label>
+                        <label for="group">Dataref Name&nbsp;&nbsp;</label><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#demo">?</button>
+                        <div id="demo" class="collapse" style="background-color: lightgrey; padding: 5px;"><p>To find and explore datarefs and commands in X-Plane, use <a href="https://datareftool.com/" target="_blank">DaterefTool</a>. A dataref can uniquely identifies <span class="text-primary">one value</span><strong> OR </strong><span class="text-primary">an array of values</span>. Inside DatarefTool, when you click on a dataref, and press the "copy name" button, you save this dataref name into the clipboard. </p><p>For Example: <span class="text-primary">sim/aircraft/view/acf_author</span> represent <span class="text-primary">one value</span><strong> AND </strong><span class="text-primary">AirbusFBW/ADIRUSwitchArray[1]</span> represent <span class="text-primary">an array of values</span> and the value is at index 1 -><span class="text-primary">"[1]"</span>. </p>Knowing that <span class="text-primary">an array of values</span> always starts with index 0, index 1 represents the second value of this array. So, in this example, you have to add the string <span class="text-primary">"[1]"</span> after the dataref name. This is essential, because without the string "[1]", the "x-plane plugin for touch portal" will not be able to correctly use this variable.
+                    </div>
                         <input type="text" class="form-control" id="dataref" placeholder="description" aria-describedby="datarefHelp" required>
-                        <small id="datarefHelp" class="form-text text-muted">For example AirbusFBW/ADIRUSwitchArray[1] or AirbusFBW/EnableExternalPower</small>
+                        <small id="datarefHelp" class="form-text text-muted">For example AirbusFBW/ADIRUSwitchArray[1] or sim/aircraft/view/acf_author</small>
                     </div>
                     <div class="form-group">
                         <label for="group">comment</label>
                         <input type="text" class="form-control" id="comment" placeholder="0" aria-describedby="commentHelp" required>
-                        <small id="commentHelp" class="form-text text-muted">Use a comment to enumarate whats values this datarefs use</small>
+                        <small id="commentHelp" class="form-text text-muted">Use a comment to list the values used by this dataref</small>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" onclick="add_dataref()">add dataref</button>
@@ -93,7 +142,7 @@
                     <textarea class="form-control" style="overflow-y: scroll;height: 400px;" id="msg"></textarea>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" id="save" onclick="downloadFile()" disabled>save to dataref.json</button>
+                    <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>save to dataref.json</button>
                     <script>
                         const downloadFile = () => {
                             const link = document.createElement("a");
