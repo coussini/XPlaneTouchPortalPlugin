@@ -52,7 +52,6 @@
                 let dataref_with_index = document.getElementById('dataref').value
                 if (document.getElementById('index').value.length != 0)
                 {
-                    console.log(document.getElementById('index').value)
                     the_index = document.getElementById('index').value
                     op_brak = "["
                     cl_brak = "]"
@@ -76,7 +75,6 @@
                     group_array.push(gr);
                 }
                 document.forms[0].reset(); // to clear the form for the next entries
-                console.log(group_array)
                 //for display and editing purposes
                 let msg = document.querySelector('#msg');
                 msg.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
@@ -86,8 +84,8 @@
                 //for display and editing purposes
                 //saving to localStorage
                 localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
-                document.getElementById("save").disabled  = false;
                 document.getElementById("msg").disabled  = false;
+                document.getElementById("checkme").disabled  = false;
             }
         }
     </script>
@@ -226,8 +224,19 @@
                     <textarea class="form-control" id="msg" disabled></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>save to dataref.json</button>
+                    <input type="checkbox" id="checkme"  onclick="evaluate_checkbox()" disabled/>
+                    <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>check me before saving</button>
                     <script>
+                        const evaluate_checkbox = () => {
+                            if (document.getElementById('checkme').checked) {
+                                document.querySelector('#save').innerHTML = 'saving to dataref.json'
+                                document.getElementById('save').disabled = false;
+                            }
+                            else {
+                                document.querySelector('#save').innerHTML = 'check me before saving';
+                                document.getElementById('save').disabled = true;
+                            }
+                        };
                         const downloadFile = () => {
                             const link = document.createElement("a");
                             const begin = '{\n"datarefs": '
