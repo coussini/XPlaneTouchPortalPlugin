@@ -4,13 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
     <title>Creating Dataref JSON for Touch Portal X-Plane</title>
+    <style type="text/css">
+        :root {
+          --main-bg-color: pink;
+          --bs-primary: #0d6efd;
+          --bs-gray-dark: #343a40;
+        }        
+        .container-lg {
+            padding: 40px;
+        }
+        .collapse {
+            background-color: powderblue;
+            color: black; 
+            padding: 5px;
+        }
+        textarea.form-control#msg {
+            overflow-y: scroll;
+            height: 400px;
+        }
+        label {
+            font-weight: bold;
+            color: black;
+        }
+        body {
+            background-color: lightgrey;
+        }
+
+    </style>
     <script>
         let datarefs = [];
+        let group_array = [];
         let oneId = 'XPlanePlugin.';
         let firstTime = true;
         function add_dataref()
@@ -21,41 +49,75 @@
             }
             else 
             {
+                let dataref_with_index = document.getElementById('dataref').value
+                if (document.getElementById('index').value.length != 0)
+                {
+                    console.log(document.getElementById('index').value)
+                    the_index = document.getElementById('index').value
+                    op_brak = "["
+                    cl_brak = "]"
+                    dataref_with_index = dataref_with_index.concat(op_brak, the_index, cl_brak)
+                }
                 let objet_dataref = {
                     id: oneId.concat(document.getElementById('desc').value.replaceAll(' ','')),
                     desc: document.getElementById('desc').value,
                     group: document.getElementById('group').value,
                     type: document.getElementById('type').value,
                     value: document.getElementById('value').value,
-                    dataref: document.getElementById('dataref').value,
+                    dataref: dataref_with_index,
                     comment: document.getElementById('comment').value
                 }
                 // sauvegarder object datarefs
                 datarefs.push(objet_dataref);
+                // sauvegarder les groupes unique seulement
+                gr = document.getElementById('group').value
+                const elementExists = group_array.includes(gr);
+                if (!elementExists) {
+                    group_array.push(gr);
+                }
                 document.forms[0].reset(); // to clear the form for the next entries
-                //for display purposes only
-                //console.warn('added' , {datarefs} );
-                let pre = document.querySelector('#msg');
-                pre.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
+                console.log(group_array)
+                //for display and editing purposes
+                let msg = document.querySelector('#msg');
+                msg.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
+                //for display only
+                let gl = document.querySelector('#group-list');
+                gl.textContent = group_array;
+                //for display and editing purposes
                 //saving to localStorage
                 localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
                 document.getElementById("save").disabled  = false;
+                document.getElementById("msg").disabled  = false;
             }
         }
     </script>
 </head>
 <body>
-    <div class="container-lg" style="padding: 40px;">
+    <div class="container-lg">
         <div class="row">
             <div class="col-sm-6 mx-auto">
                 <form id="json-form" class="needs-validation" novalidate>
                     <div class="form-group">
-                        <label for="desc">dataref description</label>
-                        <input type="text" class="form-control" id="desc" placeholder="description" aria-describedby="descHelp" required>
+                        <div class="row">
+                            <div class="col-sm-10 mx-auto">
+                                <label for="desc">dataref description</label>
+                            </div>
+                            <div class="col-sm-2 mx-auto">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#collapse-id">Toggle here for info</button>
+                            </div>
+                        </div>
+                        <div id="collapse-id" class="collapse">
+                            <p>it's essential to give a clear and concise description. This description will be used in a list of choices and may be linked to a button in touch portal.</p>
+                            <p>For example, we'd like to create a touch portal button to turn on the external lights. We'll have to choose from a list, the dataref name that will be associated with this button. A good name for this example would be "external light".</p>
+                        </div>
+                        <input type="text" class="form-control" id="desc" placeholder="dataref description" aria-describedby="descHelp" required>
                         <small id="descHelp" class="form-text text-muted">Important term associated with choices in Touch Portal</small>
                     </div>
                     <div class="form-group">
                         <label for="type">group</label>
+                        <div id="collapse-id" class="collapse">
+                            <p>The group name is used to group datarefs under a category. <p>For example, if you create a touch portal button to turn for the external lights, a good name for this group could be "Lights".</p><p>If you use too many different groups in touch-portal, you may have trouble finding a dataref description. Limit yourself to just a few groups for your project.</p>
+                        </div>
                         <select class="form-control" id="group" aria-describedby="groupHelp" required>
                             <option selected disabled value="">Choose...</option>
                             <option>APU</option>
@@ -111,35 +173,57 @@
                             <option selected disabled value="">Choose...</option>
                             <option>int</option>
                             <option>float</option>
+                            <option>data</option>
                         </select>
                         <small id="typeHelp" class="form-text text-muted">Must be int or float</small>
                     </div>
                     <div class="form-group">
                         <label for="value">value</label>
-                        <input type="number" class="form-control" id="value" min="0" value="0" placeholder="0" aria-describedby="valueHelp" required>
+                        <input type="number" class="form-control" id="value" placeholder="put a value" aria-describedby="valueHelp" required>
                         <small id="valueHelp" class="form-text text-muted">Must be integer</small>
                     </div>
                     <div class="form-group">
-                        <label for="group">Dataref Name&nbsp;&nbsp;</label><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#demo">?</button>
-                        <div id="demo" class="collapse" style="background-color: lightgrey; padding: 5px;"><p>To find and explore datarefs and commands in X-Plane, use <a href="https://datareftool.com/" target="_blank">DaterefTool</a>. A dataref can uniquely identifies <span class="text-primary">one value</span><strong> OR </strong><span class="text-primary">an array of values</span>. Inside DatarefTool, when you click on a dataref, and press the "copy name" button, you save this dataref name into the clipboard. </p><p>For Example: <span class="text-primary">sim/aircraft/view/acf_author</span> represent <span class="text-primary">one value</span><strong> AND </strong><span class="text-primary">AirbusFBW/ADIRUSwitchArray[1]</span> represent <span class="text-primary">an array of values</span> and the value is at index 1 -><span class="text-primary">"[1]"</span>. </p>Knowing that <span class="text-primary">an array of values</span> always starts with index 0, index 1 represents the second value of this array. So, in this example, you have to add the string <span class="text-primary">"[1]"</span> after the dataref name. This is essential, because without the string "[1]", the "x-plane plugin for touch portal" will not be able to correctly use this variable.
-                    </div>
-                        <input type="text" class="form-control" id="dataref" placeholder="description" aria-describedby="datarefHelp" required>
-                        <small id="datarefHelp" class="form-text text-muted">For example AirbusFBW/ADIRUSwitchArray[1] or sim/aircraft/view/acf_author</small>
+                        <div class="row">
+                            <div class="col-sm-10 mx-auto">
+                                <label for="group">Dataref Name</label>
+                                <div id="collapse-id" class="collapse">
+                                    <p>To determine which datarefs to choose, use the <a href="https://datareftool.com/" target="_blank">DatarefTool</a>. Please note that some datarefs are used exclusively by certain aircraft.</p>
+                                    <p>Dataref types are either Int (integer), Float, Double, FloatArray (an array containing several data of type Float), IntArray (an array of type Int) or Data (containing one to many characters).</p>
+                                    <p>From DatarefTool, click once on a dataref from the list, then click on the "copy name" button. This will copy the name to the clipboard.</p>
+                                    <p>If you copy a FloatArray or IntArray dataref, don't forget to include its index number, otherwise it won't work in the plugin.</p>
+                                </div>
+                                <input type="text" class="form-control" id="dataref" placeholder="description" aria-describedby="datarefHelp" required>
+                            </div>
+                            <div class="col-sm-2 mx-auto">
+                                <label for="group">Index</label>
+                                <div id="collapse-id" class="collapse">
+                                    <p>The first index of an array is always 0, not 1.</p>
+                                </div>
+                                <input type="number" id= "index" min="0" class="form-control">
+                            </div>
+                        </div>
+                        <small id="datarefHelp" class="form-text text-muted">For example sim/aircraft/view/acf_author</small>
                     </div>
                     <div class="form-group">
                         <label for="group">comment</label>
-                        <input type="text" class="form-control" id="comment" placeholder="0" aria-describedby="commentHelp" required>
+                        <div id="collapse-id" class="collapse">
+                            <p>when there are results, you can check the results and edit the content. Pay particular attention to the syntax, which must be in JSON format.</p>
+                        </div>
+                        <input type="text" class="form-control" id="comment" placeholder="put a comment" aria-describedby="commentHelp" required>
                         <small id="commentHelp" class="form-text text-muted">Use a comment to list the values used by this dataref</small>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" onclick="add_dataref()">add dataref</button>
+                        <button class="btn btn-primary" onclick="add_dataref()">add dataref to result</button>
                     </div>
                 </form>
             </div>
             <div class="col-sm-6 mx-auto">
                 <div class="form-group">
                     <label for="dataref">result</label>
-                    <textarea class="form-control" style="overflow-y: scroll;height: 400px;" id="msg"></textarea>
+                    <div id="collapse-id" class="collapse">
+                        <p>when there are results, you can globalize its contents and save the result in a file. Pay particular attention to the syntax, which must be in JSON format..</p>
+                    </div>
+                    <textarea class="form-control" id="msg" disabled></textarea>
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>save to dataref.json</button>
@@ -159,6 +243,10 @@
                             document.getElementById('msg').value = ""; // to clear the texterea for the pass
                         };
                     </script>        
+                </div>
+                <div class="form-group">
+                    <label for="dataref">group list</label>
+                    <textarea class="form-control" id="group-list" disabled></textarea>
                 </div>
             </div>
         </div>
