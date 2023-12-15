@@ -87,7 +87,7 @@ function evaluate_checkbox()
   }
 }
 
-function downloadFile()
+function download_file()
 {
   let link = document.createElement("a");
   let begin = '{\n"datarefs": '
@@ -103,3 +103,13 @@ function downloadFile()
   document.getElementById('result-list').value = ""; // to clear the texterea for the pass
 }
 
+function paste_dataref()
+{
+    navigator.clipboard
+        .readText()
+        .then(
+            cliptext =>
+                (document.getElementById('dataref').value = cliptext),
+                err => console.log(err)
+        );
+}
