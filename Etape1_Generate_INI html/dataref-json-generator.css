@@ -1,0 +1,16 @@
+body {
+    background-color: lightgrey;
+    padding: 40px;
+}
+.card-body {
+    background-color: powderblue;
+    color: black; 
+}
+label {
+    font-weight: bold;
+    color: black;
+}
+textarea.form-control#msg {
+    overflow-y: scroll;
+    height: 400px;
+}

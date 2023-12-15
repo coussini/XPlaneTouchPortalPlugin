@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dataref-json-generator.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dataref-json-generator.js"></script>
+    <title>Dataref.json creator form for Touch-Portal and X-Plane</title>
+</head>
+<body onload="validate_form()">
+    <div class="">
+        <h1 class="display-5">Dataref.json generator</h1>
+        <div class="row">
+            <div class="col-5">
+                <form id="json-form" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="desc">dataref description</label>
+                        <a data-bs-toggle="collapse" href="#collapseDatarefDescription">
+                            Toogle me
+                        </a>          
+                        <div class="collapse" id="collapseDatarefDescription">
+                            <div class="card card-body">
+                                <p>it's essential to give a clear and concise description. This description will be used in a list of choices and may be linked to a button in touch portal.</p>
+                                <p>For example, we'd like to create a touch portal button to turn on the external lights. We'll have to choose from a list, the dataref name that will be associated with this button. A good name for this example would be "external light".</p>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="desc" placeholder="dataref description" aria-describedby="descHelp" required>
+                        <small id="descHelp" class="form-text text-muted">Important term associated with choices in Touch Portal</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">group</label>
+                        <a data-bs-toggle="collapse" href="#collapseGroup">
+                            Toogle me
+                        </a>          
+                        <div class="collapse" id="collapseGroup">
+                            <div class="card card-body">
+                                <p>The group name is used to group datarefs under a category.</p>
+                                <p>For example, if you create a touch portal button to turn for the external lights, a good name for this group could be "Lights".</p>
+                                <p>If you use too many different groups in touch-portal, you may have trouble finding a dataref description. Limit yourself to just a few groups for your project.</p>
+                            </div>
+                        </div>
+                        <select class="form-control" id="group" aria-describedby="groupHelp" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>APU</option>
+                            <option>ATC</option>
+                            <option>AutoPilot</option>
+                            <option>Avionics</option>
+                            <option>Brakes</option>
+                            <option>Camera</option>
+                            <option>CaptainPanel</option>
+                            <option>CenterPanel</option>
+                            <option>CircuitBreakers</option>
+                            <option>Communication</option>
+                            <option>ECAM</option>
+                            <option>EFCS</option>
+                            <option>Electrical</option>
+                            <option>Engine</option>
+                            <option>Environment</option>
+                            <option>Failures</option>
+                            <option>FireControls</option>
+                            <option>FirstOfficerPanel</option>
+                            <option>FlightControls</option>
+                            <option>FlightInstruments</option>
+                            <option>FlightSystems</option>
+                            <option>Fuel</option>
+                            <option>GlareShield</option>
+                            <option>HydraulicSystem</option>
+                            <option>Landing</option>
+                            <option>Lights</option>
+                            <option>MainInstrument</option>
+                            <option>Maintenance</option>
+                            <option>MCDU</option>
+                            <option>Miscellaneous</option>
+                            <option>Navigation</option>
+                            <option>Oil</option>
+                            <option>Other</option>
+                            <option>Overhead</option>
+                            <option>Pedestal</option>
+                            <option>Propeller</option>
+                            <option>Propulsion</option>
+                            <option>Pump</option>
+                            <option>Radar</option>
+                            <option>Radio</option>
+                            <option>SimSystem</option>
+                            <option>Throttle</option>
+                            <option>Turbine</option>
+                            <option>View</option>
+                        </select>
+                        <small id="groupHelp" class="form-text text-muted">Is important into Touch Portal for grouping choices</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">dataref type</label>
+                        <select class="form-control" id="type" aria-describedby="typeHelp" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>int</option>
+                            <option>float</option>
+                            <option>data</option>
+                        </select>
+                        <small id="typeHelp" class="form-text text-muted">Must be int or float</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="value">value</label>
+                        <input type="number" class="form-control" id="value" placeholder="put a value" aria-describedby="valueHelp" required>
+                        <small id="valueHelp" class="form-text text-muted">Must be integer</small>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-8 mx-auto">
+                                <label for="group">Dataref Name</label>
+                                <a data-bs-toggle="collapse" href="#collapseDatarefDatarefName">
+                                    Toogle me
+                                </a>          
+                                <div class="collapse" id="collapseDatarefDatarefName">
+                                    <div class="card card-body">
+                                        <p>To determine which datarefs to choose, use the <a href="https://datareftool.com/" target="_blank">DatarefTool</a>. Please note that some datarefs are used exclusively by certain aircraft.</p>
+                                        <p>Dataref types are either Int (integer), Float, Double, FloatArray (an array containing several data of type Float), IntArray (an array of type Int) or Data (containing one to many characters).</p>
+                                        <p>From DatarefTool, click once on a dataref from the list, then click on the "copy name" button. This will copy the name to the clipboard.</p>
+                                        <p>If you copy a FloatArray or IntArray dataref, don't forget to include its index number, otherwise it won't work in the plugin.</p>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="dataref" placeholder="description" aria-describedby="datarefHelp" required>
+                                <small id="datarefHelp" class="form-text text-muted">For example sim/aircraft/view/acf_author</small>
+                            </div>
+                            <div class="col-sm-4 mx-auto">
+                                <label for="group">Index</label>
+                                <a data-bs-toggle="collapse" href="#collapseIndex">
+                                    Toogle me
+                                </a>          
+                                <div class="collapse" id="collapseIndex">
+                                    <div class="card card-body">
+                                        <p>The first index of an array is always 0, not 1.</p>
+                                    </div>
+                                </div>
+                                <input type="number" id= "index" min="0" class="form-control" aria-describedby="indexHelp">
+                                <small id="indexHelp" class="form-text text-muted">Index start to 0</small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="group">comment</label>
+                        <a data-bs-toggle="collapse" href="#collapseComment">
+                            Toogle me
+                        </a>          
+                        <div class="collapse" id="collapseComment">
+                            <div class="card card-body">
+                                <p>Use the comment box to list each dataref value and its meaning.</p>
+                                <p>For example 0="open", 1="close". This comment will be entered in the json file, which will eventually be saved. When creating buttons in touch-portal, it will be useful to use this information.</p>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="comment" placeholder="put a comment" aria-describedby="commentHelp" required>
+                        <small id="commentHelp" class="form-text text-muted">Use a comment to list the values used by this dataref</small>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="add_dataref()">add dataref to result</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="desc">result</label>
+                    <a data-bs-toggle="collapse" href="#collapseResult">
+                        Toogle me
+                    </a>         
+                    <div class="collapse" id="collapseResult">
+                        <div class="card card-body">
+                            <p>when there are results, you can editing its contents and save the result in a file.</p>
+                            <p>Pay particular attention to the syntax, which must be in JSON format.</p>
+                        </div>
+                    </div>
+                    <textarea class="form-control" id="msg" disabled></textarea>
+                    <input type="checkbox" id="checkme"  onclick="evaluate_checkbox()" disabled/>
+                    <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>check me before saving</button>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="dataref">group list</label>
+                    <textarea class="form-control" id="group-list" aria-describedby="groupListHelp" disabled></textarea>
+                    <small id="groupListHelp" class="form-text text-muted">This is a list of your selected group. Limit yourself to just a few groups for your project.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
