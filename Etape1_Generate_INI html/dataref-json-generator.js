@@ -27,13 +27,12 @@ let group_array = [];
                 {
                     event.preventDefault();
                     let dataref = document.getElementById('dataref').value;
+                    let the_index = document.getElementById('index').value;
+                    let group = document.getElementById('group').value;
                     // If there's index entered, append it to the dataref name withing braket
                     if (document.getElementById('index').value.length != 0)
                     {
-                        const op_brak = "[";
-                        let the_index = document.getElementById('index').value;
-                        const cl_brak = "]";
-                        dataref = dataref.concat(op_brak, the_index, cl_brak);
+                        dataref = dataref.concat("[", the_index, "]");
                     }
                     let objet_dataref = 
                     {
@@ -49,13 +48,12 @@ let group_array = [];
                     // save the objet_dataref
                     datarefs.push(objet_dataref);
                     // keep unic group name only
-                    let group = document.getElementById('group').value;
                     let elementExists = group_array.includes(group);
                     if (!elementExists) 
                     {
                         group_array.push(group);
                     }
-                    // result: for displaying and editing purposes
+                    // result list: for displaying datarefs and editing purposes
                     let resultList = document.querySelector('#result-list');
                     resultList.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
                     // group list: for displaying only
@@ -67,9 +65,9 @@ let group_array = [];
                     document.getElementById("result-list").disabled  = false;
                     document.getElementById("checkme").disabled  = false;
                     //reseting the form
-                    document.forms[0].reset();    
+                    form.reset();    
                     //reseting the form validation
-                    document.forms[0].classList.remove("was-validated");
+                    form.classList.remove("was-validated");
                 }
             }, false);
         });
@@ -91,17 +89,17 @@ function evaluate_checkbox()
 
 function downloadFile()
 {
-  const link = document.createElement("a");
-  const begin = '{\n"datarefs": '
-  const middle = document.getElementById('resultList').value;
-  const end = '\n}';
-  const content = begin.concat(middle).concat(end); 
+  let link = document.createElement("a");
+  let begin = '{\n"datarefs": '
+  let middle = document.getElementById('result-list').value;
+  let end = '\n}';
+  let content = begin.concat(middle).concat(end); 
   console.log(JSON.stringify(content));
-  const file = new Blob([content], { type: 'text/plain' });
+  let file = new Blob([content], { type: 'text/plain' });
   link.href = URL.createObjectURL(file);
   link.download = "dataref.json";
   link.click();
   URL.revokeObjectURL(link.href);
-  document.getElementById('resultList').value = ""; // to clear the texterea for the pass
+  document.getElementById('result-list').value = ""; // to clear the texterea for the pass
 }
 
