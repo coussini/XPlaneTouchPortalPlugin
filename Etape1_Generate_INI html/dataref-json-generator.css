@@ -1,16 +1,20 @@
-body {
+body 
+{
     background-color: lightgrey;
     padding: 40px;
 }
-.card-body {
+.card-body 
+{
     background-color: powderblue;
     color: black; 
 }
-label {
+label 
+{
     font-weight: bold;
     color: black;
 }
-textarea.form-control#msg {
+textarea.form-control#result-list 
+{
     overflow-y: scroll;
     height: 400px;
 }

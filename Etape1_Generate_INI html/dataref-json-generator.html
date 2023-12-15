@@ -9,15 +9,32 @@
     <script src="dataref-json-generator.js"></script>
     <title>Dataref.json creator form for Touch-Portal and X-Plane</title>
 </head>
-<body onload="validate_form()">
+<body>
     <div class="">
         <h1 class="display-5">Dataref.json generator</h1>
+        <figure>
+          <blockquote class="blockquote">
+            <p>How it's working ?</p>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            (1) Please fill in the form fields informations, for each datarefs that you want to include in the resulting file
+          </figcaption>
+          <figcaption class="blockquote-footer">
+            (2) Press "add dataref to result" button to insert a dataref to the result box
+          </figcaption>
+          <figcaption class="blockquote-footer">
+            (3) You can edit the result box as you wish
+          </figcaption>
+          <figcaption class="blockquote-footer">
+            (3) At the end, use the check box near the "check me before saving" button, then press the "saving to dataref.json" button. 
+          </figcaption>
+        </figure>        
         <div class="row">
             <div class="col-5">
                 <form id="json-form" class="needs-validation" novalidate>
                     <div class="form-group">
                         <label for="desc">dataref description</label>
-                        <a data-bs-toggle="collapse" href="#collapseDatarefDescription">
+                        <a data-bs-toggle="collapse" href="#collapseDatarefDescription" aria-expanded="false" aria-controls="collapseDatarefDescription">
                             Toogle me
                         </a>          
                         <div class="collapse" id="collapseDatarefDescription">
@@ -31,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label for="desc">group</label>
-                        <a data-bs-toggle="collapse" href="#collapseGroup">
+                        <a data-bs-toggle="collapse" href="#collapseGroup" aria-expanded="false" aria-controls="collapseGroup">
                             Toogle me
                         </a>          
                         <div class="collapse" id="collapseGroup">
@@ -109,7 +126,7 @@
                         <div class="row">
                             <div class="col-sm-8 mx-auto">
                                 <label for="group">Dataref Name</label>
-                                <a data-bs-toggle="collapse" href="#collapseDatarefDatarefName">
+                                <a data-bs-toggle="collapse" href="#collapseDatarefDatarefName" aria-expanded="false" aria-controls="collapseDatarefDatarefName">
                                     Toogle me
                                 </a>          
                                 <div class="collapse" id="collapseDatarefDatarefName">
@@ -125,7 +142,7 @@
                             </div>
                             <div class="col-sm-4 mx-auto">
                                 <label for="group">Index</label>
-                                <a data-bs-toggle="collapse" href="#collapseIndex">
+                                <a data-bs-toggle="collapse" href="#collapseIndex" aria-expanded="false" aria-controls="collapseIndex">
                                     Toogle me
                                 </a>          
                                 <div class="collapse" id="collapseIndex">
@@ -141,7 +158,7 @@
                     </div>
                     <div class="form-group">
                         <label for="group">comment</label>
-                        <a data-bs-toggle="collapse" href="#collapseComment">
+                            <a data-bs-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
                             Toogle me
                         </a>          
                         <div class="collapse" id="collapseComment">
@@ -154,14 +171,14 @@
                         <small id="commentHelp" class="form-text text-muted">Use a comment to list the values used by this dataref</small>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" onclick="add_dataref()">add dataref to result</button>
+                        <button type="submit" class="btn btn-primary">add dataref to result</button>
                     </div>
                 </form>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     <label for="desc">result</label>
-                    <a data-bs-toggle="collapse" href="#collapseResult">
+                    <a data-bs-toggle="collapse" href="#collapseResult" aria-expanded="false" aria-controls="collapseResult">
                         Toogle me
                     </a>         
                     <div class="collapse" id="collapseResult">
@@ -170,7 +187,7 @@
                             <p>Pay particular attention to the syntax, which must be in JSON format.</p>
                         </div>
                     </div>
-                    <textarea class="form-control" id="msg" disabled></textarea>
+                    <textarea class="form-control" id="result-list" disabled></textarea>
                     <input type="checkbox" id="checkme"  onclick="evaluate_checkbox()" disabled/>
                     <button type="button" class="btn btn-primary" id="save" onclick="downloadFile()" disabled>check me before saving</button>
                 </div>

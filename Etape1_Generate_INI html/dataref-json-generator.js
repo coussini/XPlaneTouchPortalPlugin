@@ -1,72 +1,80 @@
+const oneId = 'XPlanePlugin.';
 let datarefs = [];
 let group_array = [];
-let oneId = 'XPlanePlugin.';
-let firstTime = true;
 
-function validate_form()
-{
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-}
-
-function add_dataref()
-{
-    var inpObj = document.getElementById("json-form");
-    if (inpObj.checkValidity() == false) {
-        return false;
-    }
-    else 
+/* function on load */
+/* validate form when the user press "add dataref to result" button */
+/* when everything validated, save that to result box */
+(function () {
+    'use strict';
+    window.addEventListener('load', function () 
     {
-        let dataref_with_index = document.getElementById('dataref').value;
-        if (document.getElementById('index').value.length != 0)
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        let formsThatNeedsValidation = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        let validation = Array.prototype.filter.call(formsThatNeedsValidation, function (form) 
         {
-            the_index = document.getElementById('index').value;
-            op_brak = "[";
-            cl_brak = "]";
-            dataref_with_index = dataref_with_index.concat(op_brak, the_index, cl_brak);
-        }
-        let objet_dataref = {
-            id: oneId.concat(document.getElementById('desc').value.replaceAll(' ','')),
-            desc: document.getElementById('desc').value,
-            group: document.getElementById('group').value,
-            type: document.getElementById('type').value,
-            value: document.getElementById('value').value,
-            dataref: dataref_with_index,
-            comment: document.getElementById('comment').value
-        };
-        // sauvegarder object datarefs
-        datarefs.push(objet_dataref);
-        // sauvegarder les groupes unique seulement
-        gr = document.getElementById('group').value;
-        const elementExists = group_array.includes(gr);
-        if (!elementExists) {
-            group_array.push(gr);
-        }
-        document.forms[0].reset(); // to clear the form for the next entries
-        //for display and editing purposes
-        let msg = document.querySelector('#msg');
-        msg.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
-        //for display only
-        let gl = document.querySelector('#group-list');
-        gl.textContent = group_array;
-        //for display and editing purposes
-        //saving to localStorage
-        localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
-        document.getElementById("msg").disabled  = false;
-        document.getElementById("checkme").disabled  = false;
-    }
-}
+            form.addEventListener('submit', function (event) 
+            {
+                if (form.checkValidity() === false) 
+                {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+                // If this form is valid, treat a dataref
+                if(form.checkValidity() === true)
+                {
+                    event.preventDefault();
+                    let dataref = document.getElementById('dataref').value;
+                    // If there's index entered, append it to the dataref name withing braket
+                    if (document.getElementById('index').value.length != 0)
+                    {
+                        const op_brak = "[";
+                        let the_index = document.getElementById('index').value;
+                        const cl_brak = "]";
+                        dataref = dataref.concat(op_brak, the_index, cl_brak);
+                    }
+                    let objet_dataref = 
+                    {
+                        id: oneId.concat(document.getElementById('desc').value.replaceAll(' ','')),
+                        desc: document.getElementById('desc').value,
+                        group: document.getElementById('group').value,
+                        type: document.getElementById('type').value,
+                        value: document.getElementById('value').value,
+                        dataref: dataref,
+                        comment: document.getElementById('comment').value
+                    };
+                    console.log(objet_dataref)
+                    // save the objet_dataref
+                    datarefs.push(objet_dataref);
+                    // keep unic group name only
+                    let group = document.getElementById('group').value;
+                    let elementExists = group_array.includes(group);
+                    if (!elementExists) 
+                    {
+                        group_array.push(group);
+                    }
+                    // result: for displaying and editing purposes
+                    let resultList = document.querySelector('#result-list');
+                    resultList.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
+                    // group list: for displaying only
+                    let groupList = document.querySelector('#group-list');
+                    groupList.textContent = group_array;
+                    // saving to localStorage
+                    localStorage.setItem('MyDatarefList', JSON.stringify(datarefs) );
+                    // enable check box button and result box
+                    document.getElementById("result-list").disabled  = false;
+                    document.getElementById("checkme").disabled  = false;
+                    //reseting the form
+                    document.forms[0].reset();    
+                    //reseting the form validation
+                    document.forms[0].classList.remove("was-validated");
+                }
+            }, false);
+        });
+    }, false);
+})();
 
 function evaluate_checkbox()
 {
@@ -74,7 +82,8 @@ function evaluate_checkbox()
       document.querySelector('#save').innerHTML = 'saving to dataref.json';
       document.getElementById('save').disabled = false;
   }
-  else {
+  else 
+  {
       document.querySelector('#save').innerHTML = 'check me before saving';
       document.getElementById('save').disabled = true;
   }
@@ -84,7 +93,7 @@ function downloadFile()
 {
   const link = document.createElement("a");
   const begin = '{\n"datarefs": '
-  const middle = document.getElementById('msg').value;
+  const middle = document.getElementById('resultList').value;
   const end = '\n}';
   const content = begin.concat(middle).concat(end); 
   console.log(JSON.stringify(content));
@@ -93,6 +102,6 @@ function downloadFile()
   link.download = "dataref.json";
   link.click();
   URL.revokeObjectURL(link.href);
-  document.getElementById('msg').value = ""; // to clear the texterea for the pass
+  document.getElementById('resultList').value = ""; // to clear the texterea for the pass
 }
 
