@@ -1,6 +1,6 @@
-const oneId = 'XPlanePlugin.';
+const oneId = 'XPlaneTouchPortalPlugin.';
 let datarefs = [];
-let group_array = [];
+let groups = [];
 
 /* function on load */
 /* validate form when the user press "add dataref to result" button */
@@ -42,16 +42,16 @@ let group_array = [];
                     // save the objet_dataref
                     datarefs.push(objet_dataref);
                     // keep unic group name only
-                    let elementExists = group_array.includes(group);
+                    let elementExists = groups.includes(group);
                     if (!elementExists) {
-                        group_array.push(group);
+                        groups.push(group);
                     }
                     // result list: for displaying datarefs and editing purposes
                     let resultList = document.querySelector('#result-list');
                     resultList.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
                     // group list: for displaying only
                     let groupList = document.querySelector('#group-list');
-                    groupList.textContent = group_array;
+                    groupList.textContent = groups;
                     // enable check box button and result box
                     document.getElementById("result-list").disabled = false;
                     document.getElementById("checkme").disabled = false;
@@ -65,48 +65,102 @@ let group_array = [];
     }, false);
 })();
 
-function evaluate_checkbox() {
-    if (document.getElementById('checkme').checked) {
+function evaluate_checkbox() 
+{
+    if (document.getElementById('checkme').checked) 
+    {
         document.querySelector('#save').innerHTML = 'saving to dataref.json';
         document.getElementById('save').disabled = false;
     }
-    else {
+    else 
+    {
         document.querySelector('#save').innerHTML = 'check me before saving';
         document.getElementById('save').disabled = true;
     }
 }
 
-function invalid_json() 
+function invalid_json(message) 
 {
-    document.getElementById("danger-alert").style.display = "block";
+    document.getElementById("alert-message").innerHTML = message;
+    const alert = document.getElementById("danger-alert");
+    alert.style.display = "block";
 }
 
-function download_file() {
+function close_alert_box() 
+{
+    document.getElementById("alert-message").innerHTML = "";
+    const alert = document.getElementById("danger-alert");
+    alert.style.display = "none";
+}
+
+function download_file()
+{
+    console.log("downloading process");
     let link = document.createElement("a");
     let begin = '{\n"datarefs": '
     let middle = document.getElementById('result-list').value;
-    let isJsonValid = true;
-    try {
-        jsonObject = JSON.parse(middle);
+    let [valid, error_message] = isJSON(middle);
+    if (valid)
+    {
+        console.log("JSON is valid");
+        /* verify if the dataref patern is ok */
+        let object_json = JSON.parse(middle);
+        let dataref = object_json[0].dataref;
+        let result = dataref.match(/(^([a-zA-Z0-9 _\/]+)\[[0-9]+]$)|(^([a-zA-Z0-9 _\/]+)$)/);
+        /* does not match with the pattern */
+        if (result == null)
+        {
+            console.log("bad dataref");
+            valid = false;
+            error_message = "bad dataref value: "+dataref;         
+            console.log(error_message);
+            invalid_json(error_message);
+        }
     }
-    catch (e) {
-        let isJsonValid = false
-        invalid_json();
-    }
-    console.log(invalid_json);
-    if (isJsonValid) {
+    if (valid)
+    {
         let end = '\n}';
         let content = begin.concat(middle).concat(end);
         let file = new Blob([content], { type: 'text/plain' });
         link.href = URL.createObjectURL(file);
         link.download = "dataref.json";
-        link.click();
+        link.click(); /* downloading the dataref.json */
         URL.revokeObjectURL(link.href);
-        document.getElementById('result-list').value = ""; // to clear the texterea for the pass
+        /* clearing fields and data */
+        datarefs = []; /* clear the contents of dataref array */
+        groups = []; /* clear the contents of group array */
+        document.getElementById('result-list').innerHTML = ""
+        document.getElementById('group-list').innerHTML = ""; // clear the group texterea
+        /* reseting the form for another entries */ 
+        close_alert_box();
+        document.getElementById("checkme").checked = false;
+        evaluate_checkbox();
+        document.getElementById("result-list").disabled = true;
+    }
+    else
+    {
+        console.log("JSON is invalid");
+        invalid_json(error_message);
     }
 }
+function isJSON(json_str) 
+{
+    let error_message = "???";
+    let valid = true;
+    try 
+    {
+        JSON.stringify(JSON.parse(json_str));
+    } 
+    catch (e) 
+    {
+        error_message = e.message
+        valid = false;
+    }
+    return [valid,error_message];
+}
 
-function paste_dataref() {
+function paste_dataref() 
+{
     navigator.clipboard
         .readText()
         .then(
