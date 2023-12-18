@@ -18,9 +18,3 @@ textarea.form-control#result-list
     overflow-y: scroll;
     height: 400px;
 }
-.collapsing 
-{
-    -webkit-transition: none;
-    transition: none;
-    display: none;
-}
