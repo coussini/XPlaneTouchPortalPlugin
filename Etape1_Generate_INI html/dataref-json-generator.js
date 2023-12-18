@@ -7,60 +7,75 @@ let groups = [];
 /* when everything validated, save that to result box */
 (function () {
     'use strict';
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function () 
+    {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         let formsThatNeedsValidation = document.getElementsByClassName('needs-validation');
         // Loop over them and prevent submission
-        let validation = Array.prototype.filter.call(formsThatNeedsValidation, function (form) {
-            form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-                // If this form is valid, treat a dataref
-                if (form.checkValidity() === true) {
-                    event.preventDefault();
-                    let dataref = document.getElementById('dataref').value;
-                    let the_index = document.getElementById('index').value;
-                    let group = document.getElementById('group').value;
-                    // If there's index entered, append it to the dataref name withing braket
-                    if (document.getElementById('index').value.length != 0) {
-                        dataref = dataref.concat("[", the_index, "]");
-                    }
-                    let objet_dataref =
+        let validation = Array.prototype.filter.call(formsThatNeedsValidation, function (form) 
+        {
+            try
+            {
+                form.addEventListener('submit', function (event) 
+                {
+                    if (form.checkValidity() === false) 
                     {
-                        id: oneId.concat(document.getElementById('desc').value.replaceAll(' ', '')),
-                        desc: document.getElementById('desc').value,
-                        group: document.getElementById('group').value,
-                        type: document.getElementById('type').value,
-                        value: document.getElementById('value').value,
-                        dataref: dataref,
-                        comment: document.getElementById('comment').value
-                    };
-                    console.log(objet_dataref)
-                    // save the objet_dataref
-                    datarefs.push(objet_dataref);
-                    // keep unic group name only
-                    let elementExists = groups.includes(group);
-                    if (!elementExists) {
-                        groups.push(group);
+                        event.preventDefault();
+                        event.stopPropagation();
                     }
-                    // result list: for displaying datarefs and editing purposes
-                    let resultList = document.querySelector('#result-list');
-                    resultList.textContent = '\n' + JSON.stringify(datarefs, '\t', 2);
-                    // group list: for displaying only
-                    let groupList = document.querySelector('#group-list');
-                    groupList.textContent = groups;
-                    // enable check box button and result box
-                    document.getElementById("result-list").disabled = false;
-                    document.getElementById("checkme").disabled = false;
-                    //reseting the form
-                    form.reset();
-                    //reseting the form validation
-                    form.classList.remove("was-validated");
-                }
-            }, false);
+                    form.classList.add('was-validated');
+                    // If this form is valid, treat a dataref
+                    if (form.checkValidity() === true) 
+                    {
+                        event.preventDefault();
+                        let dataref = document.getElementById('dataref').value;
+                        let the_index = document.getElementById('index').value;
+                        let group = document.getElementById('group').value;
+                        // If there's index entered, append it to the dataref name withing braket
+                        if (document.getElementById('index').value.length != 0) 
+                        {
+                            dataref = dataref.concat('[', the_index, ']');
+                        }
+                        let objet_dataref =
+                        {
+                            id: oneId.concat(document.getElementById('desc').value.replaceAll(' ', '')),
+                            desc: document.getElementById('desc').value,
+                            group: document.getElementById('group').value,
+                            type: document.getElementById('type').value,
+                            value: document.getElementById('value').value,
+                            dataref: dataref,
+                            comment: document.getElementById('comment').value
+                        };
+                        console.log('objet_dataref = ');
+                        console.log(objet_dataref);
+                        // save the objet_dataref
+                        datarefs.push(objet_dataref);
+                        // keep unic group name only
+                        let elementExists = groups.includes(group);
+                        if (!elementExists) 
+                        {
+                            groups.push(group);
+                        }
+                        // result list: for displaying datarefs and editing purposes
+                        let resultList = document.querySelector('#result-list');
+                        resultList.value = '\n' + JSON.stringify(datarefs, '\t', 2);
+                        // group list: for displaying only
+                        let groupList = document.querySelector('#group-list');
+                        groupList.value = groups;
+                        // enable check box button and result box
+                        document.getElementById('result-list').disabled = false;
+                        document.getElementById('checkme').disabled = false;
+                        //reseting the form
+                        form.reset();
+                        //reseting the form validation
+                        form.classList.remove('was-validated');
+                    }
+                }, false);
+            }
+            catch(error)
+            {
+                alert('catch an error: ' + error.message);
+            }
         });
     }, false);
 })();
@@ -81,86 +96,125 @@ function evaluate_checkbox()
 
 function invalid_json(message) 
 {
-    document.getElementById("alert-message").innerHTML = message;
-    const alert = document.getElementById("danger-alert");
-    alert.style.display = "block";
+    document.getElementById('alert-message').innerHTML = message;
+    const alert = document.getElementById('danger-alert');
+    alert.style.display = 'block';
 }
 
 function close_alert_box() 
 {
-    document.getElementById("alert-message").innerHTML = "";
-    const alert = document.getElementById("danger-alert");
-    alert.style.display = "none";
+    document.getElementById('alert-message').innerHTML = '';
+    const alert = document.getElementById('danger-alert');
+    alert.style.display = 'none';
 }
 
-function download_file()
+function download_file() 
 {
-    console.log("downloading process");
-    let link = document.createElement("a");
-    let begin = '{\n"datarefs": '
-    let middle = document.getElementById('result-list').value;
-    let [valid, error_message] = isJSON(middle);
-    if (valid)
+    console.log('downloading process');
+    try
     {
-        console.log("JSON is valid");
-        /* verify if the dataref patern is ok */
-        let object_json = JSON.parse(middle);
-        let dataref = object_json[0].dataref;
-        let result = dataref.match(/(^([a-zA-Z0-9 _\/]+)\[[0-9]+]$)|(^([a-zA-Z0-9 _\/]+)$)/);
-        /* does not match with the pattern */
-        if (result == null)
+        var inputs = document.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) 
         {
-            console.log("bad dataref");
-            valid = false;
-            error_message = "bad dataref value: "+dataref;         
-            console.log(error_message);
+            inputs[i].disabled = true;
+        }
+        var inputs = document.getElementsByTagName('select');
+        for (var i = 0; i < inputs.length; i++) 
+        {
+            inputs[i].disabled = true;
+        }
+        document.getElementById('paste').disabled = true;
+        document.getElementById('add-dataref').disabled = true;
+        let link = document.createElement('a');
+        let begin = '{\n"datarefs": '
+        let middle = document.getElementById('result-list').value;
+        let [valid, error_message] = isJSON(middle);
+        if (valid) 
+        {
+            console.log('JSON is valid');
+            /* verify if the dataref patern is ok */
+            let object_json = JSON.parse(middle);
+            console.log('middle = :' + middle)
+            for (let key in object_json)
+            {
+                let dataref = object_json[key].dataref;
+                console.log('evaluate REGEX dataref: ' + dataref);
+                let result = dataref.match(/(^([a-zA-Z0-9 _\/]+)\[[0-9]+]$)|(^([a-zA-Z0-9 _\/]+)$)/);
+                console.log('result REGEX dataref: ' + result);
+                /* does not match with the pattern */
+                if (result == null) 
+                {
+                    console.log('bad dataref');
+                    valid = false;
+                    error_message = 'bad dataref value: ' + dataref;
+                    console.log(error_message);
+                    invalid_json(error_message);
+                    break;
+                }
+            }
+        }
+        if (valid) 
+        {
+            let end = '\n}';
+            let content = begin.concat(middle).concat(end);
+            let file = new Blob([content], { type: 'text/plain' });
+            link.href = URL.createObjectURL(file);
+            link.download = 'dataref.json';
+            link.click(); /* downloading the dataref.json */
+            URL.revokeObjectURL(link.href);
+            /* clearing fields and data */
+            datarefs = []; /* clear the contents of dataref array */
+            groups = []; /* clear the contents of group array */
+            document.getElementById('result-list').value = '';
+            document.getElementById('group-list').value = ''; // clear the group texterea
+            /* reseting the form for another entries */
+            close_alert_box();
+            document.getElementById('checkme').checked = false;
+            document.querySelector('#save').innerHTML = 'check me before saving';
+            document.getElementById('save').disabled = true;
+            document.getElementById('result-list').disabled = true;
+            var inputs = document.getElementsByTagName('input');
+            for (var i = 0; i < inputs.length; i++) 
+            {
+                // do not enable the checkbox after saving file
+                if (inputs[i].id != 'checkme')
+                {
+                    inputs[i].disabled = false;
+                }
+            }
+            var inputs = document.getElementsByTagName('select');
+            for (var i = 0; i < inputs.length; i++) 
+            {
+                inputs[i].disabled = false;
+            }
+            document.getElementById('paste').disabled = false;
+            document.getElementById('add-dataref').disabled = false;
+        }
+        else 
+        {
+            console.log('JSON is invalid');
             invalid_json(error_message);
         }
     }
-    if (valid)
+    catch(error)
     {
-        let end = '\n}';
-        let content = begin.concat(middle).concat(end);
-        let file = new Blob([content], { type: 'text/plain' });
-        link.href = URL.createObjectURL(file);
-        link.download = "dataref.json";
-        link.click(); /* downloading the dataref.json */
-        URL.revokeObjectURL(link.href);
-        /* clearing fields and data */
-        datarefs = []; /* clear the contents of dataref array */
-        groups = []; /* clear the contents of group array */
-        document.getElementById('result-list').innerHTML = ""
-        document.getElementById('group-list').innerHTML = ""; // clear the group texterea
-        /* reseting the form for another entries */ 
-        close_alert_box();
-        document.getElementById("checkme").checked = false;
-        evaluate_checkbox();
-        document.getElementById("result-list").disabled = true;
-    }
-    else
-    {
-        console.log("JSON is invalid");
-        invalid_json(error_message);
+        alert('catch an error: ' + error.message);
     }
 }
-function isJSON(json_str) 
-{
-    let error_message = "???";
+function isJSON(json_str) {
+    let error_message = '???';
     let valid = true;
-    try 
-    {
+    try {
         JSON.stringify(JSON.parse(json_str));
-    } 
-    catch (e) 
-    {
-        error_message = e.message
+    }
+    catch (e) {
+        error_message = e.message;
         valid = false;
     }
-    return [valid,error_message];
+    return [valid, error_message];
 }
 
-function paste_dataref() 
-{
+function paste_dataref() {
     navigator.clipboard
         .readText()
         .then(

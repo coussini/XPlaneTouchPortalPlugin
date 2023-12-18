@@ -35,10 +35,10 @@
         </figure>
         <div class="row">
             <div class="col-5">
-                <form id="json-form" class="needs-validation" novalidate>
+                <form id="left-form" class="needs-validation" novalidate>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-8 mx-auto">
+                            <div class="col-8">
                                 <label for="group">Dataref Name</label>
                                 <a data-bs-toggle="collapse" href="#collapseDatarefDatarefName" aria-expanded="false"
                                     aria-controls="collapseDatarefDatarefName">
@@ -46,9 +46,9 @@
                                 </a>
                                 <div class="collapse" id="collapseDatarefDatarefName">
                                     <div class="card card-body">
-                                        <p>To determine which datarefs to choose, use the <a
-                                                href="https://datareftool.com/" target="_blank">DatarefTool</a>. Please
-                                            note that some datarefs are used exclusively by certain aircraft.</p>
+                                        <p>To determine which datarefs to choose, use the 
+                                            <a href="https://datareftool.com/" target="_blank">DatarefTool</a>. 
+                                            Please note that some datarefs are used exclusively by certain aircraft.</p>
                                         <p>Dataref types are either Int (integer), Float, Double, FloatArray (an array
                                             containing several data of type Float), IntArray (an array of type Int) or
                                             Data (containing one to many characters).</p>
@@ -58,9 +58,9 @@
                                             index number, otherwise it won't work in the plugin.</p>
                                     </div>
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button class="btn btn-outline-primary" type="button"
+                                        <button id="paste" class="btn btn-outline-primary" type="button"
                                             onclick="paste_dataref()">Paste</button>
                                     </div>
                                     <input type="text" class="form-control" id="dataref" placeholder="dataref name"
@@ -69,7 +69,7 @@
                                 <small id="datarefHelp" class="form-text text-muted">For example
                                     sim/aircraft/view/acf_author</small>
                             </div>
-                            <div class="col-sm-4 mx-auto">
+                            <div class="col-4">
                                 <label for="group">Index</label>
                                 <a data-bs-toggle="collapse" href="#collapseIndex" aria-expanded="false"
                                     aria-controls="collapseIndex">
@@ -207,7 +207,7 @@
                             this dataref</small>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">add dataref to result</button>
+                        <button type="submit" id="add-dataref" class="btn btn-primary">add dataref to result</button>
                     </div>
                 </form>
             </div>
@@ -228,8 +228,11 @@
                             <p>Pay particular attention to the syntax, which must be in JSON format.</p>
                         </div>
                     </div>
-                    <textarea class="form-control" id="result-list" disabled></textarea>
-                    <input type="checkbox" id="checkme" onclick="evaluate_checkbox()" disabled />
+                    <textarea class="form-control" id="result-list" aria-describedby="resultListHelp" disabled></textarea>
+                    <small id="resultListHelp" class="form-text text-muted">Pay particular attention to the syntax, which must be in JSON format.</small>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="checkme" onclick="evaluate_checkbox()" disabled="disabled" />
                     <button type="button" class="btn btn-primary" id="save" onclick="download_file()" disabled>check me
                         before saving</button>
                 </div>
