@@ -1,5 +1,29 @@
+/*
+    ======================================
+    javascript for datarefs json generator
+    ======================================
+
+    This file is part of the XPlaneTouchPortal plugin project.
+    Copyright (c) XPlaneTouchPortal plugin Developers/Contributors
+    Copyright (C) 2023 Coussini
+    All rights reserved.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 const oneId = 'XPlaneTouchPortalPlugin.';
-const resultFile = 'dataref.json';
+const resultFile = 'datarefs.json';
 // arrays
 let datarefs = [];
 let groups = [];
@@ -54,9 +78,9 @@ let groups = [];
     }, false);
 })();
 
-// performing download_file function when the user press "saving to dataref.json" button
+// performing download_file function when the user press "saving to datarefs.json" button
 // validate the result textarea (for JSON syntax and dataref value format)
-// when everything validated, downloading result to 'dataref.json' file
+// when everything validated, downloading result to 'datarefs.json' file
 function download_file() 
 {
     try
@@ -195,17 +219,17 @@ function downloading_result()
     let link = document.createElement('a');
     link.href = URL.createObjectURL(file);
     link.download = resultFile;
-    // downloading the dataref.json
+    // downloading the datarefs.json
     link.click(); 
     URL.revokeObjectURL(link.href);
 }
 
-// toogle button 'saving to dataref.json' vs 'check me before saving' 
+// toogle button 'saving to datarefs.json' vs 'check me before saving' 
 function evaluate_checkbox() 
 {
     if (document.getElementById('checkme').checked) 
     {
-        document.querySelector('#save').innerHTML = 'saving to dataref.json';
+        document.querySelector('#save').innerHTML = 'saving to datarefs.json';
         document.getElementById('save').disabled = false;
     }
     else 
