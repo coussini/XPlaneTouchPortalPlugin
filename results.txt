@@ -1,0 +1,10 @@
+TouchPortalSide\EnCours\version qui marche avec UDP\xplane_touch_portal_client.py:from argparse import ArgumentParser
+TouchPortalSide\EnCours\xplane_touch_portal_client.py:from argparse import ArgumentParser
+TouchPortalSide\ESSENTIEL\Backup\xplane_touch_portal_client.py:from argparse import ArgumentParser
+TouchPortalSide\ESSENTIEL\Compile\xplane_touch_portal_client.py:import argparse # argparse.ArgumentParser
+TouchPortalSide\ESSENTIEL\Compile\xplane_touch_portal_clientBK.py:from argparse import ArgumentParser
+TouchPortalSide\ESSENTIEL\_Testing\_TestingUDPServerClientForXplane\xplane_touch_portal_client.py:from argparse import ArgumentParser
+TouchPortalSide\old_xplane_touch_portal_client.py:from argparse import ArgumentParser
+TouchPortalSide\unitest.py:from argparse import ArgumentParser
+TouchPortalSide\xplane_touch_portal_client - Copie.py:from argparse import ArgumentParser
+TouchPortalSide\xplane_touch_portal_client.py:from argparse import ArgumentParser

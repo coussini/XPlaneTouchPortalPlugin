@@ -1,0 +1,65 @@
+{
+  "sdk": 4,
+  "version": 100,
+  "name": "xplane touch portal client",
+  "id": "xplane_touch_portal_client",
+  "configuration": {
+    "colorDark": "#212121",
+    "colorLight": "#0090ff",
+    "parentCategory" : "game"    
+  },
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.exe @xplane_touch_portal_client-conf.txt",
+  "categories": [
+    {
+      "id": "xplane_touch_portal_client.dataref",
+      "name": "xplane dataref",
+      "imagepath": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.png",      
+      "actions": [
+        {
+          "id": "xplane_touch_portal_client.dataref.toggle_two_states",
+          "name": "This toggle between 2 values",
+          "prefix": "xplane",
+          "type": "communicate",
+          "tryInline": true,
+          "hasHoldFunctionality": false,
+          "description": "",
+          "format": "Toggle the dataref {$xplane_touch_portal_client.dataref.toggle_two_states.choice$} (2 values)",
+          "data": [
+            {
+              "id": "xplane_touch_portal_client.dataref.toggle_two_states.choice",
+              "type": "choice",
+              "label": "dataref Name",
+              "default": "Ext power",
+              "valueChoices": []
+            }
+          ]
+        },
+        {
+          "id": "xplane_touch_portal_client.dataref.set_two_states",
+          "name": "Xplane dataref - Set Variable Value",
+          "prefix": "XPlane",
+          "type": "communicate",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "description": "",
+          "format": "Xplane dataref - Set Variable Named:{$xplane_touch_portal_client.dataref.set_two_states.name$} to value:{$xplane_touch_portal_client.dataref.set_two_states.value$}",
+          "data": [
+            {
+              "id": "xplane_touch_portal_client.dataref.set_two_states.name",
+              "type": "choice",
+              "label": "dataref name",
+              "default": "Ext power",
+              "valueChoices": []
+            },
+            {
+              "id": "xplane_touch_portal_client.dataref.set_two_states.value",
+              "type": "text",
+              "label": "value",
+              "default": "0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
