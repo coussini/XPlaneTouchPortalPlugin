@@ -8,7 +8,7 @@
     "colorLight": "#0090ff",
     "parentCategory" : "game"    
   },
-  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.exe @xplane_touch_portal_client-conf.txt",
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%xplane_touch_portal_client/xplane_touch_portal_client.exe @xplane_touch_portal_client_conf.txt",
   "categories": [
     {
       "id": "xplane_touch_portal_client.dataref",
