@@ -43,10 +43,6 @@ class XPlanePlugin:
         # keep states from json file
         self.states = None
 
-        # instance on touch portal and xplane class
-        self.client_TP = TouchPortal()
-        self.client_XP = XPlane()
-
     def validate_keys_from_json_file(self, states):
         
         successful = True
@@ -117,12 +113,9 @@ class TouchPortal:
         self.on_action = TP_API.TYPES.onAction
         self.on_close_plugin = TP_API.TYPES.onShutdown
 
-    def treat_touch_portal_client(self, xplane_plugin):
+    def treat_touch_portal_client(self, states, client_XP):
 
         successful = False
-
-        # Create client_XP instance.
-        client_XP = xplane_plugin.client_XP
 
         # Create an object concerning Touch Portal client
         client_TP = self.tp_api
@@ -142,7 +135,7 @@ class TouchPortal:
             __logger__.info(f'=================')
             __logger__.info(f'{data}')
             list_choices = []
-            for x in xplane_plugin.states['datarefs']:
+            for x in states['datarefs']:
                 descrition = x['group'] + ' - ' + x['desc']
                 client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
                 list_choices.append(x['desc'])
@@ -311,17 +304,20 @@ class XPlane:
 
 def main():
     
-    # Create a mega instance that concern the XPlane Plugin.
+    # Create a XPlane Plugin instance.
     xplane_plugin = XPlanePlugin()
 
-    # Create client_TP instance and Configure the logging based on command line arguments.
-    client_TP = xplane_plugin.client_TP
+    # Create a Touch Portal instance.
+    client_TP = TouchPortal()
+
+    # Create a XPlane instance.
+    client_XP = XPlane()
 
     # extract all datarefs from the JSON file.
     successful, xplane_plugin.states = xplane_plugin.get_dataref_values_from_json_file()
 
     if successful:
-        successful = client_TP.treat_touch_portal_client(xplane_plugin)
+        successful = client_TP.treat_touch_portal_client(xplane_plugin.states, client_XP)
 
     __logger__.info(f'Return code = {successful}')
     sys.exit(successful)
