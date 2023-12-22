@@ -92,7 +92,7 @@ class ClientXP:
                 server_socket.sendall(next_msg)
 
     def managing_received_data(self, ingoing_data):
-        print(f'PREPARING DATA FOR UPDATING TOUCH PORTAL WITH:')
+        print(f'PREPARING DATA FOR UPDATING TOUYCH PORTAL ingoing_data = {ingoing_data}')
         print(f'ingoing_data = {ingoing_data}')
         pass 
 

@@ -22,8 +22,12 @@ __is_macos__ = True if (platform.system() == 'Darwin') else False
 # Create the (optional) global __logger__, an instance of `TouchPortalAPI::Logger` helper class.
 try:
     __logger__ = TP_API_LOG.Logger(name = __plugin_id__)
-except Exception as e:
-    sys.exit(f'Could not create a Touch Portal log file. Error was:\n{repr(e)}')
+except Exception as err:
+    sys.exit(f'Could not create a Touch Portal log file. Error was:\n{repr(err)}')
+
+# define an exception for the XPlane Plugin
+class XPlanePluginException(Exception):
+    pass
 
 class XPlanePlugin:
     
@@ -31,7 +35,7 @@ class XPlanePlugin:
 
         self.version = '1.0'
         self.json_file = 'datarefs.json'
-        self.json_keys_first_level = 'datarefs'
+        self.json_keys_first_level = ['datarefs']
         self.json_keys = ['id', 'desc', 'group', 'type', 'value', 'dataref', 'comment']
 
         if __is_windows__: self.touch_portal_data_folder = os.getenv('APPDATA') + '\\TouchPortal\\plugins\\';
@@ -43,9 +47,8 @@ class XPlanePlugin:
         # keep states from json file
         self.states = None
 
-        # instance on touch portal and xplane class
+        # Create client_TP instance.
         self.client_TP = TouchPortal()
-        self.client_XP = XPlane()
 
     def validate_keys_from_json_file(self, states):
         
@@ -53,17 +56,13 @@ class XPlanePlugin:
 
         self.json_keys.sort()
 
-        if not self.json_keys_first_level in states:
-            __logger__.error(f'json first level key must be {self.json_keys_first_level}')
-            successful = False
-        else:
-            for x in states['datarefs']:
-                keys = list(x.keys())
-                keys.sort()
-                if keys != self.json_keys:
-                    __logger__.error(f'json file keys must be {self.json_keys} and not {keys}')
-                    successful = False
-                    break
+        for x in states['datarefs']:
+            keys = list(x.keys())
+            keys.sort()
+            if keys != self.json_keys:
+                __logger__.error(f'json file keys must be {self.json_keys} and not {keys}')
+                successful = False
+                break
 
         return successful
 
@@ -79,18 +78,21 @@ class XPlanePlugin:
             states = json.load(file)
             file.close()
             __logger__.info(f'Datarefs successfully loaded from {self.json_file} !')
-            successful = self.validate_keys_from_json_file(states)
-        except FileNotFoundError:
+        except FileNotFoundError as err:
             __logger__.error(f'File {self.json_file} does not exist')
         except ValueError as err:
+            stack = traceback.extract_stack()
+            filename, line, procname, text = stack[-1]
             __logger__.error(f'Invalid JSON syntax in {self.json_file}')
             __logger__.error(f'{err}')
         except Exception as err:
             from traceback import format_exc
             __logger__.error(f'str({err})')
-        finally:
-            if successful:
-                __logger__.info(f'The json file: {self.json_file_location} is valid !')
+        else:
+            successful = self.validate_keys_from_json_file(states)
+
+        if successful:
+            __logger__.info(f'The json file: {self.json_file_location} is valid !')
 
         return successful, states
         
@@ -117,89 +119,6 @@ class TouchPortal:
         self.on_action = TP_API.TYPES.onAction
         self.on_close_plugin = TP_API.TYPES.onShutdown
 
-    def treat_touch_portal_client(self, xplane_plugin):
-
-        successful = False
-
-        # Create client_XP instance.
-        client_XP = xplane_plugin.client_XP
-
-        # Create an object concerning Touch Portal client
-        client_TP = self.tp_api
-
-        # Create some objects concerning Touch Portal API events
-        on_info = self.on_info
-        on_action = self.on_action
-        on_close_plugin = self.on_close_plugin
-
-        # This event handler will run once when the client connects to Touch Portal
-        @client_TP.on(on_info) 
-        def onStart(data):
-
-            __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
-            __logger__.info(f'=================')
-            __logger__.info(f'SECTION on_info')
-            __logger__.info(f'=================')
-            __logger__.info(f'{data}')
-            list_choices = []
-            for x in xplane_plugin.states['datarefs']:
-                descrition = x['group'] + ' - ' + x['desc']
-                client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
-                list_choices.append(x['desc'])
-            list_choices.sort() # sort options for ease of use
-            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',list_choices) # update action option at runtime
-            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',list_choices) # update action option at runtime
-            __logger__.info(f'Touch Portal Choices of States Id have been updated !')
-            
-            # start a thread to treat xplane client. The thread will finish when the Touch Portal Server are close
-            client_XP.keep_running.set()
-            client_XP.treat_xplane_client()
-
-        # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
-        @client_TP.on(on_action) 
-        def onAction(data):
-
-            __logger__.info(f'=================')
-            __logger__.info(f'SECTION on_action')
-            __logger__.info(f'=================')
-            __logger__.info(f'{data}')
-
-        # Shutdown handler, called when Touch Portal wants to stop your plugin.
-        @client_TP.on(on_close_plugin) 
-        def onShutdown(data):
-
-            __logger__.info(f'=======================')
-            __logger__.info(f'SECTION on_close_plugin')
-            __logger__.info(f'=======================')
-            __logger__.info(f'{data}')
-            client_TP.disconnect()
-
-        __logger__.info(f'Trying to connect to Touch Portal Apps')
-        
-        try:
-            client_TP.connect()
-        except KeyboardInterrupt:
-            __logger__.warning('Caught keyboard interrupt, exiting.')
-        except ConnectionRefusedError:
-            __logger__.error(f'Cannot connect to Touch Portal, probably it is not running')
-        except Exception:
-            # This will catch and report any critical exceptions in the base client_TP code,
-            # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
-            from traceback import format_exc
-            __logger__.error(f'Exception in TP Client:\n{format_exc()}')
-            client_XP.keep_running.clear()
-        else:
-            __logger__.info(f'TP Client Disconnected')
-            successful = True
-        finally:
-            client_XP.keep_running.clear()
-            client_TP.disconnect()
-
-        del client_XP
-        del client_TP
-
-        return successful
-
 class XPlane:
     
     def __init__(self):
@@ -213,42 +132,36 @@ class XPlane:
         self.outgoing_data = []
 
     def connect(self):
-        
-        successful = True
 
         try:    
             self.client_socket.connect((self.host,self.port))
-        except socket.error:
-            __logger__.error(f'X-Plane server is not running')            
-            successful = False
-
-        return successful
+        except:
+            raise RuntimeError('X-Plane server is not running')
 
     def treat_xplane_client(self):
 
-        __logger__.info("starting X-Plane client thread")
+        __logger__.info('starting X-Plane client thread')
         self.keep_running.set()
-
-        try:
-            xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
-            xp_thread.start()
-        except:
-            self.keep_running.clear()
-            __logger__.error('something wrong with thread X-Plane')
+        xp_thread = threading.Thread(target=self.thread_function, args=())
+        xp_thread.start()
 
     def thread_function(self):
 
         try:
-            if self.connect():
+            self.connect()
+            try:
                 self.preparing_running()
                 while self.keep_running.is_set():
                     self.run()
-        except:
-            self.keep_running.clear()
-            __logger__.error('X-Plane server closed suddenly')
-        finally:
-            __logger__.info('ending X-Plane client thread')
-            self.shutting_down()
+            except:
+                raise RuntimeError('[1] X-Plane server closed suddenly')
+            else:
+                __logger__.info('shutting down X-Plane client')
+                self.shutting_down()
+        except RuntimeError:
+            pass
+
+        return
 
     def preparing_running(self):
 
@@ -267,15 +180,11 @@ class XPlane:
             self.service_connection(key, mask)
 
     def shutting_down(self):
-
-        try:
-            if self.client_selectors:
-                self.client_selectors.unregister(self.client_socket)
-                self.client_selectors.close()
-            if self.client_socket: 
-                self.client_socket.close()
-        except:
-            pass
+        if self.client_selectors:
+            self.client_selectors.unregister(self.client_socket)
+            self.client_selectors.close()
+        if self.client_socket: 
+            self.client_socket.close()
 
     def service_connection(self, key, mask):
 
@@ -288,15 +197,11 @@ class XPlane:
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
-                # No connection
-                #raise Exception('X-Plane server closed suddenly')
                 raise
             else:
                 if ingoing_data:
                     self.managing_received_data(ingoing_data)
                 else:
-                    # No connection
-                    #raise Exception('X-Plane server closed suddenly')
                     raise
 
         if mask & selectors.EVENT_WRITE:
@@ -309,19 +214,102 @@ class XPlane:
         __logger__.info(f'ingoing_data = {ingoing_data}')
         pass 
 
+def treat_touch_portal_client(xplane_plugin):
+
+    successful = False
+
+    client_TP = xplane_plugin.client_TP 
+    # Create some objects concerning Touch Portal API events
+    on_info = xplane_plugin.client_TP.on_info
+    on_action = xplane_plugin.client_TP.on_action
+    on_close_plugin = xplane_plugin.client_TP.on_close_plugin
+
+    # This event handler will run once when the client connects to Touch Portal
+    @client_TP.on(on_info) 
+    def onStart(data):
+
+        __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
+        __logger__.info(f'=================')
+        __logger__.info(f'SECTION on_info')
+        __logger__.info(f'=================')
+        __logger__.info(f'{data}')
+        list_choices = []
+        for x in xplane_plugin.states['datarefs']:
+            descrition = x['group'] + ' - ' + x['desc']
+            client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
+            list_choices.append(x['desc'])
+        list_choices.sort() # sort options for ease of use
+        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',list_choices) # update action option at runtime
+        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',list_choices) # update action option at runtime
+        __logger__.info(f'Touch Portal Choices of States Id have been updated !')
+        # start a thread to treat xplane client.
+        # Create client_XP instance.
+        client_XP = XPlane()
+        try:
+            client_XP.treat_xplane_client()
+        except RuntimeError:
+            client_XP.keep_running.clear()
+            client_TP.disconnect()
+            del client_XP
+            del client_TP
+            return False 
+
+    # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
+    @client_TP.on(on_action) 
+    def onAction(data):
+
+        __logger__.info(f'=================')
+        __logger__.info(f'SECTION on_action')
+        __logger__.info(f'=================')
+        __logger__.info(f'{data}')
+
+    # Shutdown handler, called when Touch Portal wants to stop your plugin.
+    @client_TP.on(on_close_plugin) 
+    def onShutdown(data):
+
+        __logger__.info(f'=======================')
+        __logger__.info(f'SECTION on_close_plugin')
+        __logger__.info(f'=======================')
+        __logger__.info(f'{data}')
+        __logger__.info(f'Got Shutdown Message! Shutting Down the Plugin!')
+        client_TP.disconnect()
+    
+    try:
+        __logger__.info(f'Trying to connect to Touch Portal Apps')
+        client_TP.connect()
+    except KeyboardInterrupt:
+        __logger__.warning('Caught keyboard interrupt, exiting.')
+    except ConnectionRefusedError:
+        __logger__.error(f'Cannot connect to Touch Portal, probably it is not running')
+    except RuntimeError:        
+        __logger__.error(f'Catch RuntimeError')
+        pass
+    except Exception:
+        # This will catch and report any critical exceptions in the base client_TP code,
+        # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
+        from traceback import format_exc
+        __logger__.error(f'Exception in TP Client:\n{format_exc()}')
+    else:
+        __logger__.info(f'TP Client Disconnected')
+        successful = True
+    finally:
+        client_XP.keep_running.clear()
+        client_TP.disconnect()
+        del client_XP
+        del client_TP
+
+    return successful
+
 def main():
     
     # Create a mega instance that concern the XPlane Plugin.
     xplane_plugin = XPlanePlugin()
 
-    # Create client_TP instance and Configure the logging based on command line arguments.
-    client_TP = xplane_plugin.client_TP
-
     # extract all datarefs from the JSON file.
     successful, xplane_plugin.states = xplane_plugin.get_dataref_values_from_json_file()
 
     if successful:
-        successful = client_TP.treat_touch_portal_client(xplane_plugin)
+        successful = treat_touch_portal_client(xplane_plugin)
 
     __logger__.info(f'Return code = {successful}')
     sys.exit(successful)
