@@ -65,7 +65,8 @@ class ServerXP:
 
         if mask & selectors.EVENT_WRITE:
             if self.outgoing_data.outb:
-                print(f'send_data = {self.outgoing_data.outb!r} to {client_socket.getpeername()}')
+                print(f'outgoing_data = {self.outgoing_data.outb!r} to {client_socket.getpeername()}')
+                print(f'')
                 # sent value is the length of the string that was sent
                 sent = client_socket.send(self.outgoing_data.outb)  
                 # remove the sent string from the self.outgoing_data.outb
@@ -87,10 +88,34 @@ class ServerXP:
 
         self.server_selectors.close()
 
+    def treat_ingoing_string(self, ingoing_str):
+
+        new = ''
+        ingoing_list = []
+
+        for char in ingoing_str:
+            if char == '{' and new != '':
+                ingoing_list.append(new)
+                new = ''
+                new = new + char
+            elif char == '{':
+                new = new + char
+            else:
+                new = new + char
+
+        ingoing_list.append(new)
+
+        return ingoing_list
+
     def managing_received_data(self, client_socket, ingoing_data):
-        print(f'ingoing_data = {ingoing_data} to {client_socket.getpeername()}')
-        # echoing data
-        self.outgoing_data.outb += ingoing_data
+
+        ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
+
+        for one_ingoing in ingoing_list: 
+            print(f'ingoing_data = {one_ingoing} to {client_socket.getpeername()}')
+            print(f'')
+            # echoing data
+            self.outgoing_data.outb += one_ingoing.encode()
 
 def main(): 
 
