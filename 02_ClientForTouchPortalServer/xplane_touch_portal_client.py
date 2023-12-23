@@ -33,6 +33,7 @@ class XPlanePlugin:
         self.json_file = 'datarefs.json'
         self.json_keys_first_level = 'datarefs'
         self.json_keys = ['id', 'desc', 'group', 'type', 'value', 'dataref', 'comment']
+        self.json_keys.sort()
 
         if __is_windows__: self.touch_portal_data_folder = os.getenv('APPDATA') + '\\TouchPortal\\plugins\\';
         if __is_linux__: self.touch_portal_data_folder = '\\TouchPortal\\plugins\\';
@@ -46,8 +47,6 @@ class XPlanePlugin:
     def validate_keys_from_json_file(self, states):
         
         successful = True
-
-        self.json_keys.sort()
 
         if not self.json_keys_first_level in states:
             __logger__.error(f'json first level key must be {self.json_keys_first_level}')
@@ -134,18 +133,22 @@ class TouchPortalClient:
             __logger__.info(f'SECTION on_info')
             __logger__.info(f'=================')
             __logger__.info(f'{data}')
-            list_choices = []
+            choices_list = []
+            datarefs_list = []
             for x in states['datarefs']:
                 descrition = x['group'] + ' - ' + x['desc']
                 client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
-                list_choices.append(x['desc'])
-            list_choices.sort() # sort options for ease of use
-            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',list_choices) # update action option at runtime
-            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',list_choices) # update action option at runtime
+                choices_list.append(x['desc'])
+                datarefs_list.append(x['dataref'])
+            choices_list.sort() # sort options for ease of use
+            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',choices_list) # update action option at runtime
+            client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',choices_list) # update action option at runtime
             __logger__.info(f'Touch Portal Choices of States Id have been updated !')
             
             # start a thread to treat xplane client. The thread will finish when the Touch Portal Server are close
-            client_XP.states = states
+            datarefs_list.sort() # sort datarefs for ease of use
+            client_XP.datarefs_list = datarefs_list
+            client_XP.nb_entries_datarefs_list = len(datarefs_list)
             client_XP.keep_running.set()
             client_XP.treat_xplane_client()
 
@@ -196,23 +199,34 @@ class TouchPortalClient:
 
 class XPlaneClient:
     
-    def __init__(self):
+    def __init__(self, client_TP):
 
+        self.client_TP = client_TP # keep the client tp for the status update
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.host = socket.gethostbyname(socket.gethostname())
         self.port = 65432
+        
         self.keep_running = threading.Event()
         self.connected = threading.Event()
-        self.init_phase = threading.Event()
+        self.init_phase_done = threading.Event()
+        self.init_phase_running = threading.Event()
+        
         self.outgoing_data = []
+        
+        self.input_json_keys = ['command', 'dataref']
+        self.update_json_keys = ['command', 'dataref', 'value']
+        self.input_json_keys.sort()
+        self.update_json_keys.sort()
 
-        # keep states from json file
-        self.states = None
+        # keep a sorted datarefs list that should be working on
+        self.datarefs_list = []
+        self.nb_entries_datarefs_list = 0
 
-        # keep a list of datarefs that should be working on
-        self.list_datarefs = []
+        # keep a dataref list that should be initialized
+        self.datarefs_list_initialized = []
+        self.nb_entries_datarefs_list_initialized = 0
 
     def connect(self):
         
@@ -228,11 +242,9 @@ class XPlaneClient:
 
     def treat_xplane_client(self):
 
-        for x in self.states['datarefs']:
-            self.list_datarefs.append(x['dataref'])
-
         __logger__.info("starting X-Plane client thread")
         self.keep_running.set()
+        self.init_phase_running.set()
 
         try:
             xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
@@ -270,31 +282,50 @@ class XPlaneClient:
 
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
         for key, mask in self.client_selectors.select(timeout=0.1):
-            self.service_connection(key, mask)
-            if not self.init_phase.is_set():
+            if self.keep_running.is_set():
+                self.service_connection(key, mask)
+            if self.init_phase_running.is_set():
                 self.treat_init_phase()
 
     # Ask the x-plane server to send the currents datarefs values.
     # At the same time, ask to the server to start a thread
     def treat_init_phase(self):
 
-        for dataref in self.list_datarefs:
-            a_dataref = {}
-            a_dataref["command"] = "init"
-            a_dataref["dataref"] = dataref
-            message = json.dumps(a_dataref).encode()
-            self.outgoing_data.append(message)
+        if not self.init_phase_done.is_set():
+            for dataref in self.datarefs_list:
+                a_dataref = {}
+                a_dataref["command"] = "init"
+                a_dataref["dataref"] = dataref
+                message = json.dumps(a_dataref).encode()
+                self.outgoing_data.append(message)
+        else:
+            # make sure that every datarefs from the datarefs_list are initialized by the x-plane server
+            self.nb_entries_datarefs_list_initialized = len(self.datarefs_list_initialized) 
+            if self.nb_entries_datarefs_list_initialized == self.nb_entries_datarefs_list:
+                self.datarefs_list_initialized.sort()
+                if self.datarefs_list_initialized == self.datarefs_list:
+                    # every dataref passed through initialization
+                    __logger__.info(f'datarefs initialization processing was completed correctly !')
+                    #######
+                    # update value for each dataref
+                    #
+                    for dataref in self.datarefs_list:
+                        one_id = dataref
+                        one_value = str(0)
+                        #self.client_TP.stateUpdate(one_id,one_value)
+                    __logger__.info(f'state update completed !')
+                    self.init_phase_running.clear()
+                else:
+                    __logger__.error(f'there are initialization problem')
+                    __logger__.error(f'datarefs initialization processing was not completed correctly')
+                    self.init_phase_running.clear()
 
-        # ask the server to start e thread. This thread will check if a dataref has changed value
-        json_data_update = {'command': 'update'}
-        message = json.dumps(json_data_update).encode()
-        self.outgoing_data.append(message)
-
-        self.init_phase.set()
+        self.init_phase_done.set()
 
     def shutting_down(self):
 
         try:
+            __logger__.info(f'=========== shutting_down X-Plane Client ===========')
             if self.client_selectors:
                 self.client_selectors.unregister(self.client_socket)
                 self.client_selectors.close()
@@ -310,7 +341,7 @@ class XPlaneClient:
         if mask & selectors.EVENT_READ:
             try:
                 # Should be ready to read
-                ingoing_data = server_socket.recv(1024) 
+                ingoing_data = server_socket.recv(4096) 
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
@@ -326,7 +357,7 @@ class XPlaneClient:
                     raise
 
         if mask & selectors.EVENT_WRITE:
-            if self.outgoing_data:
+            if self.outgoing_data and self.keep_running.is_set():
                 next_msg = self.outgoing_data.pop(0)
                 __logger__.info(f'outgoing_data = {next_msg}')
                 __logger__.info(f'')
@@ -354,10 +385,38 @@ class XPlaneClient:
     def managing_received_data(self, ingoing_data):
 
         ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
+        __logger__.info(f'THIS IS THE INGOING_LIST') 
+        __logger__.info(f'{ingoing_list}') 
 
         for one_ingoing in ingoing_list: 
             __logger__.info(f'ingoing_data = {one_ingoing}') 
-            __logger__.info(f'')
+            try:
+                one_ingoing_object = json.loads(one_ingoing)
+                keys = list(one_ingoing_object.keys())
+                keys.sort()
+                if keys == self.input_json_keys:
+                    self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
+                    __logger__.info(f'append {one_ingoing_object["dataref"]}')
+                elif keys == self.update_json_keys:
+                    __logger__.info(f'this json file keys is ok: {self.update_json_keys}')
+                else:
+                    __logger__.error(f'json file keys must be:')
+                    __logger__.error(f'{self.input_json_keys}')
+                    __logger__.error(f'{self.update_json_keys}')
+                    __logger__.error(f'the following json file keys has been rejected:')
+                    __logger__.error(f'{keys}')
+                    self.keep_running.clear()
+                    break
+            except Exception:
+                # This will catch and report any critical exceptions in the base client_TP code,
+                # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
+                from traceback import format_exc
+                __logger__.error(f'an error occurred when trying to make a json object') 
+                __logger__.error(f'the receiving string is not a json') 
+                __logger__.error(f'xception in XP Client:\n{format_exc()}')
+                self.keep_running.clear()
+                break
+            __logger__.info(f'') 
 
 def main():
     
@@ -367,8 +426,8 @@ def main():
     # Create a Touch Portal client instance.
     client_TP = TouchPortalClient()
 
-    # Create a XPlane client instance.
-    client_XP = XPlaneClient()
+    # Create a XPlane client instance. Keep the client_TP for any status update
+    client_XP = XPlaneClient(client_TP)
 
     # extract all datarefs from the JSON file.
     successful, xplane_plugin.states = xplane_plugin.get_dataref_values_from_json_file()

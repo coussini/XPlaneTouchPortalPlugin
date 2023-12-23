@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 import selectors
 import socket
 import json
@@ -50,7 +51,7 @@ class ServerXP:
         if mask & selectors.EVENT_READ:
             try:
                 # Should be ready to read
-                ingoing_data = client_socket.recv(1024)
+                ingoing_data = client_socket.recv(4096)
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except ConnectionResetError:
@@ -110,6 +111,8 @@ class ServerXP:
     def managing_received_data(self, client_socket, ingoing_data):
 
         ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
+        print(f'THIS IS THE INGOING_LIST')
+        print(f'{ingoing_list}')
 
         for one_ingoing in ingoing_list: 
             print(f'ingoing_data = {one_ingoing} to {client_socket.getpeername()}')

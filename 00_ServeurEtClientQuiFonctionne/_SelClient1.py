@@ -109,6 +109,94 @@ def main():
                 'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
             },
             {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
+                'dataref': 'C1_AirbusFBW/OHPLightSwitches[7]', # Strobe  -> int
+                'value':   '2' # Strobe  -> int
+            },
+            {
+                'dataref': 'C1_AirbusFBW/RMP3Lights[0]', # OVHD INTEG LT Brightness Knob -> float
+                'value':   '0.50' # OVHD INTEG LT Brightness Knob -> float
+            },
+            {
                 'dataref': 'C1_AirbusFBW/APUStarter', # APU Start -> int
                 'value':   '4' # APU Start -> int
             }
@@ -139,7 +227,7 @@ def main():
     client_xp = ClientXP()
     client_xp.keep_running.set()
     client_xp.random_msg1 = json_data_init
-    client_xp.random_msg2 = json_data_write
+    client_xp.random_msg2 = json_data_init
     
     if client_xp.connect():
         client_xp.preparing_running()
