@@ -201,7 +201,7 @@ class XPlaneClient:
     
     def __init__(self, client_TP):
 
-        self.client_TP = client_TP # keep the client tp for the status update
+        self.client_TP = client_TP.tp_api # keep the client tp for the status update
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -312,7 +312,7 @@ class XPlaneClient:
                     for dataref in self.datarefs_list:
                         one_id = dataref
                         one_value = str(0)
-                        #self.client_TP.stateUpdate(one_id,one_value)
+                        self.client_TP.stateUpdate(one_id,one_value)
                     __logger__.info(f'state update completed !')
                     self.init_phase_running.clear()
                 else:
