@@ -8,7 +8,7 @@ import selectors
 import socket
 import json
 import time
-import random
+import random # temporary
 import threading
 
 __plugin_id__ = 'xplane_touch_portal_client'
@@ -119,13 +119,8 @@ class TouchPortalClient:
         # Create an object concerning Touch Portal client
         client_TP = self.tp_api
 
-        # Create some objects concerning Touch Portal API events
-        on_info = self.on_info
-        on_action = self.on_action
-        on_close_plugin = self.on_close_plugin
-
         # This event handler will run once when the client connects to Touch Portal
-        @client_TP.on(on_info) 
+        @client_TP.on(self.on_info) 
         def onStart(data):
 
             __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
@@ -153,7 +148,7 @@ class TouchPortalClient:
             client_XP.treat_xplane_client()
 
         # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
-        @client_TP.on(on_action) 
+        @client_TP.on(self.on_action) 
         def onAction(data):
 
             __logger__.info(f'=================')
@@ -162,7 +157,7 @@ class TouchPortalClient:
             __logger__.info(f'{data}')
 
         # Shutdown handler, called when Touch Portal wants to stop your plugin.
-        @client_TP.on(on_close_plugin) 
+        @client_TP.on(self.on_close_plugin) 
         def onShutdown(data):
 
             __logger__.info(f'=======================')
@@ -310,8 +305,12 @@ class XPlaneClient:
                     # update value for each dataref
                     #
                     for dataref in self.datarefs_list:
+
+                        ##### normally come from x-plane Dataref
                         one_id = dataref
-                        one_value = str(0)
+                        one_value = str(random.randint(0,3))
+                        ##### 
+
                         self.client_TP.stateUpdate(one_id,one_value)
                     __logger__.info(f'state update completed !')
                     self.init_phase_running.clear()
