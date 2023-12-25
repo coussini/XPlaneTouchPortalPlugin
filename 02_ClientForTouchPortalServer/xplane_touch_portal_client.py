@@ -212,8 +212,9 @@ class XPlaneClient:
         
         self.input_json_keys = ['command', 'dataref']
         self.update_json_keys = ['command', 'dataref', 'value']
-        self.input_json_keys.sort()
-        self.update_json_keys.sort()
+        # pas necessaire
+        #self.input_json_keys.sort()
+        #self.update_json_keys.sort()
 
         # keep a sorted datarefs list that should be working on
         self.datarefs_list = []
@@ -281,13 +282,14 @@ class XPlaneClient:
                 self.service_connection(key, mask)
             if self.init_phase_running.is_set():
                 self.treat_init_phase()
-
-    # Ask the x-plane server to send the currents datarefs values.
-    # At the same time, ask to the server to start a thread
+    
     def treat_init_phase(self):
-
+            
+        # send each dataref that come from json file to the x-plane server 
+        # for receiving it's value
         if not self.init_phase_done.is_set():
             for dataref in self.datarefs_list:
+                # prepare a init packet for the x-plane server
                 a_dataref = {}
                 a_dataref["command"] = "init"
                 a_dataref["dataref"] = dataref
@@ -302,7 +304,7 @@ class XPlaneClient:
                     # every dataref passed through initialization
                     __logger__.info(f'datarefs initialization processing was completed correctly !')
                     #######
-                    # update value for each dataref
+                    # update value that come from the x-plane server for each dataref
                     #
                     for dataref in self.datarefs_list:
 
@@ -362,6 +364,7 @@ class XPlaneClient:
                 __logger__.info(f'')
                 server_socket.sendall(next_msg)
 
+    # separate the ingoing packet on store it in ingoing_list    
     def treat_ingoing_string(self, ingoing_str):
 
         new = ''
@@ -393,7 +396,12 @@ class XPlaneClient:
                 one_ingoing_object = json.loads(one_ingoing)
                 keys = list(one_ingoing_object.keys())
                 keys.sort()
+                # treat each dataref for the initialization phase
                 if keys == self.input_json_keys:
+                    
+                    # ATTENTION : On doit garder l'object on complet dans une liste
+                    # car on aura besoin des valeur pour onitialiser
+                    
                     self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
                     __logger__.info(f'append {one_ingoing_object["dataref"]}')
                 elif keys == self.update_json_keys:
