@@ -1,3 +1,14 @@
+###
+## les ingoing dans init phase sera
+## self.input_json_keys = ['command', 'dataref', 'value']
+## le outgoing sera self.input_json_keys = ['command', 'dataref']
+##
+## ajuster le programme pour cela et regarder les listes et les noms
+## qu'on utilise pour comparer les listes (peut-on simplifier ?)
+##
+###
+
+
 import sys 
 import os
 import platform
@@ -211,6 +222,9 @@ class XPlaneClient:
         self.outgoing_data = []
         
         self.input_json_keys = ['command', 'dataref']
+
+        # attention temporaire
+        self.input_json_keys = ['command', 'dataref', 'value']
         self.update_json_keys = ['command', 'dataref', 'value']
         # pas necessaire
         #self.input_json_keys.sort()
@@ -223,6 +237,9 @@ class XPlaneClient:
         # keep a dataref list that should be initialized
         self.datarefs_list_initialized = []
         self.nb_entries_datarefs_list_initialized = 0
+
+        # store datarefs and their values from X-Plane in a dictionary for updating states in Touch Portal
+        self.datarefs_and_values_dictionary = {}
 
     def connect(self):
         
@@ -290,9 +307,13 @@ class XPlaneClient:
         if not self.init_phase_done.is_set():
             for dataref in self.datarefs_list:
                 # prepare a init packet for the x-plane server
+                
+                # this is temporary for value. the value must not be there for init
+
                 a_dataref = {}
                 a_dataref["command"] = "init"
                 a_dataref["dataref"] = dataref
+                a_dataref["value"] = str(random.randint(0,3))
                 message = json.dumps(a_dataref).encode()
                 self.outgoing_data.append(message)
         else:
@@ -306,14 +327,22 @@ class XPlaneClient:
                     #######
                     # update value that come from the x-plane server for each dataref
                     #
-                    for dataref in self.datarefs_list:
 
+                    #
+                    #for dataref in self.datarefs_list:
+                    
+                    
+                    for dataref in self.datarefs_and_values_dictionary:
+                        
+                        value = self.datarefs_and_values_dictionary[dataref]
                         ##### normally come from x-plane Dataref
                         one_id = dataref
-                        one_value = str(random.randint(0,3))
+                        one_value = value
+                        __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {value} for stateUpdate')
                         ##### 
 
                         self.client_TP.stateUpdate(one_id,one_value)
+                    
                     __logger__.info(f'state update completed !')
                     self.init_phase_running.clear()
                 else:
@@ -398,11 +427,8 @@ class XPlaneClient:
                 keys.sort()
                 # treat each dataref for the initialization phase
                 if keys == self.input_json_keys:
-                    
-                    # ATTENTION : On doit garder l'object on complet dans une liste
-                    # car on aura besoin des valeur pour onitialiser
-                    
                     self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
+                    self.datarefs_and_values_dictionary.update({one_ingoing_object['dataref']:one_ingoing_object['value']})
                     __logger__.info(f'append {one_ingoing_object["dataref"]}')
                 elif keys == self.update_json_keys:
                     __logger__.info(f'this json file keys is ok: {self.update_json_keys}')
