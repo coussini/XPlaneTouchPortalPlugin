@@ -139,20 +139,24 @@ class TouchPortalClient:
             __logger__.info(f'SECTION on_info')
             __logger__.info(f'=================')
             __logger__.info(f'{data}')
+            
             choices_list = []
             datarefs_list = []
+            
             for x in states['datarefs']:
                 descrition = x['group'] + ' - ' + x['desc']
                 client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
                 choices_list.append(x['desc'])
                 datarefs_list.append(x['dataref'])
+            
             choices_list.sort() # sort options for ease of use
             client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',choices_list) # update action option at runtime
             client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',choices_list) # update action option at runtime
+            
             __logger__.info(f'Touch Portal Choices of States Id have been updated !')
             
             # start a thread to treat xplane client. The thread will finish when the Touch Portal Server are close
-            datarefs_list.sort() # sort datarefs for ease of use
+            datarefs_list.sort() # sort datarefs for future comparaison
             client_XP.datarefs_list = datarefs_list
             client_XP.nb_entries_datarefs_list = len(datarefs_list)
             client_XP.keep_running.set()
