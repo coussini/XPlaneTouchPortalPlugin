@@ -5,6 +5,7 @@ import socket
 import json
 import threading
 import types
+import random # temporary
 
 class ServerXP:
     def __init__(self, host, port):
@@ -111,14 +112,17 @@ class ServerXP:
     def managing_received_data(self, client_socket, ingoing_data):
 
         ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
-        print(f'THIS IS THE INGOING_LIST')
-        print(f'{ingoing_list}')
+        #print(f'THIS IS THE INGOING_LIST')
+        #print(f'{ingoing_list}')
 
         for one_ingoing in ingoing_list: 
             print(f'ingoing_data = {one_ingoing} to {client_socket.getpeername()}')
             print(f'')
+            print(f'type one_ingoing {type(one_ingoing)}')
+            one_ingoing_load = json.loads(one_ingoing)
+            one_ingoing_load["value"] = str(random.randint(0,3))
             # echoing data
-            self.outgoing_data.outb += one_ingoing.encode()
+            self.outgoing_data.outb += json.dumps(one_ingoing_load).encode()
 
 def main(): 
 
