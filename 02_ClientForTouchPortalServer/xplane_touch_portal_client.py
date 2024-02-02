@@ -112,6 +112,7 @@ class TouchPortalClient:
         self.on_action = TP_API.TYPES.onAction
         self.on_shutdown = TP_API.TYPES.onShutdown
 
+    # Proceed the Touch Portal "on connect" event 
     def on_connect_process(self, data, states, client_TP, client_XP):
 
         __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
@@ -123,26 +124,41 @@ class TouchPortalClient:
         choices_list = []
         datarefs_list = []
         
-        for x in states['datarefs']:
-            descrition = x['group'] + ' - ' + x['desc']
-            client_TP.createState(x['id'],descrition,x['value'],x['group']) # create a TP State default value at runtime
-            choices_list.append(x['desc'])
-            datarefs_list.append(x['dataref'])
+        # ----------------------------------- 
+        # example for one state about dataref
+        # ----------------------------------- 
+        # "id": "AirbusFBW/ADIRUSwitchArray[0]",
+        # "desc": "Adirs IR1",
+        # "group": "OverHead",
+        # "type": "int",
+        # "value": "0",
+        # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+        # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+        # 
         
-        choices_list.sort() # sort options for ease of use
-        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',choices_list) # update action option at runtime
-        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',choices_list) # update action option at runtime
+        # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
+        for x in states['datarefs']:
+            descrition = x['group'] + ' - ' + x['desc']                     # Create a description within a group and desc
+            client_TP.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
+            choices_list.append(x['desc'])                                  # Save dataref desc for choiceUpdate purpose
+            datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
+        
+        # Feed the valueChoices for each action: ref entry.tp file
+        choices_list.sort() # sort options for ease of use in touch portal apps
+        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.toggle_two_states.choice',choices_list) # Update action option at runtime
+        client_TP.choiceUpdate('xplane_touch_portal_client.dataref.set_two_states.name',choices_list)      # Update action option at runtime
         
         __logger__.info(f'Touch Portal Choices of States Id have been updated !')
         
-        datarefs_list.sort() # sort datarefs for future comparaison
-        client_XP.datarefs_list = datarefs_list
-        client_XP.nb_entries_datarefs_list = len(datarefs_list)
+        datarefs_list.sort()                                    # Sorted dataref will be use for comparaison in XPlaneClient class
+        client_XP.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
+        client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
 
-        # start a thread to treat xplane client. The thread will finish when the Touch Portal Server are close
+        # Start a thread to treat xplane client for x-plane server. This thread will finish when the Touch Portal Server are close
         client_XP.keep_running.set()
         client_XP.treat_xplane_client()
 
+    # Proceed the Touch Portal "on action" event 
     def on_action_process(self, data, states, client_TP, client_XP):
 
         __logger__.info(f'=================')
@@ -150,6 +166,7 @@ class TouchPortalClient:
         __logger__.info(f'=================')
         __logger__.info(f'{data}')
 
+    # Proceed the Touch Portal "on shutdown" event. When Touch Portal tries to close plugin 
     def on_shutdown_process(self, data, client_TP):
 
         __logger__.info(f'===================')
@@ -159,6 +176,7 @@ class TouchPortalClient:
 
         client_TP.disconnect()
 
+    # Proceed all Touch Portal events (Main process for Touch Portal)
     def treat_touch_portal_client(self, states, client_XP):
 
         successful = False
@@ -254,34 +272,6 @@ class XPlaneClient:
 
         return successful
 
-    def treat_xplane_client(self):
-
-        __logger__.info("starting X-Plane client thread")
-        self.keep_running.set()
-        self.init_phase_running.set()
-
-        try:
-            xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
-            xp_thread.start()
-        except:
-            self.keep_running.clear()
-            __logger__.error('something wrong with thread X-Plane')
-
-    def thread_function(self):
-
-        try:
-            if self.connect():
-                self.connected.set()
-                self.preparing_running()
-                while self.keep_running.is_set():
-                    self.run()
-        except:
-            self.keep_running.clear()
-            __logger__.error('X-Plane server closed suddenly')
-        finally:
-            __logger__.info('ending X-Plane client thread')
-            self.shutting_down()
-
     def preparing_running(self):
 
         __logger__.info(f'preparing x-plane to running')
@@ -291,94 +281,6 @@ class XPlaneClient:
         self.client_socket.setblocking(False)
         # register a file object for selection, monitoring it for I/O events
         self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
-
-    def run(self):
-
-        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-        for key, mask in self.client_selectors.select(timeout=0.1):
-            if self.keep_running.is_set():
-                self.service_connection(key, mask)
-            if self.init_phase_running.is_set():
-                self.treat_init_phase()
-    
-    def treat_init_phase(self):
-            
-        # send each dataref that come from json file to the x-plane server for receiving it's value
-        if not self.init_phase_done.is_set():
-            for dataref in self.datarefs_list:
-                # prepare a init packet for the x-plane server
-                
-                # this is temporary for value. the value must not be there for init
-
-                a_dataref = {}
-                a_dataref["command"] = "init"
-                a_dataref["dataref"] = dataref
-                message = json.dumps(a_dataref).encode()
-                self.outgoing_data.append(message)
-        else:
-            # make sure that every datarefs from the datarefs_list are initialized by the x-plane server
-            self.nb_entries_datarefs_list_initialized = len(self.datarefs_list_initialized) 
-            if self.nb_entries_datarefs_list_initialized == self.nb_entries_datarefs_list:
-                self.datarefs_list_initialized.sort()
-                if self.datarefs_list_initialized == self.datarefs_list:
-                    # every dataref passed through initialization
-                    __logger__.info(f'datarefs initialization processing was completed correctly !')
-                    # update values that come from the x-plane server for each dataref
-                    for dataref in self.datarefs_and_values_dictionary:
-                        value = self.datarefs_and_values_dictionary[dataref]
-                        one_id = dataref
-                        one_value = value
-                        __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {value} for stateUpdate')
-                        self.client_TP.stateUpdate(one_id,one_value)
-                    __logger__.info(f'state update completed !')
-                    self.init_phase_running.clear()
-                else:
-                    __logger__.error(f'there are initialization problem')
-                    __logger__.error(f'datarefs initialization processing was not completed correctly')
-                    self.init_phase_running.clear()
-
-        self.init_phase_done.set()
-
-    def shutting_down(self):
-
-        try:
-            __logger__.info(f'=========== shutting_down X-Plane Client ===========')
-            if self.client_selectors:
-                self.client_selectors.unregister(self.client_socket)
-                self.client_selectors.close()
-            if self.client_socket: 
-                self.client_socket.close()
-        except:
-            pass
-
-    def service_connection(self, key, mask):
-
-        server_socket = key.fileobj
-    
-        if mask & selectors.EVENT_READ:
-            try:
-                # Should be ready to read
-                ingoing_data = server_socket.recv(4096) 
-            except BlockingIOError:
-                pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
-            except:
-                # No connection
-                #raise Exception('X-Plane server closed suddenly')
-                raise
-            else:
-                if ingoing_data:
-                    self.managing_received_data(ingoing_data)
-                else:
-                    # No connection
-                    #raise Exception('X-Plane server closed suddenly')
-                    raise
-
-        if mask & selectors.EVENT_WRITE:
-            if self.outgoing_data and self.keep_running.is_set():
-                next_msg = self.outgoing_data.pop(0)
-                __logger__.info(f'outgoing_data = {next_msg}')
-                __logger__.info(f'')
-                server_socket.sendall(next_msg)
 
     # separate the ingoing packet and store it in ingoing_list    
     def treat_ingoing_string(self, ingoing_str):
@@ -437,6 +339,122 @@ class XPlaneClient:
                 self.keep_running.clear()
                 break
             __logger__.info(f'') 
+
+    def service_connection(self, key, mask):
+
+        server_socket = key.fileobj
+    
+        if mask & selectors.EVENT_READ:
+            try:
+                # Should be ready to read
+                ingoing_data = server_socket.recv(4096) 
+            except BlockingIOError:
+                pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
+            except:
+                # No connection
+                #raise Exception('X-Plane server closed suddenly')
+                raise
+            else:
+                if ingoing_data:
+                    self.managing_received_data(ingoing_data)
+                else:
+                    # No connection
+                    #raise Exception('X-Plane server closed suddenly')
+                    raise
+
+        if mask & selectors.EVENT_WRITE:
+            if self.outgoing_data and self.keep_running.is_set():
+                next_msg = self.outgoing_data.pop(0)
+                __logger__.info(f'outgoing_data = {next_msg}')
+                __logger__.info(f'')
+                server_socket.sendall(next_msg)
+    
+    def treat_init_phase(self):
+            
+        # send each dataref that come from json file to the x-plane server for receiving it's value
+        if not self.init_phase_done.is_set():
+            for dataref in self.datarefs_list:
+                # prepare a init packet for the x-plane server
+                
+                # this is temporary for value. the value must not be there for init
+
+                a_dataref = {}
+                a_dataref["command"] = "init"
+                a_dataref["dataref"] = dataref
+                message = json.dumps(a_dataref).encode()
+                self.outgoing_data.append(message)
+        else:
+            # make sure that every datarefs from the datarefs_list are initialized by the x-plane server
+            self.nb_entries_datarefs_list_initialized = len(self.datarefs_list_initialized) 
+            if self.nb_entries_datarefs_list_initialized == self.nb_entries_datarefs_list:
+                self.datarefs_list_initialized.sort()
+                if self.datarefs_list_initialized == self.datarefs_list:
+                    # every dataref passed through initialization
+                    __logger__.info(f'datarefs initialization processing was completed correctly !')
+                    # update values that come from the x-plane server for each dataref
+                    for dataref in self.datarefs_and_values_dictionary:
+                        value = self.datarefs_and_values_dictionary[dataref]
+                        one_id = dataref
+                        one_value = value
+                        __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {value} for stateUpdate')
+                        self.client_TP.stateUpdate(one_id,one_value)
+                    __logger__.info(f'state update completed !')
+                    self.init_phase_running.clear()
+                else:
+                    __logger__.error(f'there are initialization problem')
+                    __logger__.error(f'datarefs initialization processing was not completed correctly')
+                    self.init_phase_running.clear()
+
+        self.init_phase_done.set()
+
+    def run(self):
+
+        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
+        for key, mask in self.client_selectors.select(timeout=0.1):
+            if self.keep_running.is_set():
+                self.service_connection(key, mask)
+            if self.init_phase_running.is_set():
+                self.treat_init_phase()
+
+    def shutting_down(self):
+
+        try:
+            __logger__.info(f'=========== shutting_down X-Plane Client ===========')
+            if self.client_selectors:
+                self.client_selectors.unregister(self.client_socket)
+                self.client_selectors.close()
+            if self.client_socket: 
+                self.client_socket.close()
+        except:
+            pass
+
+    def thread_function(self):
+
+        try:
+            if self.connect():
+                self.connected.set()
+                self.preparing_running()
+                while self.keep_running.is_set():
+                    self.run()
+        except:
+            self.keep_running.clear()
+            __logger__.error('X-Plane server closed suddenly')
+        finally:
+            __logger__.info('ending X-Plane client thread')
+            self.shutting_down()
+
+    def treat_xplane_client(self):
+
+        __logger__.info("starting X-Plane client thread")
+        self.keep_running.set()
+        self.init_phase_running.set()
+
+        try:
+            xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
+            xp_thread.start()
+        except:
+            self.keep_running.clear()
+            __logger__.error('something wrong with thread X-Plane')
 
 def main():
     

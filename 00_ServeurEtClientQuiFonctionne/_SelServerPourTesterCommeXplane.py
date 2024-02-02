@@ -28,14 +28,6 @@ class ServerXP:
         # register a file object for selection, monitoring it for I/O events
         self.server_selectors.register(self.server_socket, selectors.EVENT_READ, data=None)
 
-    def run(self):
-        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
-        for key, mask in self.server_selectors.select(timeout=0.1):
-            if key.data is None:
-                self.accept_wrapper()
-            else:
-                self.service_connection(key, mask)
-
     def accept_wrapper(self):
         client_socket, client_address = self.server_socket.accept()  # Should be ready to read
         self.client_socket_list.append(client_socket)
@@ -44,6 +36,53 @@ class ServerXP:
         setattr(self.outgoing_data,'outb',b'')
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         self.server_selectors.register(client_socket, events, data=self.outgoing_data)
+
+    def socket_die(self, client_socket):
+        print(f'Closing connection to {client_socket.getpeername()}')
+        self.server_selectors.unregister(client_socket)
+        client_socket.close()
+        self.client_socket_list.remove(client_socket)
+
+    def treat_ingoing_string(self, ingoing_str):
+
+        new = ''
+        ingoing_list = []
+
+        for char in ingoing_str:
+            if char == '{' and new != '':
+                ingoing_list.append(new)
+                new = ''
+                new = new + char
+            elif char == '{':
+                new = new + char
+            else:
+                new = new + char
+
+        ingoing_list.append(new)
+
+        return ingoing_list
+
+    def process_type_of_command(self,one_ingoing_load):
+
+        print(f'[process_type_of_command] one_ingoing_load = {one_ingoing_load}')
+        print(f'command = {one_ingoing_load["command"]}')
+              
+    def managing_received_data(self, client_socket, ingoing_data):
+
+        ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
+        #print(f'THIS IS THE INGOING_LIST')
+        #print(f'{ingoing_list}')
+
+        for one_ingoing in ingoing_list: 
+            print(f'ingoing_data = {one_ingoing} to {client_socket.getpeername()}')
+            print(f'')
+            print(f'type one_ingoing {type(one_ingoing)}')
+            one_ingoing_load = json.loads(one_ingoing)
+            # put random value to fake X-Plane process
+            self.process_type_of_command(one_ingoing_load)
+            one_ingoing_load["value"] = str(random.randint(0,3))
+            # echoing data
+            self.outgoing_data.outb += json.dumps(one_ingoing_load).encode()
 
     def service_connection(self, key, mask):
         client_socket = key.fileobj
@@ -67,18 +106,20 @@ class ServerXP:
 
         if mask & selectors.EVENT_WRITE:
             if self.outgoing_data.outb:
-                print(f'outgoing_data = {self.outgoing_data.outb!r} to {client_socket.getpeername()}')
-                print(f'')
+                # print(f'outgoing_data = {self.outgoing_data.outb!r} to {client_socket.getpeername()}')
+                # print(f'')
                 # sent value is the length of the string that was sent
                 sent = client_socket.send(self.outgoing_data.outb)  
                 # remove the sent string from the self.outgoing_data.outb
                 self.outgoing_data.outb = self.outgoing_data.outb[sent:]    
 
-    def socket_die(self, client_socket):
-        print(f'Closing connection to {client_socket.getpeername()}')
-        self.server_selectors.unregister(client_socket)
-        client_socket.close()
-        self.client_socket_list.remove(client_socket)
+    def run(self):
+        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
+        for key, mask in self.server_selectors.select(timeout=0.1):
+            if key.data is None:
+                self.accept_wrapper()
+            else:
+                self.service_connection(key, mask)
 
     def shutting_down(self):
         # in case there are some unclosed client socket
@@ -89,40 +130,6 @@ class ServerXP:
             self.client_socket_list.remove(client_socket)
 
         self.server_selectors.close()
-
-    def treat_ingoing_string(self, ingoing_str):
-
-        new = ''
-        ingoing_list = []
-
-        for char in ingoing_str:
-            if char == '{' and new != '':
-                ingoing_list.append(new)
-                new = ''
-                new = new + char
-            elif char == '{':
-                new = new + char
-            else:
-                new = new + char
-
-        ingoing_list.append(new)
-
-        return ingoing_list
-
-    def managing_received_data(self, client_socket, ingoing_data):
-
-        ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
-        #print(f'THIS IS THE INGOING_LIST')
-        #print(f'{ingoing_list}')
-
-        for one_ingoing in ingoing_list: 
-            print(f'ingoing_data = {one_ingoing} to {client_socket.getpeername()}')
-            print(f'')
-            print(f'type one_ingoing {type(one_ingoing)}')
-            one_ingoing_load = json.loads(one_ingoing)
-            one_ingoing_load["value"] = str(random.randint(0,3))
-            # echoing data
-            self.outgoing_data.outb += json.dumps(one_ingoing_load).encode()
 
 def main(): 
 
