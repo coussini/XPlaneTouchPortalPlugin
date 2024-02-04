@@ -1,6 +1,8 @@
-![XPlaneTouchPortalPlugin.png](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/XPlaneTouchPortalPlugin.png)
+# X-Plane Touch Portal Plugin
 
-##### STEP FOR THIS MOMENT
+<img src="file:///C:/Users/couss/OneDrive/Bureau/XPlaneTouchPortalPlugin/XPlaneTouchPortalPlugin.png" title="" alt="XPlaneTouchPortalPlugin.png" data-align="center">
+
+## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)
 
@@ -24,7 +26,9 @@
   
   - comment = Information allowing the panel's creator in Touch Portal to understand the values and wich corresponding
 
-##### 
+---
+
+## Features
 
 ## IMPORTANT
 
