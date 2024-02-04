@@ -117,6 +117,53 @@ class XPlaneServer:
         else:
             return None
 
+    def is_int(self,dataref_value):
+        """ 
+        Validate the received dataref's value according to int
+
+        """
+
+        try:
+            int(dataref_value)
+            return True
+        except ValueError:
+            return False
+
+    def is_float_or_double(self,dataref_value):
+        """ 
+        Validate the received dataref's value according to float or double
+         
+        """
+
+        try:
+            float(dataref_value)
+            return True
+        except ValueError:
+            return False
+
+    def is_valid_value(self,dataref_type,dataref_value):
+        """ 
+        Validate the received dataref's value according to the dataref's type 
+        """
+        if bool(dataref_type & xp.Type_Int):
+            return is_int(dataref_value) 
+        
+        elif bool(dataref_type & xp.Type_Float):
+            return is_float_or_double(dataref_value) 
+        
+        elif bool(dataref_type & xp.Type_Double):
+            return is_float_or_double(dataref_value) 
+        
+        elif bool(dataref_type & xp.Type_FloatArray):
+            return is_float_or_double(dataref_value) 
+        
+        elif bool(dataref_type & xp.Type_IntArray):
+            return is_int(dataref_value) 
+
+        else 
+            return False
+
+
     def write_a_dataref(self,dataref_address,dataref_type,dataref_index,dataref_value):
         """ 
         Write a dataref according to it's address, type, index and value 
@@ -176,41 +223,75 @@ class XPlaneServer:
     def process_init_command(self,dataref):
         '''
         Process touch portal client initialization command. 
+
+        Next, the program will store the dataref's data in an associative array, wich will used during the update. 
+        The update will use the dataref's address (stored during initialization) to update its value.
+
+        Context:
         As soon as we display a touch-portal page and its buttons, we need to obtain the button values (associated with a dataref). 
-        The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal).
+        The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal panel).
         '''
         print("Init command")
         dataref_name,dataref_index = self.get_dataref_name_and_index(dataref)
         print(f"dataref_name & dataref_index {dataref_name} & {dataref_index}")
         dataref_address,dataref_type,is_dataref_writable,dataref_value = self.get_dataref_address_type_value(dataref_name,dataref_index)
 
-        # add this dataref in internal associative array
-        new_dataref = {
-            'name': dataref_name, 
-            'index': dataref_index,
-            'address': dataref_address, 
-            'type': dataref_type,
-            'is_writable': is_dataref_writable, 
-            'value': dataref_value
-        }    
-        self.dataref_address_and_value.append(new_dataref)
-        
-        '''
-        for dataref in dataref_address_and_value:
-            if dataref['name'] == 'AirbusFBW/PanelFloodBrightnessLevel':
-                print(f'la valeur de ce dataref est {dataref["value"]}')
+        result = {}
+        result["command"] = "init"
+        result["dataref"] = dataref_name
+        result["value"] = dataref_value
 
-        '''
+        if dataref_address != None:
+            # add this dataref in internal associative array
+            new_dataref = {
+                'name': dataref_name, 
+                'index': dataref_index,
+                'address': dataref_address, 
+                'type': dataref_type,
+                'is_writable': is_dataref_writable, 
+                'value': dataref_value
+            }    
+            self.dataref_address_and_value.append(new_dataref)
 
-        return str(random.randint(0,3))
+            result["message"] = "successful dataref update"
+        else
+            result["message"] = "dataref is not found"
 
-    def process_update_command(self,one_ingoing_load):
+        return result
+
+    def process_update_command(self,dataref,value):
         '''
         Process touch portal client update command. 
+        Update X-Plane by searching in the associative array and obtaining its address.
+
+        Context:
         If a user presses a button in touch portal, a command is sent to the xplane server to update his dataref. 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal).
         '''
         print("Update command")
+        dataref_name,dataref_index = self.get_dataref_name_and_index(dataref)
+
+        dataref_address = None
+        # search in the associative array for the dataref's address
+        for dataref in dataref_address_and_value:
+            if dataref['name'] == dataref_name and dataref['index'] == dataref_index:
+                dataref_address = dataref_address['address']
+                break
+
+        result = {}
+        result["command"] = "update"
+        result["dataref"] = dataref_name
+
+        if dataref_address != None:
+            if self.is_valid_value(dataref_type,dataref_value)
+                if self.write_a_dataref(dataref_address,dataref_type,dataref_index,dataref_value):
+                    result["message"] = "successful dataref update"
+                else:
+                    result["message"] = "unkonw dataref's type"
+            else
+                result["message"] = "the dataref's value is wrong according to the dataref's type"
+
+        return result
               
     def managing_received_data(self, client_socket, ingoing_data):
         '''
@@ -227,16 +308,14 @@ class XPlaneServer:
             
             if one_ingoing_load["command"] == 'init':
                 # Add the value for the outgoing data
-                one_ingoing_load["value"] = self.process_init_command(one_ingoing_load["dataref"])
+                result = self.process_init_command(one_ingoing_load["dataref"])
             elif one_ingoing_load["command"] == 'update':
                 # This following does nothing if the plugin publishing the dataRef is disabled, the dataRef is invalid, 
                 # or the dataRef is not writable
-                self.process_update_command(one_ingoing_load)
-
-            one_ingoing_load["value"] = one_ingoing_value
+                result = self.process_update_command(one_ingoing_load["dataref"],one_ingoing_load["value"])
             
-            # echoing data
-            self.outgoing_data.outb += json.dumps(one_ingoing_load).encode()
+            # returning result of the command
+            self.outgoing_data.outb += json.dumps(result).encode()
 
     def run(self):
         '''

@@ -187,14 +187,14 @@ dataJson = {
 }
 
 
-# receiving dataJson "write"
+# receiving dataJson "update"
 #
 """
 ===============
 Write a dataset
 ===============
 dataJson = {
-    "command": "write",
+    "command": "update",
     "dataref": "AirbusFBW/OHPLightSwitches[7]", # Strobe  -> int
     "value": "0"
 }
