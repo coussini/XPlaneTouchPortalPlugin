@@ -1,8 +1,8 @@
-# XPlaneTouchPortalPlugin
 
-![Touch Portal Plugin](XPlaneTouchPortalPlugin.jpg "Xplane Touch Portal Plugin Logo")
 
-###### TODO:  set the logo string "x-plane" in white
+![Touch Portal Plugin](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.png "Xplane Touch Portal Plugin Logo")
+
+# 
 
 ##### STEP FOR THIS MOMENT
 
