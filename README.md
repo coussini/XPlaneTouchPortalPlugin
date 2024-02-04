@@ -1,8 +1,6 @@
+![XPlaneTouchPortalPlugin.png](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.png)
 
-
-![Touch Portal Plugin](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.png "Xplane Touch Portal Plugin Logo")
-
-# 
+ 
 
 ##### STEP FOR THIS MOMENT
 
