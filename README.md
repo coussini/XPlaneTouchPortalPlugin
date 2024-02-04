@@ -1,6 +1,6 @@
 # X-Plane Touch Portal Plugin
 
-<img src="file:///C:/Users/couss/OneDrive/Bureau/XPlaneTouchPortalPlugin/XPlaneTouchPortalPlugin.png" title="" alt="XPlaneTouchPortalPlugin.png" data-align="center">
+![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/assets/5262785/206080e9-4070-4172-a2d0-d7085f8a83dd)
 
 ## Overview
 
