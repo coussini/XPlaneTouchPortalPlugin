@@ -1,7 +1,0 @@
-_SelServerPourTesterCommeXplane dans 00_
-se roule dans une fenetre CMD avec python
-
-Dans Touch Portal Desktop; dans logs, regarder ce qui se passe avec l'écran Touch Portal Apps...
-
-Quand on clique, il passe par action et ne fait rien...
-
