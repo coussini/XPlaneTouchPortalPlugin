@@ -1,6 +1,5 @@
 ![XPlaneTouchPortalPlugin.png](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/XPlaneTouchPortalPlugin.png)
 
-
 ##### STEP FOR THIS MOMENT
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)
