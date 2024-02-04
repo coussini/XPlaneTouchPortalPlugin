@@ -1,6 +1,5 @@
-![XPlaneTouchPortalPlugin.png](C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\XPlaneTouchPortalPlugin.png)
+![XPlaneTouchPortalPlugin.png](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/XPlaneTouchPortalPlugin.png)
 
- 
 
 ##### STEP FOR THIS MOMENT
 
