@@ -155,7 +155,6 @@ class TouchPortalClient:
         client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
 
         # Start a thread to treat xplane client for x-plane server. This thread will finish when the Touch Portal Server are close
-        client_XP.keep_running.set()
         client_XP.treat_xplane_client()
 
     # Proceed the Touch Portal "on action" event 
@@ -383,6 +382,15 @@ class XPlaneClient:
                 a_dataref["dataref"] = dataref
                 message = json.dumps(a_dataref).encode()
                 self.outgoing_data.append(message)
+
+            # Tell the server that the initialization commands have been completed. 
+            # The server will then start a thread to check every second if the user press a command on the X-plane side. 
+            # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
+            a_dataref = {}
+            a_dataref["command"] = "init_completed"
+            message = json.dumps(a_dataref).encode()
+            self.outgoing_data.append(message)
+
         else:
             # make sure that every datarefs from the datarefs_list are initialized by the x-plane server
             self.nb_entries_datarefs_list_initialized = len(self.datarefs_list_initialized) 

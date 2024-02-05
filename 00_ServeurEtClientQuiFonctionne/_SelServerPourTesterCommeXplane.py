@@ -19,6 +19,7 @@ class XPlaneServer:
         self.host = host
         self.port = port
         self.keep_running = threading.Event()
+        self.update_thread_keep_running = threading.Event()
         self.outgoing_data = types.SimpleNamespace()
         self.client_socket_list = []
         self.server_loop_id = xp.createFlightLoop(self.server_xp.server_loop,0,None)
@@ -231,20 +232,21 @@ class XPlaneServer:
         As soon as we display a touch-portal page and its buttons, we need to obtain the button values (associated with a dataref). 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal panel).
         '''
-        print("Init command")
+        print("init command")
         dataref_name,dataref_index = self.get_dataref_name_and_index(dataref)
         print(f"dataref_name & dataref_index {dataref_name} & {dataref_index}")
         dataref_address,dataref_type,is_dataref_writable,dataref_value = self.get_dataref_address_type_value(dataref_name,dataref_index)
 
         result = {}
         result["command"] = "init"
-        result["dataref"] = dataref_name
+        result["dataref"] = dataref
         result["value"] = dataref_value
 
         if dataref_address != None:
             # add this dataref in internal associative array
             new_dataref = {
                 'name': dataref_name, 
+                'full_name': dataref, 
                 'index': dataref_index,
                 'address': dataref_address, 
                 'type': dataref_type,
@@ -259,6 +261,61 @@ class XPlaneServer:
 
         return result
 
+    def thread_function(self):
+
+        while self.update_thread_keep_running.is_set():
+            for dataref in dataref_address_and_value:
+                dataref_value = self.read_a_dataref(dataref['address'],dataref['type'],dataref['index'])
+
+                # if the last value contained in the dataref's associative array is not equal 
+                # to the x-plane dataref's value, this means a user has pressed a command on the x-plane side. 
+                # Send this new value to Touch-Portal
+                if dataref['value'] != dataref_value:
+                    # returning the new value to the X-Plane client for Touch Portal
+                    result = {}
+                    result["command"] = "update"
+                    result["dataref"] = dataref['full_name']
+                    result["value"] = dataref_value
+                    result["message"] = "X-Plane server update a value"
+                    self.outgoing_data.outb += json.dumps(result).encode()
+                    # update the dataref's associative array  
+                    dataref['value'] = dataref_value
+
+    def treat_update_from_here_for_xplane_client(self):
+        '''
+        Check every second if the user press a command on the X-plane side. 
+        Then, send the updated data to refresh the Touch Portal status and screen.  
+
+        Context:
+        If a user presses a button in x-plane, a command is sent to the Xplane client for Touch Portal to update the Touch Portal states. 
+        The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal).
+        '''
+
+        print("starting X-Plane client thread")
+        self.update_thread_keep_running.set()
+
+        try:
+            xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
+            xp_thread.start()
+        except:
+            self.update_thread_keep_running.clear()
+            print('something wrong with X-Plane server thread')
+
+
+    def process_init_completed_command(self):
+        '''
+        The server will start a thread to check every second if the user press a command on the X-plane side. 
+        '''
+        print("init_completed command")
+        result = {}
+        result["command"] = "init_completed"
+        result["message"] = "X-Plane server thread will be started soon"
+        self.outgoing_data.outb += json.dumps(result).encode()
+
+        # Start a thread to treat any update from the x-plane server. This thread will finish when X-Plane Server are close
+        self.update_thread_keep_running.set()
+        self.treat_update_from_here_for_xplane_client()
+
     def process_update_command(self,dataref,value):
         '''
         Process touch portal client update command. 
@@ -268,19 +325,19 @@ class XPlaneServer:
         If a user presses a button in touch portal, a command is sent to the xplane server to update his dataref. 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal).
         '''
-        print("Update command")
+        print("update command")
         dataref_name,dataref_index = self.get_dataref_name_and_index(dataref)
 
         dataref_address = None
         # search in the associative array for the dataref's address
         for dataref in dataref_address_and_value:
             if dataref['name'] == dataref_name and dataref['index'] == dataref_index:
-                dataref_address = dataref_address['address']
+                dataref_address = dataref['address']
                 break
 
         result = {}
         result["command"] = "update"
-        result["dataref"] = dataref_name
+        result["dataref"] = dataref
 
         if dataref_address != None:
             if self.is_valid_value(dataref_type,dataref_value)
@@ -309,6 +366,10 @@ class XPlaneServer:
             if one_ingoing_load["command"] == 'init':
                 # Add the value for the outgoing data
                 result = self.process_init_command(one_ingoing_load["dataref"])
+            elif one_ingoing_load["command"] == 'init_completed':
+                # The server will start a thread to check every second if the user press a command on the X-plane side. 
+                # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
+                pass
             elif one_ingoing_load["command"] == 'update':
                 # This following does nothing if the plugin publishing the dataRef is disabled, the dataRef is invalid, 
                 # or the dataRef is not writable
