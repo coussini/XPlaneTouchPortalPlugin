@@ -262,7 +262,13 @@ class XPlaneServer:
         return result
 
     def thread_function(self):
-
+       
+        print("init_completed command")
+        result = {}
+        result["command"] = "result_init_completed"
+        result["message"] = "X-Plane server thread will be started soon"
+        self.outgoing_data.outb += json.dumps(result).encode()
+        
         while self.update_thread_keep_running.is_set():
             for dataref in dataref_address_and_value:
                 dataref_value = self.read_a_dataref(dataref['address'],dataref['type'],dataref['index'])
@@ -306,11 +312,6 @@ class XPlaneServer:
         '''
         The server will start a thread to check every second if the user press a command on the X-plane side. 
         '''
-        print("init_completed command")
-        result = {}
-        result["command"] = "result_init_completed"
-        result["message"] = "X-Plane server thread will be started soon"
-        self.outgoing_data.outb += json.dumps(result).encode()
 
         # Start a thread to treat any update from the x-plane server. This thread will finish when X-Plane Server are close
         self.update_thread_keep_running.set()
