@@ -268,6 +268,7 @@ class XPlaneServer:
         result["command"] = "result_init_completed"
         result["message"] = "X-Plane server thread will be started soon"
         self.outgoing_data.outb += json.dumps(result).encode()
+        self.update_thread_keep_running.set()
         
         while self.update_thread_keep_running.is_set():
             for dataref in dataref_address_and_value:
@@ -314,7 +315,6 @@ class XPlaneServer:
         '''
 
         # Start a thread to treat any update from the x-plane server. This thread will finish when X-Plane Server are close
-        self.update_thread_keep_running.set()
         self.treat_update_from_here_for_xplane_client()
 
     def process_update_command(self,dataref,value):
