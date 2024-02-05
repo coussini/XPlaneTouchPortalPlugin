@@ -238,7 +238,7 @@ class XPlaneServer:
         dataref_address,dataref_type,is_dataref_writable,dataref_value = self.get_dataref_address_type_value(dataref_name,dataref_index)
 
         result = {}
-        result["command"] = "init"
+        result["command"] = "result_init"
         result["dataref"] = dataref
         result["value"] = dataref_value
 
@@ -273,7 +273,7 @@ class XPlaneServer:
                 if dataref['value'] != dataref_value:
                     # returning the new value to the X-Plane client for Touch Portal
                     result = {}
-                    result["command"] = "update"
+                    result["command"] = "result_update"
                     result["dataref"] = dataref['full_name']
                     result["value"] = dataref_value
                     result["message"] = "X-Plane server update a value"
@@ -308,7 +308,7 @@ class XPlaneServer:
         '''
         print("init_completed command")
         result = {}
-        result["command"] = "init_completed"
+        result["command"] = "result_init_completed"
         result["message"] = "X-Plane server thread will be started soon"
         self.outgoing_data.outb += json.dumps(result).encode()
 
@@ -336,7 +336,7 @@ class XPlaneServer:
                 break
 
         result = {}
-        result["command"] = "update"
+        result["command"] = "result_update"
         result["dataref"] = dataref
 
         if dataref_address != None:
