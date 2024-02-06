@@ -161,7 +161,7 @@ class XPlaneServer:
         elif bool(dataref_type & xp.Type_IntArray):
             return is_int(dataref_value) 
 
-        else 
+        else: 
             return False
 
 
@@ -256,7 +256,7 @@ class XPlaneServer:
             self.dataref_address_and_value.append(new_dataref)
 
             result["message"] = "successful dataref update"
-        else
+        else:
             result["message"] = "dataref is not found"
 
         return result
@@ -340,12 +340,12 @@ class XPlaneServer:
         result["dataref"] = dataref
 
         if dataref_address != None:
-            if self.is_valid_value(dataref_type,dataref_value)
+            if self.is_valid_value(dataref_type,dataref_value):
                 if self.write_a_dataref(dataref_address,dataref_type,dataref_index,dataref_value):
                     result["message"] = "successful dataref update"
                 else:
                     result["message"] = "unkonw dataref's type"
-            else
+            else:
                 result["message"] = "the dataref's value is wrong according to the dataref's type"
 
         return result

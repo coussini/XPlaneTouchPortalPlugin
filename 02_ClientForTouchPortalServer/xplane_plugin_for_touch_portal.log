@@ -1,0 +1,31 @@
+16:37:42.086 [I] [xplane_client_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
+16:37:42.089 [I] [xplane_client_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
+16:37:42.090 [I] [xplane_client_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
+16:37:42.090 [I] [xplane_client_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
+16:37:42.142 [I] [xplane_client_for_touch_portal.py:118] Connected to Touch Portal Version 4.0.3.0.0 plugin v 100)
+16:37:42.143 [I] [xplane_client_for_touch_portal.py:119] ==================
+16:37:42.143 [I] [xplane_client_for_touch_portal.py:120] SECTION on_connect
+16:37:42.144 [I] [xplane_client_for_touch_portal.py:121] ==================
+16:37:42.144 [I] [xplane_client_for_touch_portal.py:122] {'tpVersionString': '4.0.3.0.0', 'pluginVersion': 100, 'tpVersionCode': 400000, 'sdkVersion': 7, 'type': 'info', 'status': 'paired'}
+16:37:42.145 [I] [xplane_client_for_touch_portal.py:151] Touch Portal Choices of States Id have been updated !
+16:37:42.145 [I] [xplane_client_for_touch_portal.py:454] starting X-Plane client thread
+16:37:44.186 [E] [xplane_client_for_touch_portal.py:269] X-Plane server is not running
+16:37:44.186 [I] [xplane_client_for_touch_portal.py:449] ending X-Plane client thread
+16:37:44.187 [I] [xplane_client_for_touch_portal.py:420] =========== shutting_down X-Plane Client ===========
+16:39:00.108 [W] [xplane_client_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
+16:39:00.108 [I] [client.py:297] xplane_client_for_touch_portal Disconnected from TouchPortal
+16:39:00.108 [I] [xplane_client_for_touch_portal.py:480] Return code = False
+16:55:46.779 [I] [xplane_plugin_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
+16:55:46.780 [I] [xplane_plugin_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
+16:55:46.781 [I] [xplane_plugin_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
+16:55:46.781 [I] [xplane_plugin_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
+16:56:10.775 [W] [xplane_plugin_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
+16:56:10.776 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
+16:56:10.777 [I] [xplane_plugin_for_touch_portal.py:480] Return code = False
+16:57:56.832 [I] [xplane_plugin_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
+16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
+16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
+16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
+16:58:10.059 [W] [xplane_plugin_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
+16:58:10.060 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
+16:58:10.060 [I] [xplane_plugin_for_touch_portal.py:480] Return code = False

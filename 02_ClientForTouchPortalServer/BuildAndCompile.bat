@@ -1,1 +1,1 @@
-tppbuild xplane_touch_portal_client_build.py
+tppbuild xplane_plugin_for_touch_portal_build.py

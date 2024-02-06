@@ -2,6 +2,16 @@
 
 ![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/assets/5262785/206080e9-4070-4172-a2d0-d7085f8a83dd)
 
+## Instruction pour démarrage un fois ce plugin installé
+
+- Démarrer X-Plane 12
+
+- S'assurer qu'il y a le message dans x-plane "serveur pour touch portal actif"
+
+- Démarrer Touch Portal
+
+- Vous devriez voir sur votre page que les boutons ou les commandes sont les même que du côté X-Plane
+
 ## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)
