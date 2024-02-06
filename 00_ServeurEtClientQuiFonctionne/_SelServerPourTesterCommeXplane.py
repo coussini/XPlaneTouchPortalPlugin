@@ -299,7 +299,6 @@ class XPlaneServer:
         '''
 
         print("starting X-Plane client thread")
-        self.update_thread_keep_running.set()
 
         try:
             xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
@@ -441,8 +440,6 @@ def main():
     port = 65432
     
     server_xp = XPlaneServer(host,port)
-    server_xp.keep_running.set()
-    server_xp.preparing_running()
     server_xp.server_socket.bind((server_xp.host, server_xp.port))
     
     print(f'Listening on {(server_xp.host, server_xp.port)}')
@@ -453,6 +450,8 @@ def main():
     server_xp.server_socket.setblocking(False)
     # register a file object for selection, monitoring it for I/O events
     server_xp.server_selectors.register(self.server_socket, selectors.EVENT_READ, data=None)
+
+    server_xp.keep_running.set()
 
     try:
         while server_xp.keep_running.is_set():

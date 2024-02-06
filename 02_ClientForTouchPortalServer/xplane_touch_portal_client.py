@@ -271,16 +271,6 @@ class XPlaneClient:
 
         return successful
 
-    def preparing_running(self):
-
-        __logger__.info(f'preparing x-plane to running')
-        __logger__.info(f'Connecting on {(self.host, self.port)}')
-
-        # unblocking socket
-        self.client_socket.setblocking(False)
-        # register a file object for selection, monitoring it for I/O events
-        self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
-
     # separate the ingoing packet and store it in ingoing_list    
     def treat_ingoing_string(self, ingoing_str):
 
@@ -438,10 +428,18 @@ class XPlaneClient:
 
     def thread_function(self):
 
+        self.keep_running.set()
+        self.init_phase_running.set()
+
         try:
             if self.connect():
-                self.connected.set()
-                self.preparing_running()
+                __logger__.info(f'preparing x-plane to running')
+                __logger__.info(f'Connecting on {(self.host, self.port)}')
+                # unblocking socket
+                self.client_socket.setblocking(False)
+                # register a file object for selection, monitoring it for I/O events
+                self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
+
                 while self.keep_running.is_set():
                     self.run()
         except:
@@ -454,8 +452,6 @@ class XPlaneClient:
     def treat_xplane_client(self):
 
         __logger__.info("starting X-Plane client thread")
-        self.keep_running.set()
-        self.init_phase_running.set()
 
         try:
             xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
