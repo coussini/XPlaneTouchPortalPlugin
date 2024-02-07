@@ -12,6 +12,10 @@
 
 - Vous devriez voir sur votre page que les boutons ou les commandes sont les même que du côté X-Plane
 
+## Instruction pour télécharger des pack de boutons utiles pour Touch Portal X-Plane
+
+- Expliquer comment télécharger et intégrer des boutons pour X-Plane pour Touch-Portal
+
 ## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)

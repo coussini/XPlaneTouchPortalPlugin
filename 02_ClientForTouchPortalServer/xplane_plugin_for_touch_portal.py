@@ -172,6 +172,17 @@ class TouchPortalClient:
         __logger__.info(f'=================')
         __logger__.info(f'{data}')
 
+        '''
+        a_dataref = {}
+        a_dataref['command'] = self.request_update_from_x_plane
+        a_dataref['dataref'] = dataref
+        a_dataref['value'] = value # from TP state
+        message = json.dumps(a_dataref).encode()
+        self.outgoing_data.append(message)
+
+        '''
+
+
     # Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
     def on_shutdown_process(self, data, client_TP):
 
@@ -249,11 +260,8 @@ class XPlaneClient:
         self.connected = threading.Event()
         self.init_phase_done = threading.Event()
         self.init_phase_running = threading.Event()
-        
-        self.outgoing_data = []
 
-        self.input_json_keys = ['command', 'dataref', 'value', 'message']
-        self.update_json_keys = ['command', 'dataref', 'value', 'message']
+        self.outgoing_data = []
 
         # keep a sorted datarefs list that should be working on
         self.datarefs_list = []
@@ -265,6 +273,38 @@ class XPlaneClient:
 
         # store datarefs and their values from X-Plane in a dictionary for updating states in Touch Portal
         self.datarefs_and_values_dictionary = {}
+        '''
+        ============================================================================
+        This is the chart for communication paquet between the client and the server
+        ============================================================================
+        '''
+        # Packet that asks this server for the current dataref value in x-plane (initialization part)  
+        self.request_dataref_value = 'request_dataref_value'
+        self.request_dataref_value_paquet = ['command', 'dataref']
+        # Packet for response for the previous request  
+        self.response_dataref_value = 'response_dataref_value'
+        self.response_dataref_value_paquet = ['command', 'dataref', 'message', 'value']
+
+        # Packet that explains to this server that the initialization part is completed  
+        self.request_initialization_done = 'request_initialization_done'
+        self.request_initialization_done_paquet = ['command']
+        # Packet for response for the previous request  
+        self.response_initialization_done = 'response_initialization_done'
+        self.response_initialization_done_paquet = ['command', 'message']
+
+        # Packet that explains to this server that a dataref value has been updated in Touch Portal  
+        self.request_update_from_touch_portal = 'request_update_from_touch_portal'
+        self.request_update_from_touch_portal_paquet = ['command', 'dataref', 'value']
+        # Packet for response for the previous request  
+        self.response_update_from_touch_portal = 'response_update_from_touch_portal'
+        self.response_update_from_touch_portal_paquet = ['command', 'message']
+
+        # Packet that explains to the client that a dataref value has been updated in X-Plane  
+        self.request_update_from_x_plane = 'request_update_from_x_plane'
+        self.request_update_from_x_plane_paquet = ['command', 'dataref', 'value']
+        # Packet for response for the previous request  
+        self.response_update_from_x_plane = 'response_update_from_x_plane'
+        self.response_update_from_x_plane_paquet = ['command', 'message']
 
     def connect(self):
         
@@ -310,17 +350,21 @@ class XPlaneClient:
                 one_ingoing_object = json.loads(one_ingoing)
                 keys = list(one_ingoing_object.keys())
                 keys.sort()
-                # treat each dataref for the initialization phase
-                if keys == self.input_json_keys:
+                # treat response for the current dataref value in x-plane (initialization part)
+                if one_ingoing_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquets:
+                    __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
                     self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
                     self.datarefs_and_values_dictionary.update({one_ingoing_object['dataref']:one_ingoing_object['value']})
                     __logger__.info(f'append {one_ingoing_object["dataref"]}')
-                elif keys == self.update_json_keys:
-                    __logger__.info(f'this json file keys is ok: {self.update_json_keys}')
+                elif one_ingoing_object['command'] == self.response_initialization_done and keys == self.response_initialization_done_paquet:
+                    __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
+                elif one_ingoing_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
+                    __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
+                elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
+                    ##### ATTENTION METTRE À JOUR TOUCH PORTAL STATE 
+                    __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
                 else:
-                    __logger__.error(f'json file keys must be:')
-                    __logger__.error(f'{self.input_json_keys}')
-                    __logger__.error(f'{self.update_json_keys}')
+                    __logger__.error(f'this response is not part of the communication chart between the client and the server')
                     __logger__.error(f'the following json file keys has been rejected:')
                     __logger__.error(f'{keys}')
                     self.keep_running.clear()
@@ -375,7 +419,7 @@ class XPlaneClient:
                 # this is temporary for value. the value must not be there for init
 
                 a_dataref = {}
-                a_dataref['command'] = 'init'
+                a_dataref['command'] = self.request_dataref_value
                 a_dataref['dataref'] = dataref
                 message = json.dumps(a_dataref).encode()
                 self.outgoing_data.append(message)
@@ -384,7 +428,7 @@ class XPlaneClient:
             # The server will then start a thread to check every second if the user press a command on the X-plane side. 
             # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
             a_dataref = {}
-            a_dataref['command'] = 'init_completed'
+            a_dataref['command'] = self.request_initialization_done
             message = json.dumps(a_dataref).encode()
             self.outgoing_data.append(message)
 
