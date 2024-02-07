@@ -28,7 +28,9 @@ except Exception as e:
 class XPlanePlugin:
     
     def __init__(self):
-
+        '''
+        Class initialization. 
+        '''
         self.version = '1.0'
         self.json_file = 'datarefs.json'
         self.json_keys_first_level = 'datarefs'
@@ -112,7 +114,7 @@ class TouchPortalClient:
         self.on_action = TP_API.TYPES.onAction
         self.on_shutdown = TP_API.TYPES.onShutdown
 
-    # Proceed the Touch Portal "on connect" event 
+    # Proceed the Touch Portal 'on connect' event 
     def on_connect_process(self, data, states, client_TP, client_XP):
 
         __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
@@ -157,7 +159,7 @@ class TouchPortalClient:
         # Start a thread to treat xplane client for x-plane server. This thread will finish when the Touch Portal Server are close
         client_XP.treat_xplane_client()
 
-    # Proceed the Touch Portal "on action" event 
+    # Proceed the Touch Portal 'on action' event 
     def on_action_process(self, data, states, client_TP, client_XP):
 
         __logger__.info(f'=================')
@@ -165,7 +167,7 @@ class TouchPortalClient:
         __logger__.info(f'=================')
         __logger__.info(f'{data}')
 
-    # Proceed the Touch Portal "on shutdown" event. When Touch Portal tries to close plugin 
+    # Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
     def on_shutdown_process(self, data, client_TP):
 
         __logger__.info(f'===================')
@@ -245,6 +247,7 @@ class XPlaneClient:
         
         self.outgoing_data = []
 
+        #### ATTENTION METTRE À JOUR SELON SERVEUR XP ET SES COMMAND
         self.input_json_keys = ['command', 'dataref', 'value']
         self.update_json_keys = ['command', 'dataref', 'value']
 
@@ -368,8 +371,8 @@ class XPlaneClient:
                 # this is temporary for value. the value must not be there for init
 
                 a_dataref = {}
-                a_dataref["command"] = "init"
-                a_dataref["dataref"] = dataref
+                a_dataref['command'] = 'init'
+                a_dataref['dataref'] = dataref
                 message = json.dumps(a_dataref).encode()
                 self.outgoing_data.append(message)
 
@@ -377,7 +380,7 @@ class XPlaneClient:
             # The server will then start a thread to check every second if the user press a command on the X-plane side. 
             # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
             a_dataref = {}
-            a_dataref["command"] = "init_completed"
+            a_dataref['command'] = 'init_completed'
             message = json.dumps(a_dataref).encode()
             self.outgoing_data.append(message)
 
@@ -451,7 +454,7 @@ class XPlaneClient:
 
     def treat_xplane_client(self):
 
-        __logger__.info("starting X-Plane client thread")
+        __logger__.info('starting X-Plane client thread')
 
         try:
             xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
@@ -463,7 +466,7 @@ class XPlaneClient:
 def main():
     
     # Create a XPlane Plugin instance.
-    xplane_plugin = XPlanePlugin()
+    plugin_XP = XPlanePlugin()
 
     # Create a Touch Portal client instance.
     client_TP = TouchPortalClient()
@@ -472,10 +475,10 @@ def main():
     client_XP = XPlaneClient(client_TP)
 
     # extract all datarefs from the JSON file.
-    successful, xplane_plugin.states = xplane_plugin.get_dataref_values_from_json_file()
+    successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
 
     if successful:
-        successful = client_TP.treat_touch_portal_client(xplane_plugin.states, client_XP)
+        successful = client_TP.treat_touch_portal_client(plugin_XP.states, client_XP)
 
     __logger__.info(f'Return code = {successful}')
     sys.exit(successful)
