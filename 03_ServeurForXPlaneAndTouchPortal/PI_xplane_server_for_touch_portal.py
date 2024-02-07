@@ -111,6 +111,20 @@ class XPlaneServer:
         self.outgoing_data = types.SimpleNamespace()
         self.client_socket_list = []
         self.dataref_address_and_value = {}
+        '''
+        This is a list of incomming command and outcomming command result for this server
+        '''
+        # incomming command result
+        self.command_init = 'init'
+        self.command_init_completed = 'init_completed'
+        self.command_update = 'update'
+
+        # outcomming command result
+        self.command_result_init = 'result_init'
+        self.command_result_update_from_xplane = 'result_update_from_xplane'
+        self.command_result_update = 'result_update'
+        self.command_result_init_completed = 'result_init_completed'
+
 
     def separate_data_received(self, ingoing_data):
         '''
@@ -235,7 +249,7 @@ class XPlaneServer:
         dataref_address,dataref_type,is_dataref_writable,dataref_value = self.get_dataref_address_type_value(dataref_name,dataref_index)
 
         result = {}
-        result["command"] = "result_init"
+        result["command"] = self.command_result_init
         result["dataref"] = dataref
         result["value"] = dataref_value
 
@@ -266,7 +280,7 @@ class XPlaneServer:
         '''
         if self.update_thread_keep_running.is_set():
             
-            for dataref in dataref_address_and_value:
+            for dataref in self.dataref_address_and_value:
                 dataref_value = self.read_a_dataref(dataref['address'],dataref['type'],dataref['index'])
 
                 # if the last value contained in the dataref's associative array is not equal 
@@ -275,7 +289,7 @@ class XPlaneServer:
                 if dataref['value'] != dataref_value:
                     # returning the new value to the X-Plane client for Touch Portal
                     result = {}
-                    result["command"] = "result_update"
+                    result["command"] = self.command_result_update_from_xplane
                     result["dataref"] = dataref['full_name']
                     result["value"] = dataref_value
                     result["message"] = "X-Plane server update a value"
@@ -383,7 +397,7 @@ class XPlaneServer:
                 break
 
         result = {}
-        result["command"] = "result_update"
+        result["command"] = self.command_result_update
         result["dataref"] = dataref
 
         if dataref_address != None:
@@ -410,20 +424,20 @@ class XPlaneServer:
             print(f'type one_ingoing {type(one_ingoing)}')
             one_ingoing_load = json.loads(one_ingoing)
             
-            if one_ingoing_load["command"] == 'init':
+            if one_ingoing_load["command"] == self.command_init:
                 # Add the value for the outgoing data
                 result = self.process_init_command(one_ingoing_load["dataref"])
-            elif one_ingoing_load["command"] == 'init_completed':
+            elif one_ingoing_load["command"] == self.command_init_completed:
                 # The server will start a thread to check every second if the user press a command on the X-plane side. 
                 # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
                 print("init_completed command")
                 result = {}
-                result["command"] = "result_init_completed"
+                result["command"] = self.command_result_init_completed
                 result["message"] = "X-Plane server thread will be started soon"
                 self.outgoing_data.outb += json.dumps(result).encode()
                 self.update_thread_keep_running.set()
                 xp.scheduleFlightLoop(self.update_loop_id,1,1)
-            elif one_ingoing_load["command"] == 'update':
+            elif one_ingoing_load["command"] == self.command_update:
                 # This following does nothing if the plugin publishing the dataRef is disabled, the dataRef is invalid, 
                 # or the dataRef is not writable
                 result = self.process_update_command(one_ingoing_load["dataref"],one_ingoing_load["value"])

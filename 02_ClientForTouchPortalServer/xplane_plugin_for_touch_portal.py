@@ -1,3 +1,9 @@
+'''
+attention, gérer les entrées venant du serveur selon les commandes envoyé par ce dernier
+        self.input_json_keys = ['command', 'dataref', 'value', 'message']
+        self.update_json_keys = ['command', 'dataref', 'value', 'message']
+'''
+
 import sys 
 import os
 import platform
@@ -8,7 +14,6 @@ import selectors
 import socket
 import json
 import time
-import random # temporary
 import threading
 
 __plugin_id__ = 'xplane_plugin_for_touch_portal'
@@ -247,9 +252,8 @@ class XPlaneClient:
         
         self.outgoing_data = []
 
-        #### ATTENTION METTRE À JOUR SELON SERVEUR XP ET SES COMMAND
-        self.input_json_keys = ['command', 'dataref', 'value']
-        self.update_json_keys = ['command', 'dataref', 'value']
+        self.input_json_keys = ['command', 'dataref', 'value', 'message']
+        self.update_json_keys = ['command', 'dataref', 'value', 'message']
 
         # keep a sorted datarefs list that should be working on
         self.datarefs_list = []
