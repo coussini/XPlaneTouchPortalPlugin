@@ -16,43 +16,24 @@
       "imagepath": "%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",      
       "actions": [
         {
-          "id": "xplane_plugin_for_touch_portal.dataref.toggle_two_states",
-          "name": "This toggle between 2 values",
-          "prefix": "xplane",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": false,
-          "description": "",
-          "format": "Toggle the dataref {$xplane_plugin_for_touch_portal.dataref.toggle_two_states.choice$} (2 values)",
-          "data": [
-            {
-              "id": "xplane_plugin_for_touch_portal.dataref.toggle_two_states.choice",
-              "type": "choice",
-              "label": "dataref Name",
-              "default": "Ext power",
-              "valueChoices": []
-            }
-          ]
-        },
-        {
-          "id": "xplane_plugin_for_touch_portal.dataref.set_two_states",
+          "id": "xplane_plugin_for_touch_portal.dataref.set_states",
           "name": "Xplane dataref - Set Variable Value",
           "prefix": "XPlane",
           "type": "communicate",
           "tryInline": true,
           "hasHoldFunctionality": true,
           "description": "",
-          "format": "Xplane dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_two_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_two_states.value$}",
+          "format": "Xplane dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_states.value$}",
           "data": [
             {
-              "id": "xplane_plugin_for_touch_portal.dataref.set_two_states.name",
+              "id": "xplane_plugin_for_touch_portal.dataref.set_states.name",
               "type": "choice",
               "label": "dataref name",
-              "default": "Ext power",
+              "default": "Battery",
               "valueChoices": []
             },
             {
-              "id": "xplane_plugin_for_touch_portal.dataref.set_two_states.value",
+              "id": "xplane_plugin_for_touch_portal.dataref.set_states.value",
               "type": "text",
               "label": "value",
               "default": "0"

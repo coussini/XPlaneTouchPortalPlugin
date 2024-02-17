@@ -1,362 +1,605 @@
-16:37:42.086 [I] [xplane_client_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
-16:37:42.089 [I] [xplane_client_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
-16:37:42.090 [I] [xplane_client_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
-16:37:42.090 [I] [xplane_client_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
-16:37:42.142 [I] [xplane_client_for_touch_portal.py:118] Connected to Touch Portal Version 4.0.3.0.0 plugin v 100)
-16:37:42.143 [I] [xplane_client_for_touch_portal.py:119] ==================
-16:37:42.143 [I] [xplane_client_for_touch_portal.py:120] SECTION on_connect
-16:37:42.144 [I] [xplane_client_for_touch_portal.py:121] ==================
-16:37:42.144 [I] [xplane_client_for_touch_portal.py:122] {'tpVersionString': '4.0.3.0.0', 'pluginVersion': 100, 'tpVersionCode': 400000, 'sdkVersion': 7, 'type': 'info', 'status': 'paired'}
-16:37:42.145 [I] [xplane_client_for_touch_portal.py:151] Touch Portal Choices of States Id have been updated !
-16:37:42.145 [I] [xplane_client_for_touch_portal.py:454] starting X-Plane client thread
-16:37:44.186 [E] [xplane_client_for_touch_portal.py:269] X-Plane server is not running
-16:37:44.186 [I] [xplane_client_for_touch_portal.py:449] ending X-Plane client thread
-16:37:44.187 [I] [xplane_client_for_touch_portal.py:420] =========== shutting_down X-Plane Client ===========
-16:39:00.108 [W] [xplane_client_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
-16:39:00.108 [I] [client.py:297] xplane_client_for_touch_portal Disconnected from TouchPortal
-16:39:00.108 [I] [xplane_client_for_touch_portal.py:480] Return code = False
-16:55:46.779 [I] [xplane_plugin_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
-16:55:46.780 [I] [xplane_plugin_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
-16:55:46.781 [I] [xplane_plugin_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
-16:55:46.781 [I] [xplane_plugin_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
-16:56:10.775 [W] [xplane_plugin_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
-16:56:10.776 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:56:10.777 [I] [xplane_plugin_for_touch_portal.py:480] Return code = False
-16:57:56.832 [I] [xplane_plugin_for_touch_portal.py:70] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
-16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:76] Datarefs successfully loaded from datarefs.json !
-16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:88] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
-16:57:56.833 [I] [xplane_plugin_for_touch_portal.py:204] Trying to connect to Touch Portal Apps
-16:58:10.059 [W] [xplane_plugin_for_touch_portal.py:209] Caught keyboard interrupt, exiting.
-16:58:10.060 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:58:10.060 [I] [xplane_plugin_for_touch_portal.py:480] Return code = False
-16:08:52.250 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
-16:08:52.251 [I] [xplane_plugin_for_touch_portal.py:83] Datarefs successfully loaded from datarefs.json !
-16:08:52.251 [I] [xplane_plugin_for_touch_portal.py:95] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
-16:08:52.251 [I] [xplane_plugin_for_touch_portal.py:211] Trying to connect to Touch Portal Apps
-16:08:52.317 [I] [xplane_plugin_for_touch_portal.py:125] Connected to Touch Portal Version 4.0.3.0.0 plugin v 100)
-16:08:52.317 [I] [xplane_plugin_for_touch_portal.py:126] ==================
-16:08:52.317 [I] [xplane_plugin_for_touch_portal.py:127] SECTION on_connect
-16:08:52.318 [I] [xplane_plugin_for_touch_portal.py:128] ==================
-16:08:52.318 [I] [xplane_plugin_for_touch_portal.py:129] {'tpVersionString': '4.0.3.0.0', 'pluginVersion': 100, 'tpVersionCode': 400000, 'sdkVersion': 7, 'type': 'info', 'status': 'paired'}
-16:08:52.318 [I] [xplane_plugin_for_touch_portal.py:158] Touch Portal Choices of States Id have been updated !
-16:08:52.318 [I] [xplane_plugin_for_touch_portal.py:461] starting X-Plane client thread
-16:08:52.319 [I] [xplane_plugin_for_touch_portal.py:443] preparing x-plane to running
-16:08:52.319 [I] [xplane_plugin_for_touch_portal.py:444] Connecting on ('192.168.0.107', 65432)
-16:08:52.320 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[0]"}'
-16:08:52.320 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.320 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[1]"}'
-16:08:52.321 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.321 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.322 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "message": "test", "value": "2"}']
-16:08:52.322 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "message": "test", "value": "2"}
-16:08:52.323 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ADIRUSwitchArray[0]
-16:08:52.323 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.323 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[2]"}'
-16:08:52.324 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.325 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.325 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "message": "test", "value": "2"}']
-16:08:52.325 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "message": "test", "value": "2"}
-16:08:52.326 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ADIRUSwitchArray[1]
-16:08:52.326 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.327 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/APUAvail"}'
-16:08:52.329 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.330 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.331 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "message": "test", "value": "1"}']
-16:08:52.332 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "message": "test", "value": "1"}
-16:08:52.333 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ADIRUSwitchArray[2]
-16:08:52.336 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.338 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/APUMaster"}'
-16:08:52.339 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.341 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.343 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/APUAvail", "message": "test", "value": "2"}']
-16:08:52.345 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/APUAvail", "message": "test", "value": "2"}
-16:08:52.346 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/APUAvail
-16:08:52.347 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.348 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/APUStarter"}'
-16:08:52.350 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.352 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.353 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/APUMaster", "message": "test", "value": "1"}']
-16:08:52.355 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/APUMaster", "message": "test", "value": "1"}
-16:08:52.357 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/APUMaster
-16:08:52.358 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.359 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/AnnunMode[8]"}'
-16:08:52.360 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.361 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.362 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/APUStarter", "message": "test", "value": "0"}']
-16:08:52.364 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/APUStarter", "message": "test", "value": "0"}
-16:08:52.365 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/APUStarter
-16:08:52.368 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.369 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/DUBrightness[0]"}'
-16:08:52.370 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.371 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.372 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/AnnunMode[8]", "message": "test", "value": "2"}']
-16:08:52.373 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/AnnunMode[8]", "message": "test", "value": "2"}
-16:08:52.374 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/AnnunMode[8]
-16:08:52.375 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.377 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/DUBrightness[1]"}'
-16:08:52.378 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.378 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.380 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/DUBrightness[0]", "message": "test", "value": "2"}']
-16:08:52.381 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/DUBrightness[0]", "message": "test", "value": "2"}
-16:08:52.384 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/DUBrightness[0]
-16:08:52.385 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.386 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/DUBrightness[4]"}'
-16:08:52.386 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.387 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.388 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/DUBrightness[1]", "message": "test", "value": "0"}']
-16:08:52.389 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/DUBrightness[1]", "message": "test", "value": "0"}
-16:08:52.390 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/DUBrightness[1]
-16:08:52.392 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.392 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/DUBrightness[5]"}'
-16:08:52.393 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.393 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.394 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/DUBrightness[4]", "message": "test", "value": "2"}']
-16:08:52.394 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/DUBrightness[4]", "message": "test", "value": "2"}
-16:08:52.395 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/DUBrightness[4]
-16:08:52.395 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.396 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/DUBrightness[6]"}'
-16:08:52.396 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.397 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.399 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/DUBrightness[5]", "message": "test", "value": "0"}']
-16:08:52.400 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/DUBrightness[5]", "message": "test", "value": "0"}
-16:08:52.401 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/DUBrightness[5]
-16:08:52.401 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.401 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[3]"}'
-16:08:52.402 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.402 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.402 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/DUBrightness[6]", "message": "test", "value": "0"}']
-16:08:52.403 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/DUBrightness[6]", "message": "test", "value": "0"}
-16:08:52.403 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/DUBrightness[6]
-16:08:52.404 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.405 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[5]"}'
-16:08:52.405 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.405 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.406 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[3]", "message": "test", "value": "2"}']
-16:08:52.406 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ElecOHPArray[3]", "message": "test", "value": "2"}
-16:08:52.407 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ElecOHPArray[3]
-16:08:52.408 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.408 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[6]"}'
-16:08:52.408 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.409 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.409 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[5]", "message": "test", "value": "1"}']
-16:08:52.410 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ElecOHPArray[5]", "message": "test", "value": "1"}
-16:08:52.410 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ElecOHPArray[5]
-16:08:52.411 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.412 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/EnableExternalPower"}'
-16:08:52.412 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.413 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.415 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/ElecOHPArray[6]", "message": "test", "value": "3"}']
-16:08:52.416 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/ElecOHPArray[6]", "message": "test", "value": "3"}
-16:08:52.416 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/ElecOHPArray[6]
-16:08:52.417 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.417 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/NDrangeCapt"}'
-16:08:52.418 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.418 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.418 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/EnableExternalPower", "message": "test", "value": "2"}']
-16:08:52.419 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/EnableExternalPower", "message": "test", "value": "2"}
-16:08:52.420 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/EnableExternalPower
-16:08:52.420 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.421 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[0]"}'
-16:08:52.421 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.421 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.422 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/NDrangeCapt", "message": "test", "value": "2"}']
-16:08:52.422 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/NDrangeCapt", "message": "test", "value": "2"}
-16:08:52.423 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/NDrangeCapt
-16:08:52.424 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.424 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[10]"}'
-16:08:52.424 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.425 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.425 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[0]", "message": "test", "value": "2"}']
-16:08:52.426 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[0]", "message": "test", "value": "2"}
-16:08:52.426 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[0]
-16:08:52.427 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.427 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[11]"}'
-16:08:52.428 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.428 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.429 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[10]", "message": "test", "value": "3"}']
-16:08:52.432 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[10]", "message": "test", "value": "3"}
-16:08:52.432 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[10]
-16:08:52.433 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.434 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[12]"}'
-16:08:52.434 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.434 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.435 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[11]", "message": "test", "value": "3"}']
-16:08:52.435 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[11]", "message": "test", "value": "3"}
-16:08:52.436 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[11]
-16:08:52.436 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.437 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[1]"}'
-16:08:52.437 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.438 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.438 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[12]", "message": "test", "value": "1"}']
-16:08:52.439 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[12]", "message": "test", "value": "1"}
-16:08:52.439 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[12]
-16:08:52.440 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.440 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[2]"}'
-16:08:52.441 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.441 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.442 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[1]", "message": "test", "value": "2"}']
-16:08:52.442 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[1]", "message": "test", "value": "2"}
-16:08:52.443 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[1]
-16:08:52.443 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.444 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[3]"}'
-16:08:52.444 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.447 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.448 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[2]", "message": "test", "value": "0"}']
-16:08:52.448 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[2]", "message": "test", "value": "0"}
-16:08:52.449 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[2]
-16:08:52.449 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.450 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[4]"}'
-16:08:52.450 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.451 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.451 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[3]", "message": "test", "value": "2"}']
-16:08:52.452 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[3]", "message": "test", "value": "2"}
-16:08:52.452 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[3]
-16:08:52.453 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.454 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[5]"}'
-16:08:52.454 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.454 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.455 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[4]", "message": "test", "value": "2"}']
-16:08:52.455 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[4]", "message": "test", "value": "2"}
-16:08:52.456 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[4]
-16:08:52.456 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.457 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[6]"}'
-16:08:52.457 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.458 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.458 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[5]", "message": "test", "value": "3"}']
-16:08:52.459 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[5]", "message": "test", "value": "3"}
-16:08:52.459 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[5]
-16:08:52.460 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.461 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[7]"}'
-16:08:52.464 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.464 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.464 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[6]", "message": "test", "value": "0"}']
-16:08:52.465 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[6]", "message": "test", "value": "0"}
-16:08:52.466 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[6]
-16:08:52.466 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.467 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[8]"}'
-16:08:52.467 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.468 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.468 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[7]", "message": "test", "value": "1"}']
-16:08:52.469 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[7]", "message": "test", "value": "1"}
-16:08:52.469 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[7]
-16:08:52.470 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.470 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[9]"}'
-16:08:52.471 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.471 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.471 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[8]", "message": "test", "value": "1"}']
-16:08:52.472 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[8]", "message": "test", "value": "1"}
-16:08:52.473 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[8]
-16:08:52.473 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.474 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/PanelBrightnessLevel"}'
-16:08:52.474 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.475 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.475 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[9]", "message": "test", "value": "1"}']
-16:08:52.476 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/OHPLightSwitches[9]", "message": "test", "value": "1"}
-16:08:52.476 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/OHPLightSwitches[9]
-16:08:52.477 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.480 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/PanelFloodBrightnessLevel"}'
-16:08:52.480 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.480 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.481 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/PanelBrightnessLevel", "message": "test", "value": "0"}']
-16:08:52.481 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/PanelBrightnessLevel", "message": "test", "value": "0"}
-16:08:52.482 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/PanelBrightnessLevel
-16:08:52.482 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.483 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel"}'
-16:08:52.483 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.484 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.484 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "message": "test", "value": "1"}']
-16:08:52.485 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "message": "test", "value": "1"}
-16:08:52.485 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/PanelFloodBrightnessLevel
-16:08:52.486 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.487 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/RMP3Lights[0]"}'
-16:08:52.487 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.487 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.488 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "message": "test", "value": "1"}']
-16:08:52.488 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "message": "test", "value": "1"}
-16:08:52.489 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/PedestalFloodBrightnessLevel
-16:08:52.490 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.490 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/XPDRPower"}'
-16:08:52.491 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.491 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.492 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/RMP3Lights[0]", "message": "test", "value": "3"}']
-16:08:52.492 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/RMP3Lights[0]", "message": "test", "value": "3"}
-16:08:52.493 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/RMP3Lights[0]
-16:08:52.496 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.496 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/XPDRSystem"}'
-16:08:52.496 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.497 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.497 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/XPDRPower", "message": "test", "value": "0"}']
-16:08:52.497 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/XPDRPower", "message": "test", "value": "0"}
-16:08:52.498 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/XPDRPower
-16:08:52.499 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.499 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/XPDRTCASAltSelect"}'
-16:08:52.500 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.500 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.500 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/XPDRSystem", "message": "test", "value": "0"}']
-16:08:52.501 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/XPDRSystem", "message": "test", "value": "0"}
-16:08:52.502 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/XPDRSystem
-16:08:52.502 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.503 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init", "dataref": "AirbusFBW/XPDRTCASMode"}'
-16:08:52.503 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.503 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.504 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/XPDRTCASAltSelect", "message": "test", "value": "3"}']
-16:08:52.504 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/XPDRTCASAltSelect", "message": "test", "value": "3"}
-16:08:52.505 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/XPDRTCASAltSelect
-16:08:52.506 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.506 [I] [xplane_plugin_for_touch_portal.py:364] outgoing_data = b'{"command": "init_completed"}'
-16:08:52.507 [I] [xplane_plugin_for_touch_portal.py:365] 
-16:08:52.507 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.507 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init", "dataref": "AirbusFBW/XPDRTCASMode", "message": "test", "value": "3"}']
-16:08:52.508 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init", "dataref": "AirbusFBW/XPDRTCASMode", "message": "test", "value": "3"}
-16:08:52.509 [I] [xplane_plugin_for_touch_portal.py:317] append AirbusFBW/XPDRTCASMode
-16:08:52.512 [I] [xplane_plugin_for_touch_portal.py:337] 
-16:08:52.512 [I] [xplane_plugin_for_touch_portal.py:398] datarefs initialization processing was completed correctly !
-16:08:52.512 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[0] and 2 for stateUpdate
-16:08:52.512 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[1] and 2 for stateUpdate
-16:08:52.513 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[2] and 1 for stateUpdate
-16:08:52.513 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/APUAvail and 2 for stateUpdate
-16:08:52.513 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/APUMaster and 1 for stateUpdate
-16:08:52.514 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/APUStarter and 0 for stateUpdate
-16:08:52.514 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/AnnunMode[8] and 2 for stateUpdate
-16:08:52.515 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[0] and 2 for stateUpdate
-16:08:52.515 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[1] and 0 for stateUpdate
-16:08:52.515 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[4] and 2 for stateUpdate
-16:08:52.516 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[5] and 0 for stateUpdate
-16:08:52.516 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[6] and 0 for stateUpdate
-16:08:52.517 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[3] and 2 for stateUpdate
-16:08:52.517 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[5] and 1 for stateUpdate
-16:08:52.517 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[6] and 3 for stateUpdate
-16:08:52.518 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/EnableExternalPower and 2 for stateUpdate
-16:08:52.518 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/NDrangeCapt and 2 for stateUpdate
-16:08:52.519 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[0] and 2 for stateUpdate
-16:08:52.519 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[10] and 3 for stateUpdate
-16:08:52.519 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[11] and 3 for stateUpdate
-16:08:52.520 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[12] and 1 for stateUpdate
-16:08:52.520 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[1] and 2 for stateUpdate
-16:08:52.521 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[2] and 0 for stateUpdate
-16:08:52.521 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[3] and 2 for stateUpdate
-16:08:52.521 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[4] and 2 for stateUpdate
-16:08:52.522 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[5] and 3 for stateUpdate
-16:08:52.522 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[6] and 0 for stateUpdate
-16:08:52.523 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[7] and 1 for stateUpdate
-16:08:52.523 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[8] and 1 for stateUpdate
-16:08:52.524 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[9] and 1 for stateUpdate
-16:08:52.524 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/PanelBrightnessLevel and 0 for stateUpdate
-16:08:52.524 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/PanelFloodBrightnessLevel and 1 for stateUpdate
-16:08:52.525 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/PedestalFloodBrightnessLevel and 1 for stateUpdate
-16:08:52.528 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/RMP3Lights[0] and 3 for stateUpdate
-16:08:52.529 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/XPDRPower and 0 for stateUpdate
-16:08:52.529 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/XPDRSystem and 0 for stateUpdate
-16:08:52.529 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASAltSelect and 3 for stateUpdate
-16:08:52.530 [I] [xplane_plugin_for_touch_portal.py:404] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASMode and 3 for stateUpdate
-16:08:52.530 [I] [xplane_plugin_for_touch_portal.py:406] state update completed !
-16:08:52.531 [I] [xplane_plugin_for_touch_portal.py:304] THIS IS THE INGOING_LIST
-16:08:52.531 [I] [xplane_plugin_for_touch_portal.py:305] ['{"command": "init_completed", "message": "test", "value": "2"}']
-16:08:52.531 [I] [xplane_plugin_for_touch_portal.py:308] ingoing_data = {"command": "init_completed", "message": "test", "value": "2"}
-16:08:52.532 [E] [xplane_plugin_for_touch_portal.py:321] json file keys must be:
-16:08:52.532 [E] [xplane_plugin_for_touch_portal.py:322] ['command', 'dataref', 'message', 'value']
-16:08:52.532 [E] [xplane_plugin_for_touch_portal.py:323] ['command', 'dataref', 'message', 'value']
-16:08:52.532 [E] [xplane_plugin_for_touch_portal.py:324] the following json file keys has been rejected:
-16:08:52.533 [E] [xplane_plugin_for_touch_portal.py:325] ['command', 'message', 'value']
-16:08:52.533 [I] [xplane_plugin_for_touch_portal.py:456] ending X-Plane client thread
-16:08:52.533 [I] [xplane_plugin_for_touch_portal.py:427] =========== shutting_down X-Plane Client ===========
+15:51:20.770 [I] [xplane_plugin_for_touch_portal.py:75] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
+15:51:20.773 [I] [xplane_plugin_for_touch_portal.py:81] Datarefs successfully loaded from datarefs.json !
+15:51:20.774 [I] [xplane_plugin_for_touch_portal.py:93] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
+15:51:20.774 [I] [xplane_plugin_for_touch_portal.py:232] Trying to connect to Touch Portal Apps
+15:51:20.838 [I] [xplane_plugin_for_touch_portal.py:125] Connected to Touch Portal Version 4.1.0.0.0 plugin v 100)
+15:51:20.839 [I] [xplane_plugin_for_touch_portal.py:126] ==================
+15:51:20.839 [I] [xplane_plugin_for_touch_portal.py:127] SECTION on_connect
+15:51:20.839 [I] [xplane_plugin_for_touch_portal.py:128] ==================
+15:51:20.839 [I] [xplane_plugin_for_touch_portal.py:129] {'tpVersionString': '4.1.0.0.0', 'pluginVersion': 100, 'tpVersionCode': 401000, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
+15:51:20.840 [I] [xplane_plugin_for_touch_portal.py:157] Touch Portal Choices of States Id have been updated !
+15:51:20.840 [I] [xplane_plugin_for_touch_portal.py:552] starting X-Plane client thread
+15:51:20.841 [I] [xplane_plugin_for_touch_portal.py:531] preparing x-plane to running
+15:51:20.842 [I] [xplane_plugin_for_touch_portal.py:532] Connecting on ('192.168.0.107', 65432)
+15:51:20.843 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]"}'
+15:51:20.843 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.844 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]"}'
+15:51:20.845 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.845 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]"}'
+15:51:20.846 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.846 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUAvail"}'
+15:51:20.847 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.848 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUMaster"}'
+15:51:20.848 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.848 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUStarter"}'
+15:51:20.849 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.850 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]"}'
+15:51:20.851 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.852 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]"}'
+15:51:20.853 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.856 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]"}'
+15:51:20.857 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.858 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]"}'
+15:51:20.858 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.859 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]"}'
+15:51:20.860 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.861 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]"}'
+15:51:20.861 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.862 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]"}'
+15:51:20.863 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.864 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]"}'
+15:51:20.865 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.865 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]"}'
+15:51:20.866 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.867 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/EnableExternalPower"}'
+15:51:20.868 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.869 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/NDrangeCapt"}'
+15:51:20.872 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.873 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]"}'
+15:51:20.873 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.873 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]"}'
+15:51:20.874 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.874 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]"}'
+15:51:20.874 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.875 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]"}'
+15:51:20.875 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.875 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]"}'
+15:51:20.876 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.876 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]"}'
+15:51:20.876 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.877 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]"}'
+15:51:20.877 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.878 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]"}'
+15:51:20.878 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.878 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]"}'
+15:51:20.879 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.879 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]"}'
+15:51:20.879 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.880 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]"}'
+15:51:20.880 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.881 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]"}'
+15:51:20.881 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.881 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]"}'
+15:51:20.882 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.882 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel"}'
+15:51:20.882 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.883 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel"}'
+15:51:20.883 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.884 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel"}'
+15:51:20.884 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.884 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]"}'
+15:51:20.884 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.886 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRPower"}'
+15:51:20.887 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.887 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRSystem"}'
+15:51:20.887 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.888 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect"}'
+15:51:20.888 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.889 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode"}'
+15:51:20.889 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:20.889 [I] [xplane_plugin_for_touch_portal.py:444] outgoing_data = b'{"command": "request_initialization_done"}'
+15:51:20.889 [I] [xplane_plugin_for_touch_portal.py:445] 
+15:51:21.889 [I] [xplane_plugin_for_touch_portal.py:363] THIS IS THE INGOING_LIST
+15:51:21.889 [I] [xplane_plugin_for_touch_portal.py:364] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "value": "0", "message": "successful dataref update"}']
+15:51:21.890 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "value": "0", "message": "successful dataref update"}
+15:51:21.891 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.891 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ADIRUSwitchArray[0]
+15:51:21.891 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.892 [I] [xplane_plugin_for_touch_portal.py:363] THIS IS THE INGOING_LIST
+15:51:21.892 [I] [xplane_plugin_for_touch_portal.py:364] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/APUAvail", "value": "0", "message": "successful dataref update"}']
+15:51:21.892 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "value": "0", "message": "successful dataref update"}
+15:51:21.893 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.893 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ADIRUSwitchArray[1]
+15:51:21.894 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.894 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "value": "0", "message": "successful dataref update"}
+15:51:21.894 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.894 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ADIRUSwitchArray[2]
+15:51:21.895 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.895 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUAvail", "value": "0", "message": "successful dataref update"}
+15:51:21.895 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.896 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/APUAvail
+15:51:21.896 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.897 [I] [xplane_plugin_for_touch_portal.py:363] THIS IS THE INGOING_LIST
+15:51:21.897 [I] [xplane_plugin_for_touch_portal.py:364] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/APUMaster", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/APUStarter", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]", "value": "0.20000000298023224", "message": "successful dataref update"}']
+15:51:21.897 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUMaster", "value": "0", "message": "successful dataref update"}
+15:51:21.898 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.898 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/APUMaster
+15:51:21.898 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.899 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUStarter", "value": "0", "message": "successful dataref update"}
+15:51:21.901 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.902 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/APUStarter
+15:51:21.902 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.902 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]", "value": "1", "message": "successful dataref update"}
+15:51:21.903 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.903 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/AnnunMode[8]
+15:51:21.903 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.904 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:51:21.904 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.904 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/DUBrightness[0]
+15:51:21.905 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.905 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:51:21.905 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.906 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/DUBrightness[1]
+15:51:21.906 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.906 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:51:21.907 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.907 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/DUBrightness[4]
+15:51:21.907 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.908 [I] [xplane_plugin_for_touch_portal.py:363] THIS IS THE INGOING_LIST
+15:51:21.908 [I] [xplane_plugin_for_touch_portal.py:364] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/EnableExternalPower", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/NDrangeCapt", "value": "2", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]", "value": "0", "message": "successful dataref update"}']
+15:51:21.909 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:51:21.909 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.909 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/DUBrightness[5]
+15:51:21.910 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.910 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:51:21.911 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.911 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/DUBrightness[6]
+15:51:21.911 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.911 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]", "value": "0", "message": "successful dataref update"}
+15:51:21.912 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.912 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ElecOHPArray[3]
+15:51:21.912 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.913 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]", "value": "0", "message": "successful dataref update"}
+15:51:21.913 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.913 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ElecOHPArray[5]
+15:51:21.914 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.914 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]", "value": "0", "message": "successful dataref update"}
+15:51:21.915 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.916 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/ElecOHPArray[6]
+15:51:21.917 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.917 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/EnableExternalPower", "value": "1", "message": "successful dataref update"}
+15:51:21.917 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.918 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/EnableExternalPower
+15:51:21.918 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.918 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/NDrangeCapt", "value": "2", "message": "successful dataref update"}
+15:51:21.919 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.919 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/NDrangeCapt
+15:51:21.919 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.920 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]", "value": "0", "message": "successful dataref update"}
+15:51:21.920 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.920 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[0]
+15:51:21.921 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.921 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]", "value": "0", "message": "successful dataref update"}
+15:51:21.922 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.922 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[10]
+15:51:21.922 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.923 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]", "value": "0", "message": "successful dataref update"}
+15:51:21.923 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.923 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[11]
+15:51:21.924 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.924 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]", "value": "0", "message": "successful dataref update"}
+15:51:21.924 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.925 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[12]
+15:51:21.925 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.925 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]", "value": "0", "message": "successful dataref update"}
+15:51:21.926 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.926 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[1]
+15:51:21.927 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.927 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]", "value": "0", "message": "successful dataref update"}
+15:51:21.927 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.928 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[2]
+15:51:21.928 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.929 [I] [xplane_plugin_for_touch_portal.py:363] THIS IS THE INGOING_LIST
+15:51:21.929 [I] [xplane_plugin_for_touch_portal.py:364] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]", "value": "0.0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRPower", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRSystem", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode", "value": "0", "message": "successful dataref update"}', '{"command": "response_initialization_done", "message": "X-Plane server will now monitoring for updates from x-plane"}']
+15:51:21.930 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]", "value": "0", "message": "successful dataref update"}
+15:51:21.932 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.933 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[3]
+15:51:21.933 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.933 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]", "value": "0", "message": "successful dataref update"}
+15:51:21.933 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.934 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[4]
+15:51:21.934 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.934 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]", "value": "0", "message": "successful dataref update"}
+15:51:21.935 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.935 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[5]
+15:51:21.935 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.936 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]", "value": "0", "message": "successful dataref update"}
+15:51:21.936 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.936 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[6]
+15:51:21.937 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.937 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]", "value": "0", "message": "successful dataref update"}
+15:51:21.937 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.938 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[7]
+15:51:21.938 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.938 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]", "value": "1", "message": "successful dataref update"}
+15:51:21.939 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.939 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[8]
+15:51:21.939 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.940 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]", "value": "0", "message": "successful dataref update"}
+15:51:21.940 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.940 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/OHPLightSwitches[9]
+15:51:21.941 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.941 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:51:21.941 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.942 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/PanelBrightnessLevel
+15:51:21.942 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.942 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:51:21.943 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.943 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/PanelFloodBrightnessLevel
+15:51:21.943 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.944 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:51:21.944 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.944 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/PedestalFloodBrightnessLevel
+15:51:21.945 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.945 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]", "value": "0.0", "message": "successful dataref update"}
+15:51:21.945 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.946 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/RMP3Lights[0]
+15:51:21.948 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.948 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRPower", "value": "0", "message": "successful dataref update"}
+15:51:21.948 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.949 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/XPDRPower
+15:51:21.949 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.949 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRSystem", "value": "1", "message": "successful dataref update"}
+15:51:21.950 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.950 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/XPDRSystem
+15:51:21.950 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.950 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect", "value": "1", "message": "successful dataref update"}
+15:51:21.951 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.951 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/XPDRTCASAltSelect
+15:51:21.951 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.952 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode", "value": "0", "message": "successful dataref update"}
+15:51:21.952 [I] [xplane_plugin_for_touch_portal.py:376] message from the server: successful dataref update
+15:51:21.953 [I] [xplane_plugin_for_touch_portal.py:379] append AirbusFBW/XPDRTCASMode
+15:51:21.953 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.953 [I] [xplane_plugin_for_touch_portal.py:367] ingoing_data = {"command": "response_initialization_done", "message": "X-Plane server will now monitoring for updates from x-plane"}
+15:51:21.953 [I] [xplane_plugin_for_touch_portal.py:382] message from the server: X-Plane server will now monitoring for updates from x-plane
+15:51:21.954 [I] [xplane_plugin_for_touch_portal.py:415] 
+15:51:21.954 [I] [xplane_plugin_for_touch_portal.py:476] datarefs initialization processing was completed correctly !
+15:51:21.954 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[0] and 0 for stateUpdate
+15:51:21.955 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[1] and 0 for stateUpdate
+15:51:21.955 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[2] and 0 for stateUpdate
+15:51:21.955 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/APUAvail and 0 for stateUpdate
+15:51:21.956 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/APUMaster and 0 for stateUpdate
+15:51:21.956 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/APUStarter and 0 for stateUpdate
+15:51:21.956 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/AnnunMode[8] and 1 for stateUpdate
+15:51:21.957 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[0] and 0.20000000298023224 for stateUpdate
+15:51:21.957 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[1] and 0.20000000298023224 for stateUpdate
+15:51:21.957 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[4] and 0.20000000298023224 for stateUpdate
+15:51:21.958 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[5] and 0.20000000298023224 for stateUpdate
+15:51:21.958 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[6] and 0.20000000298023224 for stateUpdate
+15:51:21.958 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[3] and 0 for stateUpdate
+15:51:21.959 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[5] and 0 for stateUpdate
+15:51:21.959 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[6] and 0 for stateUpdate
+15:51:21.960 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/EnableExternalPower and 1 for stateUpdate
+15:51:21.960 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/NDrangeCapt and 2 for stateUpdate
+15:51:21.961 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[0] and 0 for stateUpdate
+15:51:21.961 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[10] and 0 for stateUpdate
+15:51:21.961 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[11] and 0 for stateUpdate
+15:51:21.962 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[12] and 0 for stateUpdate
+15:51:21.964 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[1] and 0 for stateUpdate
+15:51:21.964 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[2] and 0 for stateUpdate
+15:51:21.964 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[3] and 0 for stateUpdate
+15:51:21.965 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[4] and 0 for stateUpdate
+15:51:21.965 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[5] and 0 for stateUpdate
+15:51:21.965 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[6] and 0 for stateUpdate
+15:51:21.966 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[7] and 0 for stateUpdate
+15:51:21.966 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[8] and 1 for stateUpdate
+15:51:21.966 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[9] and 0 for stateUpdate
+15:51:21.967 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/PanelBrightnessLevel and 0.800000011920929 for stateUpdate
+15:51:21.967 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/PanelFloodBrightnessLevel and 0.800000011920929 for stateUpdate
+15:51:21.968 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/PedestalFloodBrightnessLevel and 0.800000011920929 for stateUpdate
+15:51:21.968 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/RMP3Lights[0] and 0.0 for stateUpdate
+15:51:21.969 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/XPDRPower and 0 for stateUpdate
+15:51:21.969 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/XPDRSystem and 1 for stateUpdate
+15:51:21.969 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASAltSelect and 1 for stateUpdate
+15:51:21.970 [I] [xplane_plugin_for_touch_portal.py:482] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASMode and 0 for stateUpdate
+15:51:21.970 [I] [xplane_plugin_for_touch_portal.py:484] state update completed !
+15:51:31.471 [I] [xplane_plugin_for_touch_portal.py:170] =================
+15:51:31.471 [I] [xplane_plugin_for_touch_portal.py:171] SECTION on_action
+15:51:31.472 [I] [xplane_plugin_for_touch_portal.py:172] =================
+15:51:31.472 [I] [xplane_plugin_for_touch_portal.py:173] {'data': [{'id': 'xplane_plugin_for_touch_portal.dataref.set_states.name', 'value': 'Ext power'}, {'id': 'xplane_plugin_for_touch_portal.dataref.set_states.value', 'value': '1'}], 'pluginId': 'xplane_plugin_for_touch_portal', 'actionId': 'xplane_plugin_for_touch_portal.dataref.set_states', 'type': 'action'}
+15:52:14.259 [I] [xplane_plugin_for_touch_portal.py:170] =================
+15:52:14.259 [I] [xplane_plugin_for_touch_portal.py:171] SECTION on_action
+15:52:14.259 [I] [xplane_plugin_for_touch_portal.py:172] =================
+15:52:14.259 [I] [xplane_plugin_for_touch_portal.py:173] {'data': [{'id': 'xplane_plugin_for_touch_portal.dataref.set_states.name', 'value': 'Ext power'}, {'id': 'xplane_plugin_for_touch_portal.dataref.set_states.value', 'value': '1'}], 'pluginId': 'xplane_plugin_for_touch_portal', 'actionId': 'xplane_plugin_for_touch_portal.dataref.set_states', 'type': 'action'}
+15:52:19.982 [W] [xplane_plugin_for_touch_portal.py:237] Caught keyboard interrupt, exiting.
+15:52:19.983 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
+15:52:19.983 [I] [xplane_plugin_for_touch_portal.py:544] ending X-Plane client thread
+15:52:19.983 [I] [xplane_plugin_for_touch_portal.py:509] =========== shutting_down X-Plane Client ===========
+15:52:19.983 [I] [xplane_plugin_for_touch_portal.py:578] Return code = False
+15:52:22.800 [I] [xplane_plugin_for_touch_portal.py:75] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json
+15:52:22.801 [I] [xplane_plugin_for_touch_portal.py:81] Datarefs successfully loaded from datarefs.json !
+15:52:22.801 [I] [xplane_plugin_for_touch_portal.py:93] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\plugins\datarefs.json is valid !
+15:52:22.802 [I] [xplane_plugin_for_touch_portal.py:231] Trying to connect to Touch Portal Apps
+15:52:22.855 [I] [xplane_plugin_for_touch_portal.py:125] Connected to Touch Portal Version 4.1.0.0.0 plugin v 100)
+15:52:22.855 [I] [xplane_plugin_for_touch_portal.py:126] ==================
+15:52:22.856 [I] [xplane_plugin_for_touch_portal.py:127] SECTION on_connect
+15:52:22.856 [I] [xplane_plugin_for_touch_portal.py:128] ==================
+15:52:22.857 [I] [xplane_plugin_for_touch_portal.py:129] {'tpVersionString': '4.1.0.0.0', 'pluginVersion': 100, 'tpVersionCode': 401000, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
+15:52:22.857 [I] [xplane_plugin_for_touch_portal.py:157] Touch Portal Choices of States Id have been updated !
+15:52:22.858 [I] [xplane_plugin_for_touch_portal.py:551] starting X-Plane client thread
+15:52:22.860 [I] [xplane_plugin_for_touch_portal.py:530] preparing x-plane to running
+15:52:22.861 [I] [xplane_plugin_for_touch_portal.py:531] Connecting on ('192.168.0.107', 65432)
+15:52:22.864 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]"}'
+15:52:22.865 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.867 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]"}'
+15:52:22.871 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.874 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]"}'
+15:52:22.875 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.877 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUAvail"}'
+15:52:22.877 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.878 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUMaster"}'
+15:52:22.879 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.880 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/APUStarter"}'
+15:52:22.881 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.882 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]"}'
+15:52:22.884 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.885 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]"}'
+15:52:22.890 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.891 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]"}'
+15:52:22.897 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.898 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]"}'
+15:52:22.899 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.902 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]"}'
+15:52:22.903 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.904 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]"}'
+15:52:22.906 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.907 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]"}'
+15:52:22.908 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.909 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]"}'
+15:52:22.910 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.910 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]"}'
+15:52:22.910 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.911 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/EnableExternalPower"}'
+15:52:22.911 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.912 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/NDrangeCapt"}'
+15:52:22.912 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.912 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]"}'
+15:52:22.913 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.913 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]"}'
+15:52:22.914 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.914 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]"}'
+15:52:22.915 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.915 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]"}'
+15:52:22.915 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.916 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]"}'
+15:52:22.916 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.917 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]"}'
+15:52:22.921 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.921 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]"}'
+15:52:22.921 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.922 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]"}'
+15:52:22.922 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.923 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]"}'
+15:52:22.923 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.924 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]"}'
+15:52:22.924 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.925 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]"}'
+15:52:22.925 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.925 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]"}'
+15:52:22.926 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.926 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]"}'
+15:52:22.927 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.927 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel"}'
+15:52:22.930 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.930 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel"}'
+15:52:22.931 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.931 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel"}'
+15:52:22.931 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.932 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]"}'
+15:52:22.932 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.933 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRPower"}'
+15:52:22.937 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.937 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRSystem"}'
+15:52:22.938 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.938 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect"}'
+15:52:22.938 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.939 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode"}'
+15:52:22.939 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:22.940 [I] [xplane_plugin_for_touch_portal.py:443] outgoing_data = b'{"command": "request_initialization_done"}'
+15:52:22.940 [I] [xplane_plugin_for_touch_portal.py:444] 
+15:52:24.001 [I] [xplane_plugin_for_touch_portal.py:362] THIS IS THE INGOING_LIST
+15:52:24.002 [I] [xplane_plugin_for_touch_portal.py:363] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "value": "0", "message": "successful dataref update"}']
+15:52:24.003 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[0]", "value": "0", "message": "successful dataref update"}
+15:52:24.006 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.006 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ADIRUSwitchArray[0]
+15:52:24.008 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.009 [I] [xplane_plugin_for_touch_portal.py:362] THIS IS THE INGOING_LIST
+15:52:24.010 [I] [xplane_plugin_for_touch_portal.py:363] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/APUAvail", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/APUMaster", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/APUStarter", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]", "value": "0.20000000298023224", "message": "successful dataref update"}']
+15:52:24.011 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[1]", "value": "0", "message": "successful dataref update"}
+15:52:24.015 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.017 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ADIRUSwitchArray[1]
+15:52:24.020 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.020 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ADIRUSwitchArray[2]", "value": "0", "message": "successful dataref update"}
+15:52:24.021 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.022 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ADIRUSwitchArray[2]
+15:52:24.022 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.023 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUAvail", "value": "0", "message": "successful dataref update"}
+15:52:24.023 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.024 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/APUAvail
+15:52:24.024 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.024 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUMaster", "value": "0", "message": "successful dataref update"}
+15:52:24.025 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.025 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/APUMaster
+15:52:24.025 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.026 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/APUStarter", "value": "0", "message": "successful dataref update"}
+15:52:24.026 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.027 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/APUStarter
+15:52:24.027 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.027 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/AnnunMode[8]", "value": "1", "message": "successful dataref update"}
+15:52:24.031 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.031 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/AnnunMode[8]
+15:52:24.031 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.032 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[0]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:52:24.032 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.032 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/DUBrightness[0]
+15:52:24.033 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.033 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[1]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:52:24.033 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.034 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/DUBrightness[1]
+15:52:24.034 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.035 [I] [xplane_plugin_for_touch_portal.py:362] THIS IS THE INGOING_LIST
+15:52:24.035 [I] [xplane_plugin_for_touch_portal.py:363] ['{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]", "value": "0.20000000298023224", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/EnableExternalPower", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/NDrangeCapt", "value": "2", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]", "value": "0.0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRPower", "value": "0", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRSystem", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect", "value": "1", "message": "successful dataref update"}', '{"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode", "value": "0", "message": "successful dataref update"}', '{"command": "response_initialization_done", "message": "X-Plane server will now monitoring for updates from x-plane"}']
+15:52:24.036 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[4]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:52:24.036 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.037 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/DUBrightness[4]
+15:52:24.037 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.038 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[5]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:52:24.038 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.038 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/DUBrightness[5]
+15:52:24.039 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.039 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/DUBrightness[6]", "value": "0.20000000298023224", "message": "successful dataref update"}
+15:52:24.040 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.040 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/DUBrightness[6]
+15:52:24.041 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.041 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[3]", "value": "0", "message": "successful dataref update"}
+15:52:24.041 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.042 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ElecOHPArray[3]
+15:52:24.042 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.042 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[5]", "value": "0", "message": "successful dataref update"}
+15:52:24.043 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.043 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ElecOHPArray[5]
+15:52:24.043 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.049 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/ElecOHPArray[6]", "value": "0", "message": "successful dataref update"}
+15:52:24.050 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.050 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/ElecOHPArray[6]
+15:52:24.051 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.051 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/EnableExternalPower", "value": "1", "message": "successful dataref update"}
+15:52:24.052 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.052 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/EnableExternalPower
+15:52:24.052 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.053 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/NDrangeCapt", "value": "2", "message": "successful dataref update"}
+15:52:24.053 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.053 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/NDrangeCapt
+15:52:24.054 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.054 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[0]", "value": "0", "message": "successful dataref update"}
+15:52:24.055 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.055 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[0]
+15:52:24.056 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.058 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[10]", "value": "0", "message": "successful dataref update"}
+15:52:24.058 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.060 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[10]
+15:52:24.063 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.063 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[11]", "value": "0", "message": "successful dataref update"}
+15:52:24.064 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.064 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[11]
+15:52:24.065 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.065 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[12]", "value": "0", "message": "successful dataref update"}
+15:52:24.068 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.068 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[12]
+15:52:24.070 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.070 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[1]", "value": "0", "message": "successful dataref update"}
+15:52:24.072 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.073 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[1]
+15:52:24.075 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.077 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[2]", "value": "0", "message": "successful dataref update"}
+15:52:24.083 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.084 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[2]
+15:52:24.085 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.086 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[3]", "value": "0", "message": "successful dataref update"}
+15:52:24.086 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.089 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[3]
+15:52:24.089 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.091 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[4]", "value": "0", "message": "successful dataref update"}
+15:52:24.094 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.094 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[4]
+15:52:24.096 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.097 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[5]", "value": "0", "message": "successful dataref update"}
+15:52:24.099 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.099 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[5]
+15:52:24.099 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.100 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[6]", "value": "0", "message": "successful dataref update"}
+15:52:24.101 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.101 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[6]
+15:52:24.103 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.104 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[7]", "value": "0", "message": "successful dataref update"}
+15:52:24.106 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.106 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[7]
+15:52:24.108 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.112 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[8]", "value": "1", "message": "successful dataref update"}
+15:52:24.118 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.118 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[8]
+15:52:24.120 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.120 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/OHPLightSwitches[9]", "value": "0", "message": "successful dataref update"}
+15:52:24.123 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.124 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/OHPLightSwitches[9]
+15:52:24.126 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.127 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PanelBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:52:24.131 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.131 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/PanelBrightnessLevel
+15:52:24.132 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.134 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PanelFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:52:24.134 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.136 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/PanelFloodBrightnessLevel
+15:52:24.136 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.139 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/PedestalFloodBrightnessLevel", "value": "0.800000011920929", "message": "successful dataref update"}
+15:52:24.141 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.143 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/PedestalFloodBrightnessLevel
+15:52:24.143 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.149 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/RMP3Lights[0]", "value": "0.0", "message": "successful dataref update"}
+15:52:24.150 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.152 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/RMP3Lights[0]
+15:52:24.152 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.154 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRPower", "value": "0", "message": "successful dataref update"}
+15:52:24.157 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.159 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/XPDRPower
+15:52:24.159 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.164 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRSystem", "value": "1", "message": "successful dataref update"}
+15:52:24.165 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.167 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/XPDRSystem
+15:52:24.167 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.169 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASAltSelect", "value": "1", "message": "successful dataref update"}
+15:52:24.171 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.172 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/XPDRTCASAltSelect
+15:52:24.173 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.173 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_dataref_value", "dataref": "AirbusFBW/XPDRTCASMode", "value": "0", "message": "successful dataref update"}
+15:52:24.174 [I] [xplane_plugin_for_touch_portal.py:375] message from the server: successful dataref update
+15:52:24.174 [I] [xplane_plugin_for_touch_portal.py:378] append AirbusFBW/XPDRTCASMode
+15:52:24.176 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.177 [I] [xplane_plugin_for_touch_portal.py:366] ingoing_data = {"command": "response_initialization_done", "message": "X-Plane server will now monitoring for updates from x-plane"}
+15:52:24.177 [I] [xplane_plugin_for_touch_portal.py:381] message from the server: X-Plane server will now monitoring for updates from x-plane
+15:52:24.177 [I] [xplane_plugin_for_touch_portal.py:414] 
+15:52:24.178 [I] [xplane_plugin_for_touch_portal.py:475] datarefs initialization processing was completed correctly !
+15:52:24.178 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[0] and 0 for stateUpdate
+15:52:24.179 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[1] and 0 for stateUpdate
+15:52:24.179 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ADIRUSwitchArray[2] and 0 for stateUpdate
+15:52:24.180 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/APUAvail and 0 for stateUpdate
+15:52:24.180 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/APUMaster and 0 for stateUpdate
+15:52:24.180 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/APUStarter and 0 for stateUpdate
+15:52:24.181 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/AnnunMode[8] and 1 for stateUpdate
+15:52:24.183 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[0] and 0.20000000298023224 for stateUpdate
+15:52:24.184 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[1] and 0.20000000298023224 for stateUpdate
+15:52:24.186 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[4] and 0.20000000298023224 for stateUpdate
+15:52:24.190 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[5] and 0.20000000298023224 for stateUpdate
+15:52:24.191 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/DUBrightness[6] and 0.20000000298023224 for stateUpdate
+15:52:24.192 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[3] and 0 for stateUpdate
+15:52:24.194 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[5] and 0 for stateUpdate
+15:52:24.194 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/ElecOHPArray[6] and 0 for stateUpdate
+15:52:24.200 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/EnableExternalPower and 1 for stateUpdate
+15:52:24.201 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/NDrangeCapt and 2 for stateUpdate
+15:52:24.203 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[0] and 0 for stateUpdate
+15:52:24.204 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[10] and 0 for stateUpdate
+15:52:24.205 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[11] and 0 for stateUpdate
+15:52:24.206 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[12] and 0 for stateUpdate
+15:52:24.208 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[1] and 0 for stateUpdate
+15:52:24.208 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[2] and 0 for stateUpdate
+15:52:24.209 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[3] and 0 for stateUpdate
+15:52:24.210 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[4] and 0 for stateUpdate
+15:52:24.210 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[5] and 0 for stateUpdate
+15:52:24.211 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[6] and 0 for stateUpdate
+15:52:24.211 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[7] and 0 for stateUpdate
+15:52:24.213 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[8] and 1 for stateUpdate
+15:52:24.213 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/OHPLightSwitches[9] and 0 for stateUpdate
+15:52:24.214 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/PanelBrightnessLevel and 0.800000011920929 for stateUpdate
+15:52:24.214 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/PanelFloodBrightnessLevel and 0.800000011920929 for stateUpdate
+15:52:24.216 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/PedestalFloodBrightnessLevel and 0.800000011920929 for stateUpdate
+15:52:24.216 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/RMP3Lights[0] and 0.0 for stateUpdate
+15:52:24.217 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/XPDRPower and 0 for stateUpdate
+15:52:24.220 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/XPDRSystem and 1 for stateUpdate
+15:52:24.220 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASAltSelect and 1 for stateUpdate
+15:52:24.220 [I] [xplane_plugin_for_touch_portal.py:481] >>>>>>>>>>>>>>> AirbusFBW/XPDRTCASMode and 0 for stateUpdate
+15:52:24.221 [I] [xplane_plugin_for_touch_portal.py:483] state update completed !
+15:52:28.664 [I] [xplane_plugin_for_touch_portal.py:170] =================
+15:52:28.664 [I] [xplane_plugin_for_touch_portal.py:171] SECTION on_action
+15:52:28.665 [I] [xplane_plugin_for_touch_portal.py:172] =================
+15:52:28.665 [I] [xplane_plugin_for_touch_portal.py:173] {'data': [{'id': 'xplane_plugin_for_touch_portal.dataref.set_states.name', 'value': 'Ext power'}, {'id': 'xplane_plugin_for_touch_portal.dataref.set_states.value', 'value': '1'}], 'pluginId': 'xplane_plugin_for_touch_portal', 'actionId': 'xplane_plugin_for_touch_portal.dataref.set_states', 'type': 'action'}

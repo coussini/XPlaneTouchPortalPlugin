@@ -1,9 +1,3 @@
-'''
-attention, gérer les entrées venant du serveur selon les commandes envoyé par ce dernier
-        self.input_json_keys = ['command', 'dataref', 'value', 'message']
-        self.update_json_keys = ['command', 'dataref', 'value', 'message']
-'''
-
 import sys 
 import os
 import platform
@@ -52,7 +46,9 @@ class XPlanePlugin:
         self.states = None
 
     def validate_keys_from_json_file(self, states):
-        
+        '''
+        Validate the json file to ensure that all keys are listed 
+        '''
         successful = True
 
         if not self.json_keys_first_level in states:
@@ -70,7 +66,9 @@ class XPlanePlugin:
         return successful
 
     def get_dataref_values_from_json_file(self):
-        
+        '''
+        Read the json file into a dictionary
+        '''
         successful = False
         states = None
         
@@ -99,8 +97,9 @@ class XPlanePlugin:
 class TouchPortalClient:
    
     def __init__(self):
-        
-        # Create the Touch Portal API client instance.
+        '''
+        Class initialization. Create the Touch Portal API client instance 
+        '''
         try:
             self.tp_api = TP_API.Client(
                 pluginId = __plugin_id__,           # required ID of this plugin
@@ -119,9 +118,10 @@ class TouchPortalClient:
         self.on_action = TP_API.TYPES.onAction
         self.on_shutdown = TP_API.TYPES.onShutdown
 
-    # Proceed the Touch Portal 'on connect' event 
     def on_connect_process(self, data, states, client_TP, client_XP):
-
+        '''
+        Proceed the Touch Portal 'on connect' event 
+        '''
         __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
         __logger__.info(f'==================')
         __logger__.info(f'SECTION on_connect')
@@ -131,9 +131,9 @@ class TouchPortalClient:
         choices_list = []
         datarefs_list = []
         
-        # ----------------------------------- 
-        # example for one state about dataref
-        # ----------------------------------- 
+        # ------------------------------------- 
+        # example for one state for one dataref
+        # ------------------------------------- 
         # "id": "AirbusFBW/ADIRUSwitchArray[0]",
         # "desc": "Adirs IR1",
         # "group": "OverHead",
@@ -151,9 +151,8 @@ class TouchPortalClient:
             datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
         
         # Feed the valueChoices for each action: ref entry.tp file
-        choices_list.sort() # sort options for ease of use in touch portal apps
-        client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.toggle_two_states.choice',choices_list) # Update action option at runtime
-        client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_two_states.name',choices_list)      # Update action option at runtime
+        choices_list.sort() # sort options for ease of use in Touch Portal apps
+        client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
         
         __logger__.info(f'Touch Portal Choices of States Id have been updated !')
         
@@ -161,31 +160,38 @@ class TouchPortalClient:
         client_XP.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
         client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
 
-        # Start a thread to treat xplane client for x-plane server. This thread will finish when the Touch Portal Server are close
-        client_XP.treat_xplane_client()
+        # Start a thread to communicate with the x-plane server. This thread will finish when the Touch Portal Server are close
+        client_XP.communicate_with_xplane_server()
 
-    # Proceed the Touch Portal 'on action' event 
     def on_action_process(self, data, states, client_TP, client_XP):
-
+        '''
+        Proceed the Touch Portal 'on action' event 
+        '''
         __logger__.info(f'=================')
         __logger__.info(f'SECTION on_action')
         __logger__.info(f'=================')
         __logger__.info(f'{data}')
 
-        '''
-        a_dataref = {}
-        a_dataref['command'] = self.request_update_from_x_plane
-        a_dataref['dataref'] = dataref
-        a_dataref['value'] = value # from TP state
-        message = json.dumps(a_dataref).encode()
-        self.outgoing_data.append(message)
+        # dispatch Touch Portal Action Id
+        match data.get('actionId'):
+            case 'xplane_plugin_for_touch_portal.dataref.set_states':
+                for x in states['datarefs']:
+                    if x['desc'] == data.get('data')[0]['value']:
+                        #__logger__.info(f"Update value in XPlane Server with : {data.get('actionId')} and {x['dataref']} with value {data.get('data')[1]['value']}")
+                        outgoing_request = {}
+                        outgoing_request['command'] = client_XP.request_update_from_touch_portal
+                        outgoing_request['dataref'] = x['dataref']
+                        outgoing_request['value'] = data.get('data')[1]['value']
+                        outgoing_request_encode = json.dumps(outgoing_request).encode()
+                        client_XP.outgoing_data.append(outgoing_request_encode)
+                        break
+            case _:
+                __logger__.info(f"There is no action like : {data.get('actionId')}") 
 
-        '''
-
-
-    # Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
     def on_shutdown_process(self, data, client_TP):
-
+        '''
+        Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
+        '''
         __logger__.info(f'===================')
         __logger__.info(f'SECTION on_shutdown')
         __logger__.info(f'===================')
@@ -193,9 +199,10 @@ class TouchPortalClient:
 
         client_TP.disconnect()
 
-    # Proceed all Touch Portal events (Main process for Touch Portal)
     def treat_touch_portal_client(self, states, client_XP):
-
+        '''
+        Proceed all Touch Portal events (Main process for Touch Portal)
+        '''
         successful = False
 
         # Create an object concerning Touch Portal client
@@ -248,7 +255,9 @@ class TouchPortalClient:
 class XPlaneClient:
     
     def __init__(self, client_TP):
-
+        '''
+        Class initialization. 
+        '''
         self.client_TP = client_TP.tp_api # keep the client tp for the status update
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -307,7 +316,9 @@ class XPlaneClient:
         self.response_update_from_x_plane_paquet = ['command', 'message']
 
     def connect(self):
-        
+        '''
+        Establish a connection between this client and the X-Plane server. 
+        '''
         successful = True
 
         try:    
@@ -318,15 +329,18 @@ class XPlaneClient:
 
         return successful
 
-    # separate the ingoing packet and store it in ingoing_list    
-    def treat_ingoing_string(self, ingoing_str):
-
+    def separate_data_received(self, ingoing_data):
+        '''
+        Process and separate data received from the server. 
+        We can receive several commands in one data reception. 
+        That's why we need to separate the commands and put them in ingoing_data_paquet
+        '''
         new = ''
-        ingoing_list = []
+        ingoing_data_paquet = []
 
-        for char in ingoing_str:
+        for char in ingoing_data:
             if char == '{' and new != '':
-                ingoing_list.append(new)
+                ingoing_data_paquet.append(new)
                 new = ''
                 new = new + char
             elif char == '{':
@@ -334,34 +348,51 @@ class XPlaneClient:
             else:
                 new = new + char
 
-        ingoing_list.append(new)
+        ingoing_data_paquet.append(new)
 
-        return ingoing_list
+        return ingoing_data_paquet
 
     def managing_received_data(self, ingoing_data):
+        '''
+        Process the received data packet from the x-plane server
+        '''
+        ingoing_data_paquet = self.separate_data_received(ingoing_data.decode())
+        #__logger__.info(f'THIS IS THE INGOING_LIST') 
+        #__logger__.info(f'{ingoing_data_paquet}') 
 
-        ingoing_list = self.treat_ingoing_string(ingoing_data.decode())
-        __logger__.info(f'THIS IS THE INGOING_LIST') 
-        __logger__.info(f'{ingoing_list}') 
-
-        for one_ingoing in ingoing_list: 
+        for one_ingoing in ingoing_data_paquet: 
             __logger__.info(f'ingoing_data = {one_ingoing}') 
             try:
                 one_ingoing_object = json.loads(one_ingoing)
                 keys = list(one_ingoing_object.keys())
                 keys.sort()
-                # treat response for the current dataref value in x-plane (initialization part)
-                if one_ingoing_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquets:
+
+                # process a response for the current dataref value in x-plane (initialization part)
+                # N.B: update the states in Touch Portal later from theses ingoing dataref values
+                if one_ingoing_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquet:
                     __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
                     self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
                     self.datarefs_and_values_dictionary.update({one_ingoing_object['dataref']:one_ingoing_object['value']})
-                    __logger__.info(f'append {one_ingoing_object["dataref"]}')
+                    #__logger__.info(f'append {one_ingoing_object["dataref"]}')
+                # process a reponse in case the initialization part is completed  
                 elif one_ingoing_object['command'] == self.response_initialization_done and keys == self.response_initialization_done_paquet:
                     __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
+                # process a reponse in case a dataref value has been updated in Touch Portal 
                 elif one_ingoing_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
                     __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
+                # process a request from the server concerning because a dataref value has been updated in X-Plane    
                 elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
-                    ##### ATTENTION METTRE À JOUR TOUCH PORTAL STATE 
+                    dataref = one_ingoing_object['dataref']
+                    value = one_ingoing_object['value']
+                    self.client_TP.stateUpdate(dataref,str(value))
+                    # send a response to the server
+                    outgoing_request = {}
+                    outgoing_request['command'] = self.response_update_from_x_plane
+                    outgoing_request['message'] = 'states updated successfully'
+                    outgoing_request_encode = json.dumps(outgoing_request).encode()
+                    self.outgoing_data.append(outgoing_request_encode)
+                # process a reponse in case a dataref value has been updated in Touch Portal 
+                elif one_ingoing_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane:
                     __logger__.info(f'message from the server: {one_ingoing_object["message"]}')
                 else:
                     __logger__.error(f'this response is not part of the communication chart between the client and the server')
@@ -381,7 +412,9 @@ class XPlaneClient:
             __logger__.info(f'') 
 
     def service_connection(self, key, mask):
-
+        '''
+        managing sockets, selectors, received data and data to be sent.
+        '''
         server_socket = key.fileobj
     
         if mask & selectors.EVENT_READ:
@@ -410,27 +443,25 @@ class XPlaneClient:
                 server_socket.sendall(next_msg)
     
     def treat_init_phase(self):
-            
-        # send each dataref that come from json file to the x-plane server for receiving it's value
+        '''
+        Send each dataref that come from the json file to the x-plane server for receiving it's value
+        '''
         if not self.init_phase_done.is_set():
             for dataref in self.datarefs_list:
-                # prepare a init packet for the x-plane server
-                
-                # this is temporary for value. the value must not be there for init
-
-                a_dataref = {}
-                a_dataref['command'] = self.request_dataref_value
-                a_dataref['dataref'] = dataref
-                message = json.dumps(a_dataref).encode()
-                self.outgoing_data.append(message)
+                # prepare a request_dataref_value for the x-plane server
+                outgoing_request = {}
+                outgoing_request['command'] = self.request_dataref_value
+                outgoing_request['dataref'] = dataref
+                outgoing_request_encode = json.dumps(outgoing_request).encode()
+                self.outgoing_data.append(outgoing_request_encode)
 
             # Tell the server that the initialization commands have been completed. 
             # The server will then start a thread to check every second if the user press a command on the X-plane side. 
             # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
-            a_dataref = {}
-            a_dataref['command'] = self.request_initialization_done
-            message = json.dumps(a_dataref).encode()
-            self.outgoing_data.append(message)
+            outgoing_request = {}
+            outgoing_request['command'] = self.request_initialization_done
+            outgoing_request_encode = json.dumps(outgoing_request).encode()
+            self.outgoing_data.append(outgoing_request_encode)
 
         else:
             # make sure that every datarefs from the datarefs_list are initialized by the x-plane server
@@ -457,8 +488,10 @@ class XPlaneClient:
         self.init_phase_done.set()
 
     def run(self):
-
-        # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
+        '''
+        Handling selectors in communication with xplane server
+        '''
+        # The mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
         for key, mask in self.client_selectors.select(timeout=0.1):
             if self.keep_running.is_set():
                 self.service_connection(key, mask)
@@ -466,7 +499,9 @@ class XPlaneClient:
                 self.treat_init_phase()
 
     def shutting_down(self):
-
+        '''
+        Processing the client closure procedure
+        '''
         try:
             __logger__.info(f'=========== shutting_down X-Plane Client ===========')
             if self.client_selectors:
@@ -477,8 +512,14 @@ class XPlaneClient:
         except:
             pass
 
-    def thread_function(self):
+    def thread_for_communication_with_xplane_server(self):
+        '''
+        Use a socket in non-blocking mode to establish a network connection with the x-plane server. 
+        Use a selector to allows monitoring multiple sockets to check their status and see if 
+        they are ready for operations such as reading or writing.
 
+        This allowing multi connection   
+        '''
         self.keep_running.set()
         self.init_phase_running.set()
 
@@ -500,12 +541,15 @@ class XPlaneClient:
             __logger__.info('ending X-Plane client thread')
             self.shutting_down()
 
-    def treat_xplane_client(self):
-
+    def communicate_with_xplane_server(self):
+        '''
+        Call a thread. This thread is used for network communication between the x-plane plugin and the x-plane server. 
+        This thread will finish when the Touch Portal Server are close
+        '''
         __logger__.info('starting X-Plane client thread')
 
         try:
-            xp_thread = threading.Thread(target=self.thread_function, args=(), daemon=True)
+            xp_thread = threading.Thread(target=self.thread_for_communication_with_xplane_server, args=(), daemon=True)
             xp_thread.start()
         except:
             self.keep_running.clear()

@@ -2,6 +2,14 @@
 
 ![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/assets/5262785/206080e9-4070-4172-a2d0-d7085f8a83dd)
 
+## Instruction concernant la création du fichier datarefs.json à l'aide de l'outil
+
+- Utilisez l'outil...
+
+- Les datarefs doivent être unique dans le fichier dataref.json
+
+- 
+
 ## Instruction pour démarrage un fois ce plugin installé
 
 - Démarrer X-Plane 12
@@ -15,6 +23,8 @@
 ## Instruction pour télécharger des pack de boutons utiles pour Touch Portal X-Plane
 
 - Expliquer comment télécharger et intégrer des boutons pour X-Plane pour Touch-Portal
+
+Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 ## Overview
 

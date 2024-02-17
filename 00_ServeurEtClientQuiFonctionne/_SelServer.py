@@ -121,6 +121,7 @@ class ServerXP:
             print(f'type one_ingoing {type(one_ingoing)}')
             one_ingoing_load = json.loads(one_ingoing)
             one_ingoing_load["message"] = 'test'
+            one_ingoing_load["command"] = 'response_dataref_value'
             one_ingoing_load["value"] = str(random.randint(0,3))
             # echoing data
             self.outgoing_data.outb += json.dumps(one_ingoing_load).encode()
