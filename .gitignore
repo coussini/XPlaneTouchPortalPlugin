@@ -1,5 +1,3 @@
-
-02_ClientForTouchPortalServer/xplane_touch_portal_client_*.tpp
-02_ClientForTouchPortalServer/xplane_touch_portal_client.lo*.*
+02_ClientForTouchPortalServer/xplane_plugin_for_touch_portal*.tpp
+02_ClientForTouchPortalServer/xplane_plugin_for_touch_portal.lo*.*
 02_ClientForTouchPortalServer/xplane_touch_portal_client.log
-XPlaneTouchPortalPlugin.psd

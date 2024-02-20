@@ -184,6 +184,8 @@ class TouchPortalClient:
                         outgoing_request['value'] = data.get('data')[1]['value']
                         outgoing_request_encode = json.dumps(outgoing_request).encode()
                         client_XP.outgoing_data.append(outgoing_request_encode)
+                        #client_TP.stateUpdate(x['dataref'],data.get('data')[1]['value'])
+
                         break
             case _:
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
@@ -384,7 +386,7 @@ class XPlaneClient:
                 elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
                     dataref = one_ingoing_object['dataref']
                     value = one_ingoing_object['value']
-                    self.client_TP.stateUpdate(dataref,str(value))
+                    self.client_TP.stateUpdate(dataref,value)
                     # send a response to the server
                     outgoing_request = {}
                     outgoing_request['command'] = self.response_update_from_x_plane
@@ -420,7 +422,7 @@ class XPlaneClient:
         if mask & selectors.EVENT_READ:
             try:
                 # Should be ready to read
-                ingoing_data = server_socket.recv(4096) 
+                ingoing_data = server_socket.recv(8192) 
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
@@ -476,7 +478,7 @@ class XPlaneClient:
                         value = self.datarefs_and_values_dictionary[dataref]
                         one_id = dataref
                         one_value = value
-                        __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {value} for stateUpdate')
+                        __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {one_value} for stateUpdate')
                         self.client_TP.stateUpdate(one_id,one_value)
                     __logger__.info(f'state update completed !')
                     self.init_phase_running.clear()

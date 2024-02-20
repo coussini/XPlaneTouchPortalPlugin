@@ -30,6 +30,10 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 - Mettre un bouton avec couleur rouge ou vert pour connexion (connected)
 
+## Les boutons se compotent annormalement
+
+- Il faut faire Setings / General - Clean Data
+
 ## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)
