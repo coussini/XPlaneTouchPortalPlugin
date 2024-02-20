@@ -177,15 +177,14 @@ class TouchPortalClient:
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
                 for x in states['datarefs']:
                     if x['desc'] == data.get('data')[0]['value']:
+                        client_TP.stateUpdate(x['dataref'],data.get('data')[1]['value']) # update the value in Touch Portal State
                         #__logger__.info(f"Update value in XPlane Server with : {data.get('actionId')} and {x['dataref']} with value {data.get('data')[1]['value']}")
                         outgoing_request = {}
                         outgoing_request['command'] = client_XP.request_update_from_touch_portal
                         outgoing_request['dataref'] = x['dataref']
                         outgoing_request['value'] = data.get('data')[1]['value']
                         outgoing_request_encode = json.dumps(outgoing_request).encode()
-                        client_XP.outgoing_data.append(outgoing_request_encode)
-                        #client_TP.stateUpdate(x['dataref'],data.get('data')[1]['value'])
-
+                        client_XP.outgoing_data.append(outgoing_request_encode) # request for update the value in XPlane Dataref
                         break
             case _:
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
