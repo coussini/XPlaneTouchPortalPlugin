@@ -181,6 +181,15 @@
             "comment": "0 or 1 (0 = OFF, 1 = ON, Become 0 when Apu is Available)"
         },
         {
+            "id": "AirbusFBW/APUFlapOpenRatio",
+            "desc": "APU Flap Open Ratio",
+            "group": "Overhead",
+            "type": "float",
+            "value": "0.0",
+            "dataref": "AirbusFBW/APUFlapOpenRatio",
+            "comment": "0 or 1 (0 = Start not Available, 0.25 = Start is Available)"
+        },
+        {
             "id": "AirbusFBW/APUAvail",
             "desc": "APU Available",
             "group": "Overhead",

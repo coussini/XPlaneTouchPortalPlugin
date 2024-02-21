@@ -177,8 +177,11 @@ class TouchPortalClient:
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
                 for x in states['datarefs']:
                     if x['desc'] == data.get('data')[0]['value']:
+                        # On attend que X-plane envoie la valeur
                         client_TP.stateUpdate(x['dataref'],data.get('data')[1]['value']) # update the value in Touch Portal State
-                        #__logger__.info(f"Update value in XPlane Server with : {data.get('actionId')} and {x['dataref']} with value {data.get('data')[1]['value']}")
+                        __logger__.info(f"===================")
+                        __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
+                        __logger__.info(f"===================")
                         outgoing_request = {}
                         outgoing_request['command'] = client_XP.request_update_from_touch_portal
                         outgoing_request['dataref'] = x['dataref']
@@ -386,6 +389,9 @@ class XPlaneClient:
                     dataref = one_ingoing_object['dataref']
                     value = one_ingoing_object['value']
                     self.client_TP.stateUpdate(dataref,value)
+                    __logger__.info(f"===================")
+                    __logger__.info(f"State Update with : {dataref} with value {value}")
+                    __logger__.info(f"===================")
                     # send a response to the server
                     outgoing_request = {}
                     outgoing_request['command'] = self.response_update_from_x_plane

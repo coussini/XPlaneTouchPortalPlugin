@@ -34,6 +34,10 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 - Il faut faire Setings / General - Clean Data
 
+## À faire
+
+- Créer un pack pour Toliss A320 Essential
+
 ## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)
