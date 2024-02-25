@@ -1,46 +1,92 @@
 {
-  "sdk": 4,
-  "version": 100,
-  "name": "xplane plugin for touch portal",
-  "id": "xplane_plugin_for_touch_portal",
-  "configuration": {
-    "colorDark": "#212121",
-    "colorLight": "#0090ff",
-    "parentCategory" : "game"    
-  },
-  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.exe",
-  "categories": [
-    {
-      "id": "xplane_plugin_for_touch_portal.dataref",
-      "name": "xplane dataref",
-      "imagepath": "%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",      
-      "actions": [
-        {
-          "id": "xplane_plugin_for_touch_portal.dataref.set_states",
-          "name": "Xplane dataref - Set Variable Value",
-          "prefix": "XPlane",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": true,
-          "description": "",
-          "format": "Xplane dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_states.value$}",
-          "data": [
+   "sdk":4,
+   "version":100,
+   "name":"xplane plugin for touch portal",
+   "id":"xplane_plugin_for_touch_portal",
+   "configuration":{
+      "colorDark":"#212121",
+      "colorLight":"#0090ff",
+      "parentCategory":"game"
+   },
+   "plugin_start_cmd":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.exe",
+   "categories":[
+      {
+         "id":"xplane_plugin_for_touch_portal.plugin",
+         "name":"Xplane Plugin",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
             {
-              "id": "xplane_plugin_for_touch_portal.dataref.set_states.name",
-              "type": "choice",
-              "label": "dataref name",
-              "default": "Battery",
-              "valueChoices": []
+               "id":"xplane_plugin_for_touch_portal.dataref.set_states",
+               "name":"Dataref - Set Variable Value",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_states.value$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"Battery",
+                     "valueChoices":[
+                        
+                     ]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.value",
+                     "type":"text",
+                     "label":"value",
+                     "default":"0"
+                  }
+               ]
             },
             {
-              "id": "xplane_plugin_for_touch_portal.dataref.set_states.value",
-              "type": "text",
-              "label": "value",
-              "default": "0"
+               "id":"xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file",
+               "name":"Plugin - Set Custom Dataref Json File",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Plugin - Set Custom Json File:{$xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file.name",
+                     "type":"text",
+                     "label":"value",
+                     "default":"default"
+                  }
+               ]
             }
-          ]
-        }
-      ]
-    }
-  ]
+         ],
+         "states":[
+            {
+               "id":"xplane_plugin_for_touch_portal.state.custom_json_file_name",
+               "type":"text",
+               "desc":"Plugin : Custom Datarefs Json File Name",
+               "default":"default"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.state.touch_portal_ready",
+               "type":"text",
+               "desc":"Plugin : Touch Portal Is Ready",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.state.custom_json_ready",
+               "type":"text",
+               "desc":"Plugin : Custom Datarefs are Loaded and Ready for XPlane",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.state.connected_to_server",
+               "type":"text",
+               "desc":"Plugin : Connected To Server",
+               "default":"0"
+            }
+         ]
+      }
+   ]
 }

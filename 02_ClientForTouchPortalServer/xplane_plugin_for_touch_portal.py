@@ -31,16 +31,18 @@ class XPlanePlugin:
         Class initialization. 
         '''
         self.version = '1.0'
-        self.json_file = 'datarefs.json'
+        #self.json_file = 'TolissA320.json'
         self.json_keys_first_level = 'datarefs'
         self.json_keys = ['id', 'desc', 'group', 'type', 'value', 'dataref', 'comment']
         self.json_keys.sort()
 
-        if __is_windows__: self.touch_portal_data_folder = os.getenv('APPDATA') + '\\TouchPortal\\plugins\\';
-        if __is_linux__: self.touch_portal_data_folder = '\\TouchPortal\\plugins\\';
-        if __is_macos__: self.touch_portal_data_folder = '\\Documents\\TouchPortal\\plugins\\';
+        if __is_windows__: self.touch_portal_xplane_json_folder = os.getenv('APPDATA') + '\\TouchPortal\\misc\\xplane\\';
+        if __is_linux__: self.touch_portal_xplane_json_folder = '\\TouchPortal\\misc\\xplane\\';
+        if __is_macos__: self.touch_portal_xplane_json_folder = '\\Documents\\TouchPortal\\misc\\xplane\\';
 
-        self.json_file_location = self.touch_portal_data_folder+ self.json_file
+        #self.json_file_location = self.touch_portal_xplane_json_folder+ self.json_file
+        self.json_folder_location = self.touch_portal_xplane_json_folder
+        self.json_file_name = 'default.json'
 
         # keep states from json file
         self.states = None
@@ -54,6 +56,7 @@ class XPlanePlugin:
         if not self.json_keys_first_level in states:
             __logger__.error(f'json first level key must be {self.json_keys_first_level}')
             successful = False
+            raise Exception(f'json into the custom json')
         else:
             for x in states['datarefs']:
                 keys = list(x.keys())
@@ -61,6 +64,7 @@ class XPlanePlugin:
                 if keys != self.json_keys:
                     __logger__.error(f'json file keys must be {self.json_keys} and not {keys}')
                     successful = False
+                    raise Exception(f'json into the custom json')
                     break
 
         return successful
@@ -72,25 +76,27 @@ class XPlanePlugin:
         successful = False
         states = None
         
-        __logger__.info(f'Trying to load datarefs from: {self.json_file_location}')
+        __logger__.info(f'Trying to load datarefs from: {self.json_folder_location}')
 
         try:
-            file = open(self.json_file, 'r')
+            json_file = self.json_folder_location + self.json_file_name
+            print(json_file)
+            file = open(json_file, 'r')
             states = json.load(file)
             file.close()
-            __logger__.info(f'Datarefs successfully loaded from {self.json_file} !')
+            __logger__.info(f'Datarefs successfully loaded from {json_file} !')
             successful = self.validate_keys_from_json_file(states)
         except FileNotFoundError:
-            __logger__.error(f'File {self.json_file} does not exist')
+            __logger__.error(f'File {json_file} does not exist')
         except ValueError as err:
-            __logger__.error(f'Invalid JSON syntax in {self.json_file}')
+            __logger__.error(f'Invalid JSON syntax in {json_file}')
             __logger__.error(f'{err}')
         except Exception as err:
             from traceback import format_exc
             __logger__.error(f'str({err})')
         finally:
             if successful:
-                __logger__.info(f'The json file: {self.json_file_location} is valid !')
+                __logger__.info(f'The json file: {json_file} is valid !')
 
         return successful, states
         
@@ -118,7 +124,7 @@ class TouchPortalClient:
         self.on_action = TP_API.TYPES.onAction
         self.on_shutdown = TP_API.TYPES.onShutdown
 
-    def on_connect_process(self, data, states, client_TP, client_XP):
+    def on_connect_process(self, data, plugin_XP, client_TP, client_XP):
         '''
         Proceed the Touch Portal 'on connect' event 
         '''
@@ -127,43 +133,50 @@ class TouchPortalClient:
         __logger__.info(f'SECTION on_connect')
         __logger__.info(f'==================')
         __logger__.info(f'{data}')
-        
-        choices_list = []
-        datarefs_list = []
-        
-        # ------------------------------------- 
-        # example for one state for one dataref
-        # ------------------------------------- 
-        # "id": "AirbusFBW/ADIRUSwitchArray[0]",
-        # "desc": "Adirs IR1",
-        # "group": "OverHead",
-        # "type": "int",
-        # "value": "0",
-        # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
-        # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
-        # 
-        
-        # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
-        for x in states['datarefs']:
-            descrition = x['group'] + ' - ' + x['desc']                     # Create a description within a group and desc
-            client_TP.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
-            choices_list.append(x['desc'])                                  # Save dataref desc for choiceUpdate purpose
-            datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
-        
-        # Feed the valueChoices for each action: ref entry.tp file
-        choices_list.sort() # sort options for ease of use in Touch Portal apps
-        client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
-        
-        __logger__.info(f'Touch Portal Choices of States Id have been updated !')
-        
-        datarefs_list.sort()                                    # Sorted dataref will be use for comparaison in XPlaneClient class
-        client_XP.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
-        client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
 
-        # Start a thread to communicate with the x-plane server. This thread will finish when the Touch Portal Server are close
-        client_XP.communicate_with_xplane_server()
+        client_TP.stateUpdate('xplane_plugin_for_touch_portal.state.touch_portal_ready', '1')
 
-    def on_action_process(self, data, states, client_TP, client_XP):
+        '''
+        successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+
+        if successful:
+            choices_list = []
+            datarefs_list = []
+            
+            # ------------------------------------- 
+            # example for one state for one dataref
+            # ------------------------------------- 
+            # "id": "AirbusFBW/ADIRUSwitchArray[0]",
+            # "desc": "Adirs IR1",
+            # "group": "OverHead",
+            # "type": "int",
+            # "value": "0",
+            # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+            # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+            # 
+            
+            # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
+            for x in plugin_XP.states['datarefs']:
+                descrition = x['group'] + ' - ' + x['desc']                     # Create a description within a group and desc
+                client_TP.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
+                choices_list.append(x['desc'])                                  # Save dataref desc for choiceUpdate purpose
+                datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
+            
+            # Feed the valueChoices for each action: ref entry.tp file
+            choices_list.sort() # sort options for ease of use in Touch Portal apps
+            client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
+            
+            __logger__.info(f'Touch Portal Choices of States Id have been updated !')
+            
+            datarefs_list.sort()                                    # Sorted dataref will be use for comparaison in XPlaneClient class
+            client_XP.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
+            client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
+
+            # Start a thread to communicate with the x-plane server. This thread will finish when the Touch Portal Server are close
+            client_XP.communicate_with_xplane_server()
+        '''
+
+    def on_action_process(self, data, plugin_XP, client_TP, client_XP):
         '''
         Proceed the Touch Portal 'on action' event 
         '''
@@ -174,6 +187,18 @@ class TouchPortalClient:
 
         # dispatch Touch Portal Action Id
         match data.get('actionId'):
+            case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
+                # get the value from the action data (a string the user specified)
+                plugin_XP.json_file_name = data.get('data')[0]['value']
+                __logger__.info(f'json file = {plugin_XP.json_file_name}')
+                  # We can also update our ExampleStates with the Action Value
+                json_file_name_without_extension = os.path.splitext(plugin_XP.json_file_name)[0]
+                client_TP.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
+                successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+        '''
+
+
+
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
                 for x in states['datarefs']:
                     if x['desc'] == data.get('data')[0]['value']:
@@ -192,6 +217,8 @@ class TouchPortalClient:
             case _:
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
 
+        '''
+
     def on_shutdown_process(self, data, client_TP):
         '''
         Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
@@ -201,9 +228,9 @@ class TouchPortalClient:
         __logger__.info(f'===================')
         __logger__.info(f'{data}')
 
-        client_TP.disconnect()
+        #client_TP.disconnect()
 
-    def treat_touch_portal_client(self, states, client_XP):
+    def treat_touch_portal_client(self, plugin_XP, client_XP):
         '''
         Proceed all Touch Portal events (Main process for Touch Portal)
         '''
@@ -216,13 +243,13 @@ class TouchPortalClient:
         @client_TP.on(self.on_connect) 
         def onConnect(data):
 
-            self.on_connect_process(data, states, client_TP, client_XP)
+            self.on_connect_process(data, plugin_XP, client_TP, client_XP)
 
         # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
         @client_TP.on(self.on_action) 
         def onAction(data):
 
-            self.on_action_process(data, states, client_TP, client_XP)
+            self.on_action_process(data, plugin_XP, client_TP, client_XP)
 
         # Shutdown handler, called when Touch Portal wants to stop your plugin.
         @client_TP.on(self.on_shutdown) 
@@ -574,10 +601,10 @@ def main():
     client_XP = XPlaneClient(client_TP)
 
     # extract all datarefs from the JSON file.
-    successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+    #successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
 
-    if successful:
-        successful = client_TP.treat_touch_portal_client(plugin_XP.states, client_XP)
+    #if successful:
+    successful = client_TP.treat_touch_portal_client(plugin_XP, client_XP)
 
     __logger__.info(f'Return code = {successful}')
     sys.exit(successful)

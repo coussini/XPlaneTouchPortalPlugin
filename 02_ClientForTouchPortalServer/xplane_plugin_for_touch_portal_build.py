@@ -98,7 +98,7 @@ If you have any required file(s) that your plugin needs, put them in this list.
 """
 # SEE https://docs.python.org/3/using/cmdline.html for command line example
 
-ADDITIONAL_FILES = ["datarefs.json"]
+ADDITIONAL_FILES = ["TolissA320.json"]
 
 """
 Any additional arguments to be passed to Pyinstaller. Optional.
