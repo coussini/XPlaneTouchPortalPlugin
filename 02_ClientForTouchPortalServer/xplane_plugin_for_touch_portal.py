@@ -124,20 +124,23 @@ class TouchPortalClient:
         self.on_action = TP_API.TYPES.onAction
         self.on_shutdown = TP_API.TYPES.onShutdown
 
-    def on_connect_process(self, data, plugin_XP, client_TP, client_XP):
-        '''
-        Proceed the Touch Portal 'on connect' event 
-        '''
-        __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
-        __logger__.info(f'==================')
-        __logger__.info(f'SECTION on_connect')
-        __logger__.info(f'==================')
-        __logger__.info(f'{data}')
+        # Create an object concerning the instance __XPlanePlugin for onAction purpose
+        self.__XPlanePlugin = None
 
-        client_TP.stateUpdate('xplane_plugin_for_touch_portal.state.touch_portal_ready', '1')
+        # Create an object concerning the instance __XPlaneClient for onAction purpose
+        self.__XPlaneClient = None
 
-        '''
-        successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+    def set_custom_dataref_json_file_and_states(self, data):
+
+        self.__XPlanePlugin.json_file_name = data.get('data')[0]['value']
+        __logger__.info(f'json file = {self.__XPlanePlugin.json_file_name}')
+          
+        # Get the json file name without extension to display in page
+        json_file_name_without_extension = os.path.splitext(self.__XPlanePlugin.json_file_name)[0]
+        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
+        
+        # get __XPlanePlugin.states from from json files that contains dataref info
+        successful, self.__XPlanePlugin.states = self.__XPlanePlugin.get_dataref_values_from_json_file()
 
         if successful:
             choices_list = []
@@ -156,27 +159,88 @@ class TouchPortalClient:
             # 
             
             # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
-            for x in plugin_XP.states['datarefs']:
+            for x in self.__XPlanePlugin.states['datarefs']:
                 descrition = x['group'] + ' - ' + x['desc']                     # Create a description within a group and desc
-                client_TP.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
+                self.tp_api.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
                 choices_list.append(x['desc'])                                  # Save dataref desc for choiceUpdate purpose
                 datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
             
             # Feed the valueChoices for each action: ref entry.tp file
             choices_list.sort() # sort options for ease of use in Touch Portal apps
-            client_TP.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
+            self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
             
             __logger__.info(f'Touch Portal Choices of States Id have been updated !')
             
             datarefs_list.sort()                                    # Sorted dataref will be use for comparaison in XPlaneClient class
-            client_XP.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
-            client_XP.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
+
+            self.__XPlaneClient.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
+            self.__XPlaneClient.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
+        
+    def start_communication_with_the_xplane_server(self):
+        '''
+        Start the communication within the x-plane server 
+        '''
+        pass
+
+    def stop_communication_with_the_xplane_server(self):
+        '''
+        Stop the communication within the x-plane server 
+        '''
+        pass
+
+    def on_connect_process(self, data):
+        '''
+        Proceed the Touch Portal 'on connect' event 
+        '''
+        __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
+        __logger__.info(f'==================')
+        __logger__.info(f'SECTION on_connect')
+        __logger__.info(f'==================')
+        __logger__.info(f'{data}')
+
+        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.touch_portal_ready', '1')
+
+        '''
+        successful, __XPlanePlugin.states = __XPlanePlugin.get_dataref_values_from_json_file()
+
+        if successful:
+            choices_list = []
+            datarefs_list = []
+            
+            # ------------------------------------- 
+            # example for one state for one dataref
+            # ------------------------------------- 
+            # "id": "AirbusFBW/ADIRUSwitchArray[0]",
+            # "desc": "Adirs IR1",
+            # "group": "OverHead",
+            # "type": "int",
+            # "value": "0",
+            # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+            # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+            # 
+            
+            # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
+            for x in __XPlanePlugin.states['datarefs']:
+                descrition = x['group'] + ' - ' + x['desc']                     # Create a description within a group and desc
+                self.tp_api.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
+                choices_list.append(x['desc'])                                  # Save dataref desc for choiceUpdate purpose
+                datarefs_list.append(x['dataref'])                              # dataref will be use for comparaison in XPlaneClient class
+            
+            # Feed the valueChoices for each action: ref entry.tp file
+            choices_list.sort() # sort options for ease of use in Touch Portal apps
+            self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list)      # Update action option at runtime
+            
+            __logger__.info(f'Touch Portal Choices of States Id have been updated !')
+            
+            datarefs_list.sort()                                    # Sorted dataref will be use for comparaison in XPlaneClient class
+            __XPlaneClient.datarefs_list = datarefs_list                 # Save sorted datarefs_list in XPlaneClient class 
+            __XPlaneClient.nb_entries_datarefs_list = len(datarefs_list) # Keep datarefs occurence count
 
             # Start a thread to communicate with the x-plane server. This thread will finish when the Touch Portal Server are close
-            client_XP.communicate_with_xplane_server()
+            __XPlaneClient.communicate_with_xplane_server()
         '''
 
-    def on_action_process(self, data, plugin_XP, client_TP, client_XP):
+    def on_action_process(self, data):
         '''
         Proceed the Touch Portal 'on action' event 
         '''
@@ -188,13 +252,10 @@ class TouchPortalClient:
         # dispatch Touch Portal Action Id
         match data.get('actionId'):
             case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
+                self.set_custom_dataref_json_file_and_states(data)
+            case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_xplane_server':
                 # get the value from the action data (a string the user specified)
-                plugin_XP.json_file_name = data.get('data')[0]['value']
-                __logger__.info(f'json file = {plugin_XP.json_file_name}')
-                  # We can also update our ExampleStates with the Action Value
-                json_file_name_without_extension = os.path.splitext(plugin_XP.json_file_name)[0]
-                client_TP.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
-                successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+                __logger__.info(f'start = {data.get('data')[0]['value']}')
         '''
 
 
@@ -203,23 +264,23 @@ class TouchPortalClient:
                 for x in states['datarefs']:
                     if x['desc'] == data.get('data')[0]['value']:
                         # On attend que X-plane envoie la valeur
-                        client_TP.stateUpdate(x['dataref'],data.get('data')[1]['value']) # update the value in Touch Portal State
+                        __TouchPortalClient.stateUpdate(x['dataref'],data.get('data')[1]['value']) # update the value in Touch Portal State
                         __logger__.info(f"===================")
                         __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
                         __logger__.info(f"===================")
                         outgoing_request = {}
-                        outgoing_request['command'] = client_XP.request_update_from_touch_portal
+                        outgoing_request['command'] = __XPlaneClient.request_update_from_touch_portal
                         outgoing_request['dataref'] = x['dataref']
                         outgoing_request['value'] = data.get('data')[1]['value']
                         outgoing_request_encode = json.dumps(outgoing_request).encode()
-                        client_XP.outgoing_data.append(outgoing_request_encode) # request for update the value in XPlane Dataref
+                        __XPlaneClient.outgoing_data.append(outgoing_request_encode) # request for update the value in XPlane Dataref
                         break
             case _:
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
 
         '''
 
-    def on_shutdown_process(self, data, client_TP):
+    def on_shutdown_process(self, data):
         '''
         Proceed the Touch Portal 'on shutdown' event. When Touch Portal tries to close plugin 
         '''
@@ -228,68 +289,71 @@ class TouchPortalClient:
         __logger__.info(f'===================')
         __logger__.info(f'{data}')
 
-        #client_TP.disconnect()
+        #__TouchPortalClient.disconnect()
 
-    def treat_touch_portal_client(self, plugin_XP, client_XP):
+    def treat_touch_portal_client(self, __XPlanePlugin, __XPlaneClient):
         '''
         Proceed all Touch Portal events (Main process for Touch Portal)
         '''
         successful = False
 
-        # Create an object concerning Touch Portal client
-        client_TP = self.tp_api
+        # Create an object concerning the Touch Portal API client for the following decorator @
+        __TouchPortalClient_api = self.tp_api
+
+        # Create an object concerning the instance __XPlanePlugin for onAction purpose
+        self.__XPlanePlugin = __XPlanePlugin
+
+        # Create an object concerning the instance __XPlaneClient for onAction purpose
+        self.__XPlaneClient = __XPlaneClient
 
         # This event handler will run once when the client connects to Touch Portal
-        @client_TP.on(self.on_connect) 
+        @__TouchPortalClient_api.on(self.on_connect) 
         def onConnect(data):
 
-            self.on_connect_process(data, plugin_XP, client_TP, client_XP)
+            self.on_connect_process(data)
 
         # Action handlers, called when user activates one of this plugin's actions in Touch Portal.
-        @client_TP.on(self.on_action) 
+        @__TouchPortalClient_api.on(self.on_action) 
         def onAction(data):
 
-            self.on_action_process(data, plugin_XP, client_TP, client_XP)
+            self.on_action_process(data)
 
         # Shutdown handler, called when Touch Portal wants to stop your plugin.
-        @client_TP.on(self.on_shutdown) 
+        @__TouchPortalClient_api.on(self.on_shutdown) 
         def onShutdown(data):
 
-            self.on_shutdown_process(data, client_TP)
+            self.on_shutdown_process(data)
 
         __logger__.info(f'Trying to connect to Touch Portal Apps')
         
         try:
-            client_TP.connect()
+            self.tp_api.connect()
         except KeyboardInterrupt:
             __logger__.warning('Caught keyboard interrupt, exiting.')
         except ConnectionRefusedError:
             __logger__.error(f'Cannot connect to Touch Portal, probably it is not running')
         except Exception:
-            # This will catch and report any critical exceptions in the base client_TP code,
+            # This will catch and report any critical exceptions in the base __TouchPortalClient_api code,
             # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
             from traceback import format_exc
             __logger__.error(f'Exception in TP Client:\n{format_exc()}')
-            client_XP.keep_running.clear()
+            self.__XPlaneClient.keep_running.clear()
         else:
             __logger__.info(f'TP Client Disconnected')
             successful = True
         finally:
-            client_XP.keep_running.clear()
-            client_TP.disconnect()
-
-        del client_XP
-        del client_TP
+            self.__XPlaneClient.keep_running.clear()
+            self.tp_api.disconnect()
 
         return successful
 
 class XPlaneClient:
     
-    def __init__(self, client_TP):
+    def __init__(self, __TouchPortalClient_api):
         '''
         Class initialization. 
         '''
-        self.client_TP = client_TP.tp_api # keep the client tp for the status update
+        self.__TouchPortalClient_api = __TouchPortalClient_api # keep the client tp for the state update
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -415,7 +479,7 @@ class XPlaneClient:
                 elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
                     dataref = one_ingoing_object['dataref']
                     value = one_ingoing_object['value']
-                    self.client_TP.stateUpdate(dataref,value)
+                    self.__TouchPortalClient_api.stateUpdate(dataref,value)
                     __logger__.info(f"===================")
                     __logger__.info(f"State Update with : {dataref} with value {value}")
                     __logger__.info(f"===================")
@@ -435,7 +499,7 @@ class XPlaneClient:
                     self.keep_running.clear()
                     break
             except Exception:
-                # This will catch and report any critical exceptions in the base client_TP code,
+                # This will catch and report any critical exceptions in the base __TouchPortalClient code,
                 # _not_ exceptions in this plugin's event handlers (use onError(), above, for that).
                 from traceback import format_exc
                 __logger__.error(f'an error occurred when trying to make a json object') 
@@ -511,7 +575,7 @@ class XPlaneClient:
                         one_id = dataref
                         one_value = value
                         __logger__.info(f'>>>>>>>>>>>>>>> {dataref} and {one_value} for stateUpdate')
-                        self.client_TP.stateUpdate(one_id,one_value)
+                        self.__TouchPortalClient_api.stateUpdate(one_id,one_value)
                     __logger__.info(f'state update completed !')
                     self.init_phase_running.clear()
                 else:
@@ -591,20 +655,20 @@ class XPlaneClient:
 
 def main():
     
-    # Create a XPlane Plugin instance.
-    plugin_XP = XPlanePlugin()
+    # Create an instance from the XPlanePlugin class.
+    __XPlanePlugin = XPlanePlugin()
 
-    # Create a Touch Portal client instance.
-    client_TP = TouchPortalClient()
+    # Create an instance from the TouchPortalClient class.
+    __TouchPortalClient = TouchPortalClient()
 
-    # Create a XPlane client instance. Keep the client_TP for any status update
-    client_XP = XPlaneClient(client_TP)
+    # Create an instance from the XPlaneClient class. Keep the __TouchPortalClient.tp_api for any state update
+    __XPlaneClient = XPlaneClient(__TouchPortalClient.tp_api)
 
-    # extract all datarefs from the JSON file.
-    #successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
+    successful = __TouchPortalClient.treat_touch_portal_client(__XPlanePlugin, __XPlaneClient)
 
-    #if successful:
-    successful = client_TP.treat_touch_portal_client(plugin_XP, client_XP)
+    del __XPlanePlugin
+    del __TouchPortalClient
+    del __XPlaneClient
 
     __logger__.info(f'Return code = {successful}')
     sys.exit(successful)

@@ -59,6 +59,24 @@
                      "default":"default"
                   }
                ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.plugin.start_communication_with_xplane_server",
+               "name":"Plugin - Start Communication with Xplane Server",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Start communication:{$xplane_plugin_for_touch_portal.plugin.start_communication.choice$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.plugin.start_communication.choice",
+                     "type":"switch",
+                     "label":"start communication",
+                     "default":"False"
+                  }
+               ]
             }
          ],
          "states":[
