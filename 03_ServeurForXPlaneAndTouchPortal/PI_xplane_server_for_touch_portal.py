@@ -600,15 +600,18 @@ class XPlaneServer:
                     self.socket_die(client_socket)
 
         if mask & selectors.EVENT_WRITE:
-            if self.outgoing_data.outb:
-                print(f'outgoing_data = {self.outgoing_data.outb}')
-                print(f'')
-                # sent value is the length of the string that was sent
-                sent = client_socket.send(self.outgoing_data.outb)  
-                # remove the sent string from the self.outgoing_data.outb
-                self.outgoing_data.outb = self.outgoing_data.outb[sent:]
-            else:    
-                self.monitoring_dataref_updates_from_xplane(client_socket) # This is the process for updates from X-Plane.
+            try:
+                if self.outgoing_data.outb:
+                    print(f'outgoing_data = {self.outgoing_data.outb}')
+                    print(f'')
+                    # sent value is the length of the string that was sent
+                    sent = client_socket.send(self.outgoing_data.outb)  
+                    # remove the sent string from the self.outgoing_data.outb
+                    self.outgoing_data.outb = self.outgoing_data.outb[sent:]
+                else:    
+                    self.monitoring_dataref_updates_from_xplane(client_socket) # This is the process for updates from X-Plane.
+            except socket.error:
+                    self.socket_die(client_socket) # possibly the client socket is close and the server try to send something 
 
     def main_loop(self, sinceLast, elapsedTime, counter, refCon): 
         '''

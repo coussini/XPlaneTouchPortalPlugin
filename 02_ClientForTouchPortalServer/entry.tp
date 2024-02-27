@@ -68,13 +68,17 @@
                "tryInline":true,
                "hasHoldFunctionality":true,
                "description":"",
-               "format":"Start communication:{$xplane_plugin_for_touch_portal.plugin.start_communication.choice$}",
+               "format":"Plugin - Start communication:{$xplane_plugin_for_touch_portal.plugin.start_communication.choice$}",
                "data":[
                   {
                      "id":"xplane_plugin_for_touch_portal.plugin.start_communication.choice",
-                     "type":"switch",
-                     "label":"start communication",
-                     "default":"False"
+                     "type":"choice",
+                     "label":"start",
+                     "default":"Yes",
+                     "valueChoices":[
+                        "No",
+                        "Yes"
+                     ]
                   }
                ]
             }

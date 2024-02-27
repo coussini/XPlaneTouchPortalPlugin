@@ -86,6 +86,8 @@ class XPlanePlugin:
         
         self.keep_running = threading.Event()
         self.connected = threading.Event()
+        self.xplane_client_thread = None # For the instance of threading.Thread class
+
         self.init_phase_done = threading.Event()
         self.init_phase_running = threading.Event()
 
@@ -232,18 +234,39 @@ class XPlanePlugin:
             
             self.datarefs_list.sort() # Sorted dataref will be use for comparaison
             self.nb_entries_datarefs_list = len(self.datarefs_list) # Keep datarefs occurence count
+            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_ready', '1')
         
     def touch_portal_client_on_action_start_communication_with_xplane_server(self):
         '''
         Start the communication with the X-Plane server 
         '''
-        pass
+        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.connected_to_server', '1')
+        self.xplane_client_communicate_with_xplane_server()
 
     def touch_portal_client_on_action_stop_communication_with_xplane_server(self):
         '''
         Stop the communication with the X-Plane server 
         '''
-        pass
+        self.xplane_client_stop_communicate_with_xplane_server()
+        __logger__.info("STOP SERVER EVENT")
+
+    def touch_portal_client_on_action_set_states(self, data):
+        '''
+        Set states value and send it to X-Plane server 
+        '''
+        for x in self.states['datarefs']:
+            if x['desc'] == data.get('data')[0]['value']:
+                self.tp_api.stateUpdate(x['dataref'],data.get('data')[1]['value']) # Update the value in Touch Portal State
+                __logger__.info(f"===================")
+                __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
+                __logger__.info(f"===================")
+                outgoing_request = {}
+                outgoing_request['command'] = self.request_update_from_touch_portal
+                outgoing_request['dataref'] = x['dataref']
+                outgoing_request['value'] = data.get('data')[1]['value']
+                outgoing_request_encode = json.dumps(outgoing_request).encode()
+                self.outgoing_data.append(outgoing_request_encode) # Request for update the value in XPlane Dataref
+                break
 
     def touch_portal_client_on_connect_process(self, data):
         '''
@@ -276,22 +299,14 @@ class XPlanePlugin:
             case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
                 self.touch_portal_client_on_action_set_custom_dataref_json_file(data)
             case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_xplane_server':
-                # Get the value from the action data (a string the user specified)
-                __logger__.info(f'Start = {data.get('data')[0]['value']}')
+                start_communication_with_server = data.get('data')[0]['value']
+                __logger__.info(f'Start = {start_communication_with_server}')
+                if start_communication_with_server == 'Yes':
+                    self.touch_portal_client_on_action_start_communication_with_xplane_server()
+                else:
+                    self.touch_portal_client_on_action_stop_communication_with_xplane_server()
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
-                for x in states['datarefs']:
-                    if x['desc'] == data.get('data')[0]['value']:
-                        self.tp_api.stateUpdate(x['dataref'],data.get('data')[1]['value']) # Update the value in Touch Portal State
-                        __logger__.info(f"===================")
-                        __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
-                        __logger__.info(f"===================")
-                        outgoing_request = {}
-                        outgoing_request['command'] = self.request_update_from_touch_portal
-                        outgoing_request['dataref'] = x['dataref']
-                        outgoing_request['value'] = data.get('data')[1]['value']
-                        outgoing_request_encode = json.dumps(outgoing_request).encode()
-                        self.outgoing_data.append(outgoing_request_encode) # Request for update the value in XPlane Dataref
-                        break
+                self.touch_portal_client_on_action_set_states(data)
             case _:
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
 
@@ -565,6 +580,7 @@ class XPlanePlugin:
             if self.xplane_client_connect():
                 __logger__.info(f'Preparing X-Plane to running')
                 __logger__.info(f'Connecting on {(self.host, self.port)}')
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.connected_to_server', '2')
                 # Unblocking socket
                 self.client_socket.setblocking(False)
                 # Register a file object for selection, monitoring it for I/O events
@@ -579,19 +595,31 @@ class XPlanePlugin:
             __logger__.info('Ending X-Plane client thread')
             self.xplane_client_shutting_down()
 
+    def xplane_client_stop_communicate_with_xplane_server(self):
+        '''
+        Stop a thread. This thread is used for network communication between the X-Plane plugin and the X-Plane server. 
+        '''
+        __logger__.info('Server communication shutdown and kill a thread')
+
+        self.keep_running.clear()
+
     def xplane_client_communicate_with_xplane_server(self):
         '''
         Call a thread. This thread is used for network communication between the X-Plane plugin and the X-Plane server. 
-        This thread will finish when the Touch Portal Server are close
+        This thread will finish when the keep_running was cleared
         '''
         __logger__.info('Starting X-Plane client thread')
 
         try:
-            xp_thread = threading.Thread(target=self.xplane_client_thread_for_communication_with_xplane_server, args=(), daemon=True)
-            xp_thread.start()
+            self.xplane_client_thread = threading.Thread(target=self.xplane_client_thread_for_communication_with_xplane_server, args=())
+            self.xplane_client_thread.start()
+            self.xplane_client_thread.join()
         except:
             self.keep_running.clear()
             __logger__.error('Something wrong with thread X-Plane')
+        finally:
+            __logger__.info('Ending communication with X-Plane server')
+            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.connected_to_server', '0')
 
 def main():
     

@@ -1,154 +1,22 @@
-16:26:53.272 [I] [xplane_plugin_for_touch_portal.py:256] Trying to connect to Touch Portal Apps
-16:26:53.326 [I] [xplane_plugin_for_touch_portal.py:127] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:26:53.327 [I] [xplane_plugin_for_touch_portal.py:128] ==================
-16:26:53.329 [I] [xplane_plugin_for_touch_portal.py:129] SECTION on_connect
-16:26:53.329 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:26:53.330 [I] [xplane_plugin_for_touch_portal.py:131] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:26:53.331 [I] [xplane_plugin_for_touch_portal.py:134] SETTING = default.json
-16:36:50.193 [W] [xplane_plugin_for_touch_portal.py:261] Caught keyboard interrupt, exiting.
-16:36:50.194 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:36:50.200 [I] [xplane_plugin_for_touch_portal.py:605] Return code = False
-16:47:18.096 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:47:18.159 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:47:18.160 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:47:18.161 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:47:18.161 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:47:18.161 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:47:18.162 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = default.json
-16:47:18.162 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\
-16:47:18.163 [E] [xplane_plugin_for_touch_portal.py:94] str('XPlanePlugin' object has no attribute 'json_file')
-16:52:16.566 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:52:16.629 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:52:16.630 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:52:16.630 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:52:16.630 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:52:16.630 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:52:16.630 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = default.json
-16:52:16.631 [E] [_base.py:342] exception calling callback for <Future at 0x149b4a41f10 state=finished raised TypeError>
-Traceback (most recent call last):
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 340, in _invoke_callbacks
-    callback(self)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\executor.py", line 66, in _callback
-    self.emit("error", exc)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 211, in emit
-    self._emit_handle_potential_error(event, args[0] if args else None)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 169, in _emit_handle_potential_error
-    raise error
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 243, in onConnect
-    self.on_connect_process(data, plugin_XP, client_TP, client_XP)
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 140, in on_connect_process
-    successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file(plugin_XP.json_file_name)
-                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: XPlanePlugin.get_dataref_values_from_json_file() takes 1 positional argument but 2 were given
-16:52:56.929 [W] [xplane_plugin_for_touch_portal.py:262] Caught keyboard interrupt, exiting.
-16:52:56.930 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:52:56.932 [I] [xplane_plugin_for_touch_portal.py:606] Return code = False
-16:52:59.617 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:52:59.670 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:52:59.671 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:52:59.671 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:52:59.671 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:52:59.672 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:52:59.672 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = default.json
-16:52:59.672 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\
-16:52:59.674 [I] [xplane_plugin_for_touch_portal.py:85] Datarefs successfully loaded from C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\default.json !
-16:52:59.674 [E] [_base.py:342] exception calling callback for <Future at 0x1acc2211e50 state=finished raised AttributeError>
-Traceback (most recent call last):
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 340, in _invoke_callbacks
-    callback(self)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\executor.py", line 66, in _callback
-    self.emit("error", exc)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 211, in emit
-    self._emit_handle_potential_error(event, args[0] if args else None)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 169, in _emit_handle_potential_error
-    raise error
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 243, in onConnect
-    self.on_connect_process(data, plugin_XP, client_TP, client_XP)
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 140, in on_connect_process
-    successful, plugin_XP.states = plugin_XP.get_dataref_values_from_json_file()
-                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 97, in get_dataref_values_from_json_file
-    __logger__.info(f'The json file: {self.json_file} is valid !')
-                                      ^^^^^^^^^^^^^^
-AttributeError: 'XPlanePlugin' object has no attribute 'json_file'
-16:53:41.358 [W] [xplane_plugin_for_touch_portal.py:262] Caught keyboard interrupt, exiting.
-16:53:41.359 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:53:41.364 [I] [xplane_plugin_for_touch_portal.py:606] Return code = False
-16:53:43.325 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:53:43.381 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:53:43.381 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:53:43.383 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:53:43.384 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:53:43.384 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:53:43.385 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = default.json
-16:53:43.385 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\
-16:53:43.386 [I] [xplane_plugin_for_touch_portal.py:85] Datarefs successfully loaded from C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\default.json !
-16:53:43.386 [I] [xplane_plugin_for_touch_portal.py:97] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\default.json is valid !
-16:53:43.387 [E] [_base.py:342] exception calling callback for <Future at 0x1b837e31df0 state=finished raised NameError>
-Traceback (most recent call last):
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 340, in _invoke_callbacks
-    callback(self)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\executor.py", line 66, in _callback
-    self.emit("error", exc)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 211, in emit
-    self._emit_handle_potential_error(event, args[0] if args else None)
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\site-packages\pyee\base.py", line 169, in _emit_handle_potential_error
-    raise error
-  File "C:\Users\couss\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 243, in onConnect
-    self.on_connect_process(data, plugin_XP, client_TP, client_XP)
-  File "C:\Users\couss\OneDrive\Bureau\XPlaneTouchPortalPlugin\02_ClientForTouchPortalServer\xplane_plugin_for_touch_portal.py", line 159, in on_connect_process
-    for x in states['datarefs']:
-             ^^^^^^
-NameError: name 'states' is not defined
-16:54:43.704 [W] [xplane_plugin_for_touch_portal.py:262] Caught keyboard interrupt, exiting.
-16:54:43.705 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:54:43.710 [I] [xplane_plugin_for_touch_portal.py:606] Return code = False
-16:54:46.308 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:54:46.370 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:54:46.371 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:54:46.372 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:54:46.372 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:54:46.372 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'default.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:54:46.373 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = default.json
-16:54:46.373 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\
-16:54:46.375 [I] [xplane_plugin_for_touch_portal.py:85] Datarefs successfully loaded from C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\default.json !
-16:54:46.375 [I] [xplane_plugin_for_touch_portal.py:97] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\default.json is valid !
-16:54:46.376 [I] [xplane_plugin_for_touch_portal.py:169] Touch Portal Choices of States Id have been updated !
-16:54:46.376 [I] [xplane_plugin_for_touch_portal.py:580] starting X-Plane client thread
-16:54:49.077 [E] [xplane_plugin_for_touch_portal.py:355] X-Plane server is not running
-16:54:49.078 [I] [xplane_plugin_for_touch_portal.py:572] ending X-Plane client thread
-16:54:49.082 [I] [xplane_plugin_for_touch_portal.py:537] =========== shutting_down X-Plane Client ===========
-16:55:56.793 [W] [xplane_plugin_for_touch_portal.py:262] Caught keyboard interrupt, exiting.
-16:55:56.794 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:55:56.798 [I] [xplane_plugin_for_touch_portal.py:606] Return code = False
-16:56:01.501 [I] [xplane_plugin_for_touch_portal.py:257] Trying to connect to Touch Portal Apps
-16:56:01.563 [I] [xplane_plugin_for_touch_portal.py:129] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
-16:56:01.565 [I] [xplane_plugin_for_touch_portal.py:130] ==================
-16:56:01.568 [I] [xplane_plugin_for_touch_portal.py:131] SECTION on_connect
-16:56:01.570 [I] [xplane_plugin_for_touch_portal.py:132] ==================
-16:56:01.571 [I] [xplane_plugin_for_touch_portal.py:133] {'settings': [{'DatarefJsonFile': 'TolissA320.json'}], 'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
-16:56:01.573 [I] [xplane_plugin_for_touch_portal.py:138] SETTING = TolissA320.json
-16:56:01.575 [I] [xplane_plugin_for_touch_portal.py:77] Trying to load datarefs from: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\
-16:56:01.581 [I] [xplane_plugin_for_touch_portal.py:85] Datarefs successfully loaded from C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\TolissA320.json !
-16:56:01.585 [I] [xplane_plugin_for_touch_portal.py:97] The json file: C:\Users\couss\AppData\Roaming\TouchPortal\misc\xplane\TolissA320.json is valid !
-16:56:01.588 [I] [xplane_plugin_for_touch_portal.py:169] Touch Portal Choices of States Id have been updated !
-16:56:01.588 [I] [xplane_plugin_for_touch_portal.py:580] starting X-Plane client thread
-16:56:03.633 [E] [xplane_plugin_for_touch_portal.py:355] X-Plane server is not running
-16:56:03.634 [I] [xplane_plugin_for_touch_portal.py:572] ending X-Plane client thread
-16:56:03.638 [I] [xplane_plugin_for_touch_portal.py:537] =========== shutting_down X-Plane Client ===========
-16:56:30.722 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
-16:56:30.724 [I] [xplane_plugin_for_touch_portal.py:223] ===================
-16:56:30.727 [I] [xplane_plugin_for_touch_portal.py:224] SECTION on_shutdown
-16:56:30.729 [I] [xplane_plugin_for_touch_portal.py:225] ===================
-16:56:30.730 [I] [xplane_plugin_for_touch_portal.py:226] {'pluginId': 'xplane_plugin_for_touch_portal', 'values': [], 'type': 'closePlugin'}
-16:56:30.784 [I] [xplane_plugin_for_touch_portal.py:272] TP Client Disconnected
-16:56:30.785 [I] [xplane_plugin_for_touch_portal.py:606] Return code = True
+08:16:55.741 [I] [xplane_plugin_for_touch_portal.py:335] Trying to connect to Touch Portal Apps
+08:16:55.798 [I] [xplane_plugin_for_touch_portal.py:253] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
+08:16:55.799 [I] [xplane_plugin_for_touch_portal.py:254] =======================
+08:16:55.801 [I] [xplane_plugin_for_touch_portal.py:255] Touch Portal on_connect
+08:16:55.801 [I] [xplane_plugin_for_touch_portal.py:256] =======================
+08:16:55.801 [I] [xplane_plugin_for_touch_portal.py:257] {'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
+08:17:06.911 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
+08:17:06.913 [I] [xplane_plugin_for_touch_portal.py:303] ========================
+08:17:06.914 [I] [xplane_plugin_for_touch_portal.py:304] Touch Portal on_shutdown
+08:17:06.915 [I] [xplane_plugin_for_touch_portal.py:305] ========================
+08:17:06.917 [I] [xplane_plugin_for_touch_portal.py:306] {'pluginId': 'xplane_plugin_for_touch_portal', 'values': [], 'type': 'closePlugin'}
+08:17:06.975 [I] [xplane_plugin_for_touch_portal.py:349] TP Client Disconnected
+08:17:06.975 [I] [xplane_plugin_for_touch_portal.py:606] Return code = True
+08:17:12.605 [I] [xplane_plugin_for_touch_portal.py:335] Trying to connect to Touch Portal Apps
+08:17:12.670 [I] [xplane_plugin_for_touch_portal.py:253] Connected to Touch Portal Version 4.1.1.0.0 plugin v 100)
+08:17:12.670 [I] [xplane_plugin_for_touch_portal.py:254] =======================
+08:17:12.671 [I] [xplane_plugin_for_touch_portal.py:255] Touch Portal on_connect
+08:17:12.671 [I] [xplane_plugin_for_touch_portal.py:256] =======================
+08:17:12.671 [I] [xplane_plugin_for_touch_portal.py:257] {'tpVersionString': '4.1.1.0.0', 'pluginVersion': 100, 'tpVersionCode': 401001, 'sdkVersion': 8, 'type': 'info', 'status': 'paired'}
+08:17:20.677 [W] [xplane_plugin_for_touch_portal.py:340] Caught keyboard interrupt, exiting.
+08:17:20.678 [I] [client.py:297] xplane_plugin_for_touch_portal Disconnected from TouchPortal
+08:17:20.682 [I] [xplane_plugin_for_touch_portal.py:606] Return code = False
