@@ -4,8 +4,6 @@
             "id": "AirbusFBW/ADIRUSwitchArray[0]",
             "desc": "Adirs IR1",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
@@ -13,8 +11,6 @@
             "id": "AirbusFBW/ADIRUSwitchArray[1]",
             "desc": "Adirs IR2",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[1]",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
@@ -22,8 +18,6 @@
             "id": "AirbusFBW/ADIRUSwitchArray[2]",
             "desc": "Adirs IR3",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
@@ -31,8 +25,6 @@
             "id": "AirbusFBW/ElecOHPArray[5]",
             "desc": "Battery 1",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[5]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -40,8 +32,6 @@
             "id": "AirbusFBW/ElecOHPArray[6]",
             "desc": "Battery 2",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[6]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -49,8 +39,6 @@
             "id": "AirbusFBW/ElecOHPArray[3]",
             "desc": "Ext Power",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/ElecOHPArray[3]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -58,8 +46,6 @@
             "id": "AirbusFBW/EnableExternalPower",
             "desc": "ExtPowerAvailable",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/EnableExternalPower",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -67,8 +53,6 @@
             "id": "AirbusFBW/OHPLightSwitches[7]",
             "desc": "Strobe",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[7]",
             "comment": "0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)"
         },
@@ -76,8 +60,6 @@
             "id": "AirbusFBW/OHPLightSwitches[0]",
             "desc": "Beacon",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[0]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -85,8 +67,6 @@
             "id": "AirbusFBW/OHPLightSwitches[1]",
             "desc": "Wing",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[1]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -94,8 +74,6 @@
             "id": "AirbusFBW/OHPLightSwitches[2]",
             "desc": "Nav And Logo",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[2]",
             "comment": "0 to 2 (0 = OFF, 1 = 1, 2 = 2)"
         },
@@ -103,8 +81,6 @@
             "id": "AirbusFBW/APUMaster",
             "desc": "APU Master Sw",
             "group": "Overhead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/APUMaster",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -112,8 +88,6 @@
             "id": "AirbusFBW/OHPLightSwitches[9]",
             "desc": "STBY COMPASS",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[9]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -121,8 +95,6 @@
             "id": "AirbusFBW/OHPLightSwitches[8]",
             "desc": "INT LT DOME",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[8]",
             "comment": "0 to 2 (0 = OFF, 1 = DIM, 2 = BRT)"
         },
@@ -130,8 +102,6 @@
             "id": "AirbusFBW/AnnunMode[8]",
             "desc": "ANN LT",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/AnnunMode[8]",
             "comment": "0 to 2 (0 = OFF, 1 = BRT, 2 = TEST)"
         },
@@ -139,8 +109,6 @@
             "id": "AirbusFBW/OHPLightSwitches[6]",
             "desc": "RWY TURN OFF",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[6]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -148,8 +116,6 @@
             "id": "AirbusFBW/OHPLightSwitches[4]",
             "desc": "Landing Light Left",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[4]",
             "comment": "0 or 2 (0 = OFF, 2 = ON)"
         },
@@ -157,8 +123,6 @@
             "id": "AirbusFBW/OHPLightSwitches[5]",
             "desc": "Landing Light Right",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[5]",
             "comment": "0 or 2 (0 = OFF, 2 = ON)"
         },
@@ -166,8 +130,6 @@
             "id": "AirbusFBW/OHPLightSwitches[3]",
             "desc": "Nose",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[3]",
             "comment": "0 to 2 (0 = OFF, 1 = TAXI, 2 = T.O.)"
         },
@@ -175,8 +137,6 @@
             "id": "AirbusFBW/APUStarter",
             "desc": "APU Start",
             "group": "Overhead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/APUStarter",
             "comment": "0 or 1 (0 = OFF, 1 = ON, Become 0 when Apu is Available)"
         },
@@ -184,8 +144,6 @@
             "id": "AirbusFBW/APUFlapOpenRatio",
             "desc": "APU Flap Open Ratio",
             "group": "Overhead",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/APUFlapOpenRatio",
             "comment": "0 or 1 (0 = Start not Available, 0.25 = Start is Available)"
         },
@@ -193,8 +151,6 @@
             "id": "AirbusFBW/APUAvail",
             "desc": "APU Available",
             "group": "Overhead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/APUAvail",
             "comment": "0 or 1 (0 = Not Available, 1 = Available)"
         },
@@ -202,8 +158,6 @@
             "id": "AirbusFBW/OHPLightSwitches[11]",
             "desc": "Seat Belts",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[11]",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
@@ -211,8 +165,6 @@
             "id": "AirbusFBW/OHPLightSwitches[12]",
             "desc": "No Smoking",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[12]",
             "comment": "0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)"
         },
@@ -220,8 +172,6 @@
             "id": "AirbusFBW/OHPLightSwitches[10]",
             "desc": "Emer Exit LT",
             "group": "OverHead",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/OHPLightSwitches[10]",
             "comment": "0 to 2 (0 = OFF, 1 = ARM, 2 = ON) When 0 display OFF signal in a status left button"
         },
@@ -229,8 +179,6 @@
             "id": "AirbusFBW/NDrangeCapt",
             "desc": "ND Zoom CAPT",
             "group": "Main Instruments",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/NDrangeCapt",
             "comment": "0 to 5 (0 = 10, 1 = 20, 2 = 40, 3 = 80, 4 = 160, 5 = 320)"
         },
@@ -238,8 +186,6 @@
             "id": "AirbusFBW/XPDRTCASMode",
             "desc": "ATC Mode Selector",
             "group": "Pedestal",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/XPDRTCASMode",
             "comment": "0 or 1 (0 = AUTO, 1 = ON)"
         },
@@ -247,8 +193,6 @@
             "id": "AirbusFBW/XPDRSystem",
             "desc": "XPDR Transponder Selector",
             "group": "Pedestal",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/XPDRSystem",
             "comment": "0 or 1 (0 = 1, 1 = 2)"
         },
@@ -256,8 +200,6 @@
             "id": "AirbusFBW/XPDRTCASAltSelect",
             "desc": "TCAS Trafic Selector",
             "group": "Pedestal",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/XPDRTCASAltSelect",
             "comment": "0 to 3 (0 = ABV, 1=N, 2=BLW)"
         },
@@ -265,8 +207,6 @@
             "id": "AirbusFBW/XPDRPower",
             "desc": "TCAS Mode Selector",
             "group": "Pedestal",
-            "type": "int",
-            "value": "0",
             "dataref": "AirbusFBW/XPDRPower",
             "comment": "0 to 4 (0 = STBY, 1 = ALT RPTG OFF, 2 = XPNDR, 3 = TA ONLY, 4 = TA/RA)"
         },
@@ -274,8 +214,6 @@
             "id": "AirbusFBW/PanelFloodBrightnessLevel",
             "desc": "FLOOD LT MAIN PNL Brightness Knob",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/PanelFloodBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -283,8 +221,6 @@
             "id": "AirbusFBW/PanelBrightnessLevel",
             "desc": "INTEG LT MAIN PNL AND PED Brightness Knob",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/PanelBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -292,8 +228,6 @@
             "id": "AirbusFBW/PedestalFloodBrightnessLevel",
             "desc": "FLOOD LT PED Brightness Knob",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/PedestalFloodBrightnessLevel",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
@@ -301,8 +235,6 @@
             "id": "AirbusFBW/DUBrightness[0]",
             "desc": "PFD Brightness Knob",
             "group": "Main Instruments",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[0]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -310,8 +242,6 @@
             "id": "AirbusFBW/DUBrightness[1]",
             "desc": "ND Brightness Knob",
             "group": "Main Instruments",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[1]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -319,8 +249,6 @@
             "id": "AirbusFBW/DUBrightness[4]",
             "desc": "ECAM UPPER Brightness Knob",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[4]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -328,8 +256,6 @@
             "id": "AirbusFBW/DUBrightness[5]",
             "desc": "ECAM LOWER Brightness Knob",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[5]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
@@ -337,8 +263,6 @@
             "id": "AirbusFBW/DUBrightness[6]",
             "desc": "MCDU Brightness Button",
             "group": "Pedestal",
-            "type": "float",
-            "value": "0.0",
             "dataref": "AirbusFBW/DUBrightness[6]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         }

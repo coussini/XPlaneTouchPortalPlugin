@@ -213,27 +213,27 @@ class XPlanePlugin:
             # "id": "AirbusFBW/ADIRUSwitchArray[0]",
             # "desc": "Adirs IR1",
             # "group": "OverHead",
-            # "type": "int",
-            # "value": "0",
             # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
             # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
             # 
             
             # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
             for x in self.states['datarefs']:
-                descrition = x['group'] + ' - ' + x['desc']                       # Create a description within a group and desc
-                self.tp_api.createState(x['id'],descrition,x['value'],x['group']) # Create a TP State for a dataref at runtime
+                description = x['group'] + ' - ' + x['desc']                      # Create a description within a group and desc
+                self.tp_api.createState(x['id'],description,'0',x['group'])       # Create a TP State for a dataref at runtime
                 choices_list.append(x['desc'])                                    # Save dataref desc for choiceUpdate purpose
                 self.datarefs_list.append(x['dataref'])                           # dataref will be use for comparaison
             
             # Feed the valueChoices for each action: ref entry.tp file
             choices_list.sort() # Sort options for ease of use in Touch Portal apps
+            
             self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list) # Update action option at runtime
             
             __logger__.info(f'Touch Portal Choices of States Id have been updated !')
             
             self.datarefs_list.sort() # Sorted dataref will be use for comparaison
             self.nb_entries_datarefs_list = len(self.datarefs_list) # Keep datarefs occurence count
+            
             self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_ready', '1')
         
     def touch_portal_client_on_action_start_communication_with_xplane_server(self):
@@ -241,6 +241,7 @@ class XPlanePlugin:
         Start the communication with the X-Plane server 
         '''
         self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.connected_to_server', '1')
+        
         self.xplane_client_communicate_with_xplane_server()
 
     def touch_portal_client_on_action_stop_communication_with_xplane_server(self):
@@ -248,6 +249,7 @@ class XPlanePlugin:
         Stop the communication with the X-Plane server 
         '''
         self.xplane_client_stop_communicate_with_xplane_server()
+        
         __logger__.info("STOP SERVER EVENT")
 
     def touch_portal_client_on_action_set_states(self, data):
@@ -256,16 +258,21 @@ class XPlanePlugin:
         '''
         for x in self.states['datarefs']:
             if x['desc'] == data.get('data')[0]['value']:
+                
                 self.tp_api.stateUpdate(x['dataref'],data.get('data')[1]['value']) # Update the value in Touch Portal State
+                
                 __logger__.info(f"===================")
                 __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
                 __logger__.info(f"===================")
+                
                 outgoing_request = {}
                 outgoing_request['command'] = self.request_update_from_touch_portal
                 outgoing_request['dataref'] = x['dataref']
                 outgoing_request['value'] = data.get('data')[1]['value']
                 outgoing_request_encode = json.dumps(outgoing_request).encode()
-                self.outgoing_data.append(outgoing_request_encode) # Request for update the value in XPlane Dataref
+                
+                self.outgoing_data.append(outgoing_request_encode) # Request for update the value in X-Plane dataref
+                
                 break
 
     def touch_portal_client_on_connect_process(self, data):
@@ -280,11 +287,6 @@ class XPlanePlugin:
 
         self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.touch_portal_ready', '1')
 
-        '''
-            # Start a thread to communicate with the X-Plane server. This thread will finish when the Touch Portal Server are close
-            self.xplane_client_communicate_with_xplane_server()
-        '''
-
     def touch_portal_client_on_action_process(self, data):
         '''
         Proceed the Touch Portal 'on action' event 
@@ -294,20 +296,27 @@ class XPlanePlugin:
         __logger__.info(f'======================')
         __logger__.info(f'{data}')
 
-        # Dispatch Touch Portal Action Id
+        # Dispatch Touch Portal Action Id (see inside entry.tp for that)
         match data.get('actionId'):
             case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
+
                 self.touch_portal_client_on_action_set_custom_dataref_json_file(data)
+
             case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_xplane_server':
+
                 start_communication_with_server = data.get('data')[0]['value']
                 __logger__.info(f'Start = {start_communication_with_server}')
                 if start_communication_with_server == 'Yes':
                     self.touch_portal_client_on_action_start_communication_with_xplane_server()
                 else:
                     self.touch_portal_client_on_action_stop_communication_with_xplane_server()
+
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
+
                 self.touch_portal_client_on_action_set_states(data)
+
             case _:
+
                 __logger__.info(f"There is no action like : {data.get('actionId')}") 
 
     def touch_portal_client_on_shutdown_process(self, data):
@@ -410,8 +419,6 @@ class XPlanePlugin:
         Process the received data packet from the X-Plane server
         '''
         ingoing_data_paquet = self.xplane_client_separate_data_received(ingoing_data.decode())
-        #__logger__.info(f'THIS IS THE INGOING_LIST') 
-        #__logger__.info(f'{ingoing_data_paquet}') 
 
         for one_ingoing in ingoing_data_paquet: 
             __logger__.info(f'Ingoing_data = {one_ingoing}') 
@@ -423,18 +430,24 @@ class XPlanePlugin:
                 # Process a response for the current dataref value in X-Plane (initialization part)
                 # N.B: update the states in Touch Portal later from theses ingoing dataref values
                 if one_ingoing_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquet:
+
                     __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
                     self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
                     self.datarefs_and_values_dictionary.update({one_ingoing_object['dataref']:one_ingoing_object['value']})
-                    #__logger__.info(f'append {one_ingoing_object["dataref"]}')
+
                 # Process a reponse in case the initialization part is completed  
                 elif one_ingoing_object['command'] == self.response_initialization_done and keys == self.response_initialization_done_paquet:
+
                     __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
+
                 # Process a reponse in case a dataref value has been updated in Touch Portal 
                 elif one_ingoing_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
+
                     __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
+
                 # Process a request from the server concerning because a dataref value has been updated in X-Plane    
                 elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
+
                     dataref = one_ingoing_object['dataref']
                     value = one_ingoing_object['value']
                     self.tp_api.stateUpdate(dataref,value)
@@ -447,15 +460,20 @@ class XPlanePlugin:
                     outgoing_request['message'] = 'States updated successfully'
                     outgoing_request_encode = json.dumps(outgoing_request).encode()
                     self.outgoing_data.append(outgoing_request_encode)
+
                 # Process a reponse in case a dataref value has been updated in Touch Portal 
                 elif one_ingoing_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane:
+
                     __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
+
                 else:
+
                     __logger__.error(f'This response is not part of the communication chart between the client and the server')
                     __logger__.error(f'The following json file keys has been rejected:')
                     __logger__.error(f'{keys}')
                     self.keep_running.clear()
                     break
+
             except Exception:
                 # This will catch and report any critical exceptions in the base tp_api code,
                 from traceback import format_exc
@@ -464,7 +482,6 @@ class XPlanePlugin:
                 __logger__.error(f'Exception in XP Client:\n{format_exc()}')
                 self.keep_running.clear()
                 break
-            __logger__.info(f'') 
 
     def xplane_client_service_connection(self, key, mask):
         '''
@@ -474,19 +491,16 @@ class XPlanePlugin:
     
         if mask & selectors.EVENT_READ:
             try:
-                # Should be ready to read
-                ingoing_data = server_socket.recv(8192) 
+                ingoing_data = server_socket.recv(8192) # Should be ready to read 
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
-                # No connection
-                raise
+                raise # No connection
             else:
                 if ingoing_data:
                     self.xplane_client_managing_received_data(ingoing_data)
                 else:
-                    # No connection
-                    raise
+                    raise # No connection
 
         if mask & selectors.EVENT_WRITE:
             if self.outgoing_data and self.keep_running.is_set():

@@ -56,7 +56,7 @@
                      "id":"xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file.name",
                      "type":"text",
                      "label":"value",
-                     "default":"default"
+                     "default":"default.json"
                   }
                ]
             },

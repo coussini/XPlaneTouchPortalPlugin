@@ -8,8 +8,6 @@
 
 - Les datarefs doivent être unique dans le fichier dataref.json
 
-- 
-
 ## Instruction pour démarrage un fois ce plugin installé
 
 - Démarrer X-Plane 12
@@ -36,7 +34,13 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 ## À faire
 
-- Créer un pack pour Toliss A320 Essential
+- Créer un pack d'icône pour Toliss A320 Essential et pour Default
+
+- Peut-on diminuer le nombre de byte en receive par des time.spleep() ?
+
+- Créer un defauilt.json
+
+- Créer une page default pour xplane comme modèle
 
 ## Overview
 

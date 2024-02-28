@@ -224,9 +224,7 @@ class XPlaneServer:
             dataref_index = None
         '''
         dataref_index = None 
-        dataref_name = dataref.replace('[',' ')
-        dataref_name = dataref_name.replace(']',' ')
-        dataref_name = dataref_name.split()
+        dataref_name = dataref.replace('[',' ').replace(']',' ').split()
 
         # it's a dataref with an index
         if len(dataref_name) == 2: 
