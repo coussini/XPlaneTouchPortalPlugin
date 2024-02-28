@@ -1,11 +1,11 @@
 <!--
-    =====================================
-    html page for datarefs json generator
-    =====================================
+    ============================================
+    html page for custom datarefs json generator
+    ============================================
     
-    This file is part of the XPlaneTouchPortal plugin project.
-    Copyright (c) XPlaneTouchPortal plugin Developers/Contributors
-    Copyright (C) 2023 Coussini
+    This file is part of the XPlaneTouchPortalPlugin project.
+    Copyright (c) XPlaneTouchPortalPlugin Developers/Contributors
+    Copyright (C) 2024 Coussini
     All rights reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -29,15 +29,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="datarefs-json-generator.css">
+    <link rel="stylesheet" href="custom-datarefs-json-generator.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="datarefs-json-generator.js"></script>
-    <title>Datarefs.json generator form for Touch-Portal and X-Plane</title>
+    <script src="custom-datarefs-json-generator.js"></script>
+    <title>Custom datarefs json generator form for Touch-Portal and X-Plane</title>
 </head>
 
 <body>
     <div class="">
-        <h1 class="display-5">Datarefs.json generator</h1>
+        <h1 class="display-5">Custom datarefs json generator</h1>
         <figure>
             <blockquote class="blockquote">
                 <p>How it's working ?</p>
@@ -194,22 +194,6 @@
                         </select>
                         <small id="groupHelp" class="form-text text-muted">Is important into Touch Portal for grouping
                             choices</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="type">dataref type</label>
-                        <select class="form-control" id="type" aria-describedby="typeHelp" required>
-                            <option selected disabled value="">Choose...</option>
-                            <option>int</option>
-                            <option>float</option>
-                            <option>data</option>
-                        </select>
-                        <small id="typeHelp" class="form-text text-muted">Must be int or float</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="value">value</label>
-                        <input type="number" class="form-control" id="value" placeholder="put a value"
-                            aria-describedby="valueHelp" required>
-                        <small id="valueHelp" class="form-text text-muted">Must be integer</small>
                     </div>
                     <div class="form-group">
                         <label for="group">comment</label>

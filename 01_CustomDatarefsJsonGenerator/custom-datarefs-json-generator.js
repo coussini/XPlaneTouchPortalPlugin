@@ -1,11 +1,11 @@
 /*
-    ======================================
-    javascript for datarefs json generator
-    ======================================
+    =============================================
+    javascript for custom datarefs json generator
+    =============================================
 
-    This file is part of the XPlaneTouchPortal plugin project.
-    Copyright (c) XPlaneTouchPortal plugin Developers/Contributors
-    Copyright (C) 2023 Coussini
+    This file is part of the XPlaneTouchPortalPLugin project.
+    Copyright (c) XPlaneTouchPortalPlugin Developers/Contributors
+    Copyright (C) 2024 Coussini
     All rights reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 */
 
 const oneId = 'XPlaneTouchPortalPlugin.';
-const resultFile = 'datarefs.json';
+const customDatarefJsonFileName = 'customDatarefJsonFile.json';
 // arrays
 let datarefs = [];
 let groups = [];
@@ -192,8 +192,6 @@ function insert_data_in_arrays()
         id: oneId.concat(document.getElementById('desc').value.replaceAll(' ', '')),
         desc: document.getElementById('desc').value,
         group: document.getElementById('group').value,
-        type: document.getElementById('type').value,
-        value: document.getElementById('value').value,
         dataref: dataref,
         comment: document.getElementById('comment').value
     };
@@ -218,7 +216,7 @@ function downloading_result()
     // prepare a link for the download file
     let link = document.createElement('a');
     link.href = URL.createObjectURL(file);
-    link.download = resultFile;
+    link.download = customDatarefJsonFileName;
     // downloading the datarefs.json
     link.click(); 
     URL.revokeObjectURL(link.href);

@@ -1,11 +1,11 @@
 /*
-    =========================================
-    css for datarefs json generator html page
-    =========================================
+    ================================================
+    css for custom datarefs json generator html page
+    ================================================
 
-    This file is part of the XPlaneTouchPortal plugin project.
-    Copyright (c) XPlaneTouchPortal plugin Developers/Contributors
-    Copyright (C) 2023 Coussini
+    This file is part of the XPlaneTouchPortalPlugin project.
+    Copyright (c) XPlaneTouchPortalPlugin Developers/Contributors
+    Copyright (C) 2024 Coussini
     All rights reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -39,5 +39,5 @@ label
 textarea.form-control#result-list 
 {
     overflow-y: scroll;
-    height: 400px;
+    height: 300px;
 }
