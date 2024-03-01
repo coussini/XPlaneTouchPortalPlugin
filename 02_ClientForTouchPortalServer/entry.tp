@@ -61,24 +61,43 @@
                ]
             },
             {
-               "id":"xplane_plugin_for_touch_portal.plugin.start_communication_with_xplane_server",
-               "name":"Plugin - Start Communication with Xplane Server",
+               "id":"xplane_plugin_for_touch_portal.plugin.start_communication_with_server",
+               "name":"Plugin - Start Communication With XPlane Server",
                "prefix":"XPlane",
                "type":"communicate",
                "tryInline":true,
                "hasHoldFunctionality":true,
                "description":"",
-               "format":"Plugin - Start communication:{$xplane_plugin_for_touch_portal.plugin.start_communication.choice$}",
+               "format":"Plugin - Start Communication With X-Plane Server:{$xplane_plugin_for_touch_portal.plugin.start_communication_with_server.value$}",
                "data":[
                   {
-                     "id":"xplane_plugin_for_touch_portal.plugin.start_communication.choice",
+                     "id":"xplane_plugin_for_touch_portal.plugin.start_communication_with_server.value",
                      "type":"choice",
-                     "label":"start",
-                     "default":"Yes",
+                     "label":"dataref name",
+                     "default":"No",
                      "valueChoices":[
-                        "No",
-                        "Yes"
+                        "Yes",
+                        "No"                        
                      ]
+
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.plugin.set_main_status_to",
+               "name":"Plugin - Set Main Status to",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Plugin - Set Main Status To:{$xplane_plugin_for_touch_portal.plugin.set_main_status_to.status$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.plugin.set_main_status_to.status",
+                     "type":"text",
+                     "label":"value",
+                     "default":"0"
                   }
                ]
             }
@@ -88,25 +107,13 @@
                "id":"xplane_plugin_for_touch_portal.state.custom_json_file_name",
                "type":"text",
                "desc":"Plugin : Custom Datarefs Json File Name",
-               "default":"default"
+               "default":"default.json"
             },
             {
-               "id":"xplane_plugin_for_touch_portal.state.touch_portal_ready",
+               "id":"xplane_plugin_for_touch_portal.state.main_status",
                "type":"text",
-               "desc":"Plugin : Touch Portal Is Ready",
-               "default":"0"
-            },
-            {
-               "id":"xplane_plugin_for_touch_portal.state.custom_json_ready",
-               "type":"text",
-               "desc":"Plugin : Custom Datarefs are Loaded and Ready for XPlane",
-               "default":"0"
-            },
-            {
-               "id":"xplane_plugin_for_touch_portal.state.connected_to_server",
-               "type":"text",
-               "desc":"Plugin : Connected To Server",
-               "default":"0"
+               "desc":"Plugin : Main Status (0 = all off)",
+               "default":"99"
             }
          ]
       }
