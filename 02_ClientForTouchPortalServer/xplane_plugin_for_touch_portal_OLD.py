@@ -1,29 +1,3 @@
-'''
-
-class XPlanePlugin:
-
-    class CustomErrorPlugin(Exception):  # Correction de la syntaxe
-        def __init__(self, message):
-            super().__init__(message)
-
-    class CustomErrorJson(Exception):
-        def __init__(self, message):
-            super().__init__(message)
-
-    class CustomErrorXPlane(Exception):
-        def __init__(self, message):
-            super().__init__(message)
-    
-    # Pas besoin d'instancier l'exception dans __init__
-    def __init__(self):
-        pass
-
-    def some_method(self):
-        # Exemple de condition où vous pourriez lever une exception
-        if some_condition:
-            raise self.CustomErrorPlugin("Un message d'erreur spécifique")
-
-'''
 import sys 
 import os
 import platform
@@ -51,36 +25,12 @@ except Exception as e:
     sys.exit(f'Could not create a Touch Portal log file. Error was:\n{repr(e)}')
 
 class XPlanePlugin:
-
-    class CustomErrorPLugin(Exception) # Nested class used to handle exception in the plugin
-
-        def __init__(self, message):
-            '''
-            Class initialization. 
-            '''
-            self.message = message
-
-    class CustomErrorJson(Exception) # Nested class used to handle exception in the JSON
-
-        def __init__(self, message):
-            '''
-            Class initialization. 
-            '''
-            self.message = message
-
-    class CustomErrorXPlane(Exception) # Nested class used to handle exception concerning the X-Plane Server
-
-        def __init__(self, message):
-            '''
-            Class initialization. 
-            '''
-            self.message = message
     
     def __init__(self):
         '''
         Class initialization. 
         '''
-        self.CustomErrorPLugin(exception)
+
         '''
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         | Concerning the "custom JSON" that contains dataref informations |
