@@ -36,17 +36,21 @@ plugin = XPlanePlugin()
 try:
     plugin.plugin_error_method()
 except plugin.CustomErrorPlugin as e:
-    print(f"Traitement d'une erreur de plugin: {e}")
+    print(f"ERROR : {e}") # e = message
+    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Plugin error
 
 try:
     plugin.json_error_method()
 except plugin.CustomErrorJson as e:
-    print(f"Traitement d'une erreur JSON: {e}")
+    print(f"ERROR : {e}")
+    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+
 
 try:
     plugin.xplane_error_method()
 except plugin.CustomErrorXPlane as e:
-    print(f"Traitement d'une erreur XPlane: {e}")
+    print(f"ERROR : {e}")
+    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # X-Plane communication error
 
 # Vous pouvez également gérer plusieurs exceptions dans un seul bloc try-except
 try:
