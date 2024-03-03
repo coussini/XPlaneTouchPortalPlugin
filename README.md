@@ -42,6 +42,8 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 - Créer une page default pour xplane comme modèle
 
+- Important: Spécifier la version python à utiliser (minimum 3.0)
+
 ## Overview
 
 - Explain to the XplaneTouchPortalPLugin user wich requierement are important to have (python, TouchPortal...)

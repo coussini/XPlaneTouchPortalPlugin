@@ -9,6 +9,8 @@ import socket
 import json
 import time
 import threading
+from traceback import format_exc # to catch more information concerning exception error
+import queue # this is only to pass exception from the secondary thread to the main thread
 
 __plugin_id__ = 'xplane_plugin_for_touch_portal'
 __log_file__ = f'./{__plugin_id__}.log'
@@ -25,7 +27,31 @@ except Exception as e:
     sys.exit(f'Could not create a Touch Portal log file. Error was:\n{repr(e)}')
 
 class XPlanePlugin:
-    
+
+    class CustomErrorPlugin(Exception): 
+
+        def __init__(self, message):
+        '''
+        Initialization of the exception class for handling plugin errors
+        '''
+             super().__init__(message)
+
+    class CustomErrorJson(Exception):
+
+        def __init__(self, message):
+        '''
+        Initialization of the exception class for handling the custom Json errors
+        '''
+            super().__init__(message)
+
+    class CustomErrorXPlane(Exception):
+
+        def __init__(self, message):
+        '''
+        Initialization of the exception class for handling the communication between the X-Plane client and the X-Plane Server
+        '''
+            super().__init__(message)
+
     def __init__(self):
         '''
         Class initialization. 
@@ -78,6 +104,7 @@ class XPlanePlugin:
         | Concerning the X-Plane client for the X-Plane server |
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         '''
+        self.exception_error_queue = queue.Queue() # keep the exception from the x-plane thread
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -143,23 +170,15 @@ class XPlanePlugin:
         successful = True
 
         if not self.json_keys_first_level in self.states:
-            __logger__.error(f'')
-            __logger__.error(f'ERROR: Json first level key must be {self.json_keys_first_level}')
-            __logger__.error(f'')
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+            raise self.CustomErrorJson(f'The first-level-key, must be {self.json_keys_first_level}')
             successful = False
-            raise Exception(f'Error into the custom json')
         else:
             for x in self.states['datarefs']:
                 keys = list(x.keys())
                 keys.sort()
                 if keys != self.json_keys:
-                    __logger__.error(f'')
-                    __logger__.error(f'ERROR: Json file keys must be {self.json_keys} and not {keys}')
-                    __logger__.error(f'')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+                    raise self.CustomErrorJson(f'The second-level-key must be {self.json_keys} and not {keys}')
                     successful = False
-                    raise Exception(f'Error into the custom json')
                     break
 
         return successful
@@ -181,19 +200,12 @@ class XPlanePlugin:
             __logger__.info(f'Datarefs successfully loaded from {json_file} !')
             successful = self.custom_json_validate_keys()
         except FileNotFoundError:
-            __logger__.error(f'')
-            __logger__.error(f'ERROR: File {json_file} does not exist')
-            __logger__.error(f'')
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+            raise self.CustomErrorJson(f'(FileNotFoundError) {json_file} does not exist')
         except ValueError as err:
-            __logger__.error(f'')
-            __logger__.error(f'ERROR: Invalid JSON syntax in {json_file}')
-            __logger__.error(f'{err}')
-            __logger__.error(f'')
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+            raise self.CustomErrorJson(f'(ValueError) syntax error in {json_file} with error message: {err}')
         except Exception as err:
-            from traceback import format_exc
-            __logger__.error(f'str({err})')
+            error_report = format_exc()
+            raise self.CustomErrorJson(f'(Other Error) for {json_file} with error message: {err} and error report: {error_report}' )
         finally:
             if successful:
                 __logger__.info(f'The json file: {json_file} is valid !')
@@ -211,50 +223,52 @@ class XPlanePlugin:
         __logger__.info(f'Custom json file = {self.json_file_name}')
 
         if self.json_file_name == '':
-            __logger__.error(f'')
-            __logger__.error(f'ERROR: The custom dataref field in the touch portal page must not be empty')
-            __logger__.error(f'')
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Json error
+            raise self.CustomErrorJson(f'The custom dataref field in the touch portal page must not be empty')
         else:
             # Get the json file name without extension to display in page
             json_file_name_without_extension = os.path.splitext(self.json_file_name)[0]
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
             # Set states from custom json files that contains dataref info
             successful = self.custom_json_get_dataref_and_set_state()
         
             if successful:
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
                 self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
-                choices_list = []
-                datarefs_list = []
+    
+                try:
+                    choices_list = []
+                    datarefs_list = []
+                    
+                    # ------------------------------------- 
+                    # example for one state for one dataref
+                    # ------------------------------------- 
+                    # "id": "AirbusFBW/ADIRUSwitchArray[0]",
+                    # "desc": "Adirs IR1",
+                    # "group": "OverHead",
+                    # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+                    # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+                    # 
+                    
+                    # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
+                    for x in self.states['datarefs']:
+                        description = x['group'] + ' - ' + x['desc']                      # Create a description within a group and desc
+                        self.tp_api.createState(x['id'],description,'0',x['group'])       # Create a TP State for a dataref at runtime
+                        choices_list.append(x['desc'])                                    # Save dataref desc for choiceUpdate purpose
+                        self.datarefs_list.append(x['dataref'])                           # dataref will be use for comparaison
+                    
+                    # Feed the valueChoices for each action: ref entry.tp file
+                    choices_list.sort() # Sort options for ease of use in Touch Portal apps
+                    
+                    self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list) # Update action option at runtime
+                    
+                    __logger__.info(f'Touch Portal Choices of States Id have been updated !')
+                    
+                    self.datarefs_list.sort() # Sorted dataref will be use for comparaison
+                    self.nb_entries_datarefs_list = len(self.datarefs_list) # Keep datarefs occurence count
+
+                except Exception as err:
+                    error_report = format_exc()
+                    raise self.CustomErrorPlugin(f'(Other Error) for {__plugin_id__} with error message: {err} and error report: {error_report}' )
                 
-                # ------------------------------------- 
-                # example for one state for one dataref
-                # ------------------------------------- 
-                # "id": "AirbusFBW/ADIRUSwitchArray[0]",
-                # "desc": "Adirs IR1",
-                # "group": "OverHead",
-                # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
-                # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
-                # 
-                
-                # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
-                for x in self.states['datarefs']:
-                    description = x['group'] + ' - ' + x['desc']                      # Create a description within a group and desc
-                    self.tp_api.createState(x['id'],description,'0',x['group'])       # Create a TP State for a dataref at runtime
-                    choices_list.append(x['desc'])                                    # Save dataref desc for choiceUpdate purpose
-                    self.datarefs_list.append(x['dataref'])                           # dataref will be use for comparaison
-                
-                # Feed the valueChoices for each action: ref entry.tp file
-                choices_list.sort() # Sort options for ease of use in Touch Portal apps
-                
-                self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list) # Update action option at runtime
-                
-                __logger__.info(f'Touch Portal Choices of States Id have been updated !')
-                
-                self.datarefs_list.sort() # Sorted dataref will be use for comparaison
-                self.nb_entries_datarefs_list = len(self.datarefs_list) # Keep datarefs occurence count
-                
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
 
     def touch_portal_client_on_action_start_communication_with_xplane_server(self):
         '''
@@ -319,18 +333,45 @@ class XPlanePlugin:
         match data.get('actionId'):
             case 'xplane_plugin_for_touch_portal.plugin.set_main_status_to':
 
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', data.get('data')[0]['value'])
+                try:
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', data.get('data')[0]['value'])
+                '''
+                Exception for the plugin
+                '''
+                except plugin.CustomErrorPlugin as e:
+                    __logger__.error(f'CRITICAL ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
 
             case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
 
-                self.touch_portal_client_on_action_set_custom_dataref_json_file(data)
+                try:
+                    self.touch_portal_client_on_action_set_custom_dataref_json_file(data)
+                '''
+                Exception for the plugin
+                '''
+                except plugin.CustomErrorPlugin as e:
+                    __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+                '''
+                Main exception for the Customized Json
+                '''
+                except plugin.CustomErrorJson as e:
+                    __logger__.error(f'ERROR -> CUSTOMIZED JSON -> {e}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Customized Json error
 
-                start_communication_with_server = data.get('data')[0]['value']
-                __logger__.info(f'Start = {start_communication_with_server}')
-                if start_communication_with_server == 'Yes':
-                    self.touch_portal_client_on_action_start_communication_with_xplane_server()
                 else:
-                    self.touch_portal_client_on_action_stop_communication_with_xplane_server()
+                    try:
+                        start_communication_with_server = data.get('data')[0]['value']
+                        __logger__.info(f'Start = {start_communication_with_server}')
+                        if start_communication_with_server == 'Yes':
+                            self.touch_portal_client_on_action_start_communication_with_xplane_server()
+                        else:
+                            self.touch_portal_client_on_action_stop_communication_with_xplane_server()
+                    '''
+                    Exception arround the X-Plane server
+                    '''
+                    except plugin.CustomErrorXPlane as e:
+                        __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
+                        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Customized Json error
 
             case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_server':
 
@@ -617,6 +658,10 @@ class XPlanePlugin:
             pass
 
     def xplane_client_thread_for_communication_with_xplane_server(self):
+
+        #        except Exception as e:
+        #           self.exception_error_queue.put(e)
+
         '''
         Use a socket in non-blocking mode to establish a network connection with the X-Plane server. 
         Use a selector to allows monitoring multiple sockets to check their status and see if 
@@ -664,13 +709,30 @@ class XPlanePlugin:
             self.xplane_client_thread = threading.Thread(target=self.xplane_client_thread_for_communication_with_xplane_server, args=())
             self.xplane_client_thread.start()
             self.xplane_client_thread.join()
+            error = self.exception_error_queue.get_nowait()
         except:
             self.keep_running.clear()
-            __logger__.error('ERROR: Something wrong with thread X-Plane')
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Successful connection
+            error_report = format_exc()
+            raise self.CustomErrorXPlane(f'(Other Error) with error message: {err} and error report: {error_report}' )
         finally:
             __logger__.info('Ending communication with X-Plane server')
 
+        '''
+    def main_method(self):
+        thread = threading.Thread(target=self.thread_target)
+        thread.start()
+        thread.join()
+
+
+        try:
+            error = self.error_queue.get_nowait()
+            # Lever une exception personnalisée avec le message d'erreur original
+            raise self.CustomErrorXPlane("Erreur provenant du thread : " + str(error))
+        except queue.Empty:
+            __logger__.info('Ending communication with X-Plane server')
+
+
+        '''
 def main():
     
     # Create an instance from the XPlanePlugin class.
