@@ -201,11 +201,11 @@ class XPlanePlugin:
             successful = self.custom_json_validate_keys()
         except FileNotFoundError:
             raise self.CustomErrorJson(f'(FileNotFoundError) {json_file} does not exist')
-        except ValueError as err:
-            raise self.CustomErrorJson(f'(ValueError) syntax error in {json_file} with error message: {err}')
-        except Exception as err:
+        except ValueError as e:
+            raise self.CustomErrorJson(f'(ValueError) syntax error in {json_file} with error message: {e}')
+        except Exception as e:
             error_report = format_exc()
-            raise self.CustomErrorJson(f'(Other Error) for {json_file} with error message: {err} and error report: {error_report}' )
+            raise self.CustomErrorJson(f'(Other Error) for {json_file} with error message: {e} and error report: {error_report}' )
         finally:
             if successful:
                 __logger__.info(f'The json file: {json_file} is valid !')
@@ -265,9 +265,9 @@ class XPlanePlugin:
                     self.datarefs_list.sort() # Sorted dataref will be use for comparaison
                     self.nb_entries_datarefs_list = len(self.datarefs_list) # Keep datarefs occurence count
 
-                except Exception as err:
+                except Exception as e:
                     error_report = format_exc()
-                    raise self.CustomErrorPlugin(f'(Other Error) for {__plugin_id__} with error message: {err} and error report: {error_report}' )
+                    raise self.CustomErrorPlugin(f'(Other Error) for {__plugin_id__} with error message: {e} and error report: {error_report}' )
                 
 
     def touch_portal_client_on_action_start_communication_with_xplane_server(self):
@@ -358,42 +358,40 @@ class XPlanePlugin:
                     __logger__.error(f'ERROR -> CUSTOMIZED JSON -> {e}')
                     self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Customized Json error
 
-                else:
-                    try:
-                        start_communication_with_server = data.get('data')[0]['value']
-                        __logger__.info(f'Start = {start_communication_with_server}')
-                        if start_communication_with_server == 'Yes':
-                            self.touch_portal_client_on_action_start_communication_with_xplane_server()
-                        else:
-                            self.touch_portal_client_on_action_stop_communication_with_xplane_server()
-                    '''
-                    Exception arround the X-Plane server
-                    '''
-                    except plugin.CustomErrorXPlane as e:
-                        __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
-                        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Customized Json error
-
             case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_server':
 
-                start_communication_with_server = data.get('data')[0]['value']
-                __logger__.info(f'Start = {start_communication_with_server}')
-
-                if start_communication_with_server == 'Yes':
-                    self.touch_portal_client_on_action_start_communication_with_xplane_server()
-                else:
-                    self.touch_portal_client_on_action_stop_communication_with_xplane_server()
+                try:
+                    start_communication_with_server = data.get('data')[0]['value']
+                    __logger__.info(f'Start = {start_communication_with_server}')
+                    if start_communication_with_server == 'Yes':
+                        self.touch_portal_client_on_action_start_communication_with_xplane_server()
+                    else:
+                        self.touch_portal_client_on_action_stop_communication_with_xplane_server()
+                '''
+                Exception arround the X-Plane server
+                '''
+                except plugin.CustomErrorXPlane as e:
+                    __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Customized Json error
 
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
 
-                self.touch_portal_client_on_action_set_states(data)
+                try:
+                    self.touch_portal_client_on_action_set_states(data)
+                '''
+                Exception for the plugin
+                '''
+                except plugin.CustomErrorPlugin as e:
+                    __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> {e}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
 
             case _:
 
-                __logger__.error(f'')
-                __logger__.error(f"ERROR: There is no action like : {data.get('actionId')}")
-                __logger__.error(f'')
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1')
-
+                '''
+                Exception for the plugin
+                '''
+                __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL -> There is no action like : {data.get('actionId')}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
 
     def touch_portal_client_on_shutdown_process(self, data):
         '''
@@ -461,9 +459,11 @@ class XPlanePlugin:
 
         try:    
             self.client_socket.connect((self.host,self.port))
-        except socket.error:
-            __logger__.error(f'Error: X-Plane server is not running')        
-            self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Successful connection
+        except socket.error as e:
+            error_report = format_exc()
+            error_message = f'(X-Plane server is not running: {e} and error report: {error_report}'
+            self.exception_error_queue.put(error_message)            
+            self.keep_running.clear()
             successful = False
 
         return successful
@@ -544,19 +544,18 @@ class XPlanePlugin:
                     __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
 
                 else:
-
-                    __logger__.error(f'This response is not part of the communication chart between the client and the server')
-                    __logger__.error(f'The following json file keys has been rejected:')
-                    __logger__.error(f'{keys}')
-                    self.keep_running.clear()
+                    raise ValueError(f'This response is not part of the communication chart between the client and the server. The following json file keys has been rejected: {keys}' )
                     break
 
-            except Exception:
-                # This will catch and report any critical exceptions in the base tp_api code,
-                from traceback import format_exc
-                __logger__.error(f'An error occurred when trying to make a json object') 
-                __logger__.error(f'The receiving string is not a json') 
-                __logger__.error(f'Exception in XP Client:\n{format_exc()}')
+            except ValueError as e:
+                self.exception_error_queue.put(str(e))            
+                self.keep_running.clear()
+                raise # Bubbling the exception
+                break 
+            except Exception as e:
+                error_report = format_exc()
+                error_message = f'(There is exception in xplane_client_managing_received_data: {e} and error report: {error_report}'
+                self.exception_error_queue.put(error_message)            
                 self.keep_running.clear()
                 break
 
@@ -572,12 +571,12 @@ class XPlanePlugin:
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
-                raise # No connection
+                raise # Bubbling the exception
             else:
                 if ingoing_data:
                     self.xplane_client_managing_received_data(ingoing_data)
                 else:
-                    raise # No connection
+                    raise # Bubbling the exception
 
         if mask & selectors.EVENT_WRITE:
             if self.outgoing_data and self.keep_running.is_set():
@@ -655,12 +654,9 @@ class XPlanePlugin:
             if self.client_socket: 
                 self.client_socket.close()
         except:
-            pass
+            pass # skip any error here
 
     def xplane_client_thread_for_communication_with_xplane_server(self):
-
-        #        except Exception as e:
-        #           self.exception_error_queue.put(e)
 
         '''
         Use a socket in non-blocking mode to establish a network connection with the X-Plane server. 
@@ -683,9 +679,11 @@ class XPlanePlugin:
 
                 while self.keep_running.is_set():
                     self.xplane_client_run()
-        except:
+        except Exception as e:
+            error_report = format_exc()
+            error_message = f'(Other Error : X-Plane server closed suddenly) for the xplane_client_thread_for_communication_with_xplane_server with error message: {e} and error report: {error_report}'
+            self.exception_error_queue.put(error_message)            
             self.keep_running.clear()
-            __logger__.error('ERROR: X-Plane server closed suddenly')
         finally:
             __logger__.info('Ending X-Plane client thread')
             self.xplane_client_shutting_down()
@@ -709,30 +707,20 @@ class XPlanePlugin:
             self.xplane_client_thread = threading.Thread(target=self.xplane_client_thread_for_communication_with_xplane_server, args=())
             self.xplane_client_thread.start()
             self.xplane_client_thread.join()
+            '''
+            If an error is present in self.exception_error_queue (an error appears in the xplane_client_thread_for_communication_with_xplane_server), 
+            it is retrieved and a new exception (self.CustomErrorXPlane) is raised with the error message.
+            '''
             error = self.exception_error_queue.get_nowait()
-        except:
-            self.keep_running.clear()
-            error_report = format_exc()
-            raise self.CustomErrorXPlane(f'(Other Error) with error message: {err} and error report: {error_report}' )
-        finally:
-            __logger__.info('Ending communication with X-Plane server')
-
-        '''
-    def main_method(self):
-        thread = threading.Thread(target=self.thread_target)
-        thread.start()
-        thread.join()
-
-
-        try:
-            error = self.error_queue.get_nowait()
-            # Lever une exception personnalisée avec le message d'erreur original
-            raise self.CustomErrorXPlane("Erreur provenant du thread : " + str(error))
+            raise self.CustomErrorXPlane(str(error))
+            '''
+            If no error is present, the exception queue.Empty is raised by get_nowait(), 
+            indicating that the queue is empty. 
+            This exception is caught by the except queue.Empty (no errors detected).
+            '''
         except queue.Empty:
             __logger__.info('Ending communication with X-Plane server')
 
-
-        '''
 def main():
     
     # Create an instance from the XPlanePlugin class.
