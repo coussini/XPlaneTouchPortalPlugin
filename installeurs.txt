@@ -1,0 +1,36 @@
+Oui, il existe plusieurs logiciels gratuits qui permettent de créer des installateurs pour Windows, macOS et Linux. Voici quelques options populaires pour chaque système d'exploitation :
+
+============
+Pour Windows
+============
+Inno Setup : C'est un logiciel très populaire pour créer des installateurs Windows. Il est gratuit et offre de nombreuses fonctionnalités avancées.
+
+NSIS (Nullsoft Scriptable Install System) : Un autre outil puissant et flexible pour créer des installateurs Windows. Il permet de créer des scripts pour personnaliser entièrement l'installation.
+
+WiX Toolset : Utilisé pour construire des packages d'installation Windows à partir de documents XML. C'est un peu plus complexe mais très puissant.
+
+==========
+Pour macOS
+==========
+Packages : C'est une application gratuite qui permet de créer des installateurs pour macOS. Elle offre une interface graphique pour concevoir l'installation et gère bien les spécificités de macOS.
+
+create-dmg : Un outil en ligne de commande pour créer un DMG (Apple Disk Image) pour distribuer des applications macOS. Bien qu'il ne crée pas un "installateur" au sens traditionnel, il est couramment utilisé pour distribuer des logiciels sur macOS.
+
+==========
+Pour Linux
+==========
+Makeself : Un script shell qui génère un script auto-extractible. Il est simple d'utilisation et peut être une bonne option pour distribuer des logiciels sur Linux.
+
+Debreate : Un utilitaire graphique pour créer facilement des paquets Debian (.deb), utile si vous ciblez des distributions basées sur Debian.
+
+RPM Package Manager (RPM) : Bien qu'il ne soit pas un outil pour créer des installateurs à proprement parler, RPM est un gestionnaire de paquets standard pour de nombreuses distributions Linux. Il existe des outils tels que rpmbuild pour créer des paquets RPM.
+
+===============
+Multiplateforme
+===============
+InstallBuilder by BitRock : Permet de créer des installateurs pour Windows, macOS, Linux, et même d'autres systèmes d'exploitation. Il est facile à utiliser mais a une version gratuite limitée pour les projets open-source ou à des fins non commerciales.
+Ces outils offrent différents niveaux de complexité et de flexibilité. Certains sont plus orientés vers les utilisateurs qui préfèrent une interface graphique, tandis que d'autres sont plus adaptés si vous êtes à l'aise avec la ligne de commande ou la programmation de scripts.
+
+
+
+

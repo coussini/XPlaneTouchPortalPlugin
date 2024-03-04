@@ -33,7 +33,7 @@ class PythonInterface:
         When a user presses a key or a command in the simulated aircraft, the dataref associated with that key is updated. 
         We then check, in this loop, if any changes have been made to the datarefs. Send any update to the Touch Portal client.
         '''
-        self.main_loop_id = xp.createFlightLoop(self.server_XP.main_loop,0,self.server_XP)
+        self.xplane_server_main_loop_id = xp.createFlightLoop(self.server_XP.xplane_server_main_loop,0,self.server_XP)
 
     def XPluginStart(self):
         '''
@@ -62,13 +62,13 @@ class PythonInterface:
         self.server_XP.update_running.clear()
 
         # Deactivate flight loops. Flight loops remains registered, but are not called
-        xp.scheduleFlightLoop(self.main_loop_id,0)
+        xp.scheduleFlightLoop(self.xplane_server_main_loop_id,0)
         
-        self.server_XP.shutting_down()
+        self.server_XP.xplane_server_shutting_down()
         
         # unregister instances
         del self.server_XP
-        xp.destroyFlightLoop(self.main_loop_id)
+        xp.destroyFlightLoop(self.xplane_server_main_loop_id)
         
         print('shutting down completed')
 
@@ -79,7 +79,7 @@ class PythonInterface:
         # A new aircraft is loaded into X-Plane
         if inMessage == xp.MSG_AIRPORT_LOADED and inParam == 0:
             # get the aircraft name 
-            dataref_address,dataref_type,is_dataref_writable,dataref_value = self.server_XP.get_dataref_address_type_value(self.dataref_name, self.dataref_index)
+            dataref_address,dataref_type,is_dataref_writable,dataref_value = self.server_XP.xplane_server_get_dataref_address_type_value(self.dataref_name, self.dataref_index)
 
             if self.acf_ui_name  != dataref_value:
                 self.acf_ui_name  = dataref_value # keep the aircraft name to check if the user change the aircraft
@@ -97,7 +97,7 @@ class PythonInterface:
                     # register a file object for selection, monitoring it for I/O events
                     self.server_XP.server_selectors.register(self.server_XP.server_socket, selectors.EVENT_READ, data=None)
                     self.server_XP.keep_running.set()
-                    xp.scheduleFlightLoop(self.main_loop_id,-1)
+                    xp.scheduleFlightLoop(self.xplane_server_main_loop_id,-1)
 
 class XPlaneServer:
 
@@ -154,7 +154,7 @@ class XPlaneServer:
         ]   
 
         '''
-        self.dataref_address_and_value_list = [] # ceci est une liste python qui contient des donnérs sous forme de dictionnaire
+        self.dataref_address_and_value_list = [] 
         '''
         ============================================================================
         This is the chart for communication paquet between the client and the server
@@ -188,7 +188,30 @@ class XPlaneServer:
         self.response_update_from_x_plane = 'response_update_from_x_plane'
         self.response_update_from_x_plane_paquet = ['command', 'message']
 
-    def separate_data_received(self, ingoing_data):
+    def is_int(self, dataref_value):
+        ''' 
+        Validate the received dataref's value according to int
+        '''
+
+        try:
+            int(dataref_value)
+            return True, int(dataref_value)
+        except ValueError:
+            return False, None
+
+    def is_float_or_double(self, dataref_value):
+        ''' 
+        Validate the received dataref's value according to float or double
+         
+        '''
+
+        try:
+            float(dataref_value)
+            return True, float(dataref_value)
+        except ValueError:
+            return False, None
+
+    def xplane_server_separate_data_received(self, ingoing_data):
         '''
         Process and separate data received from Touch Portal client. 
         We can receive several commands in one data reception. 
@@ -211,7 +234,7 @@ class XPlaneServer:
 
         return ingoing_data_paquet
 
-    def get_dataref_name_and_index(self, dataref):
+    def xplane_server_get_dataref_name_and_index(self, dataref):
         '''
         Separate name and index of received dataref string
 
@@ -237,7 +260,7 @@ class XPlaneServer:
 
         return dataref_name, dataref_index 
 
-    def read_a_dataref(self, dataref_address, dataref_type, dataref_index):
+    def xplane_server_read_a_dataref(self, dataref_address, dataref_type, dataref_index):
         ''' 
         Read a dataref according to it's address, type and index 
         '''
@@ -269,7 +292,7 @@ class XPlaneServer:
         else:
             return None
 
-    def get_dataref_address_type_value(self, dataref_name, dataref_index):
+    def xplane_server_get_dataref_address_type_value(self, dataref_name, dataref_index):
         ''' 
         The following data will be obtained within dataref name and dataref index:
             -The address of the dataref read: we'll keep this address for greater access efficiency.  
@@ -288,11 +311,11 @@ class XPlaneServer:
         if dataref_address != None:
             dataref_type = xp.getDataRefTypes(dataref_address)
             is_dataref_writable = xp.canWriteDataRef(dataref_address)
-            dataref_value = self.read_a_dataref(dataref_address,dataref_type,dataref_index)
+            dataref_value = self.xplane_server_read_a_dataref(dataref_address,dataref_type,dataref_index)
         
         return dataref_address,dataref_type,is_dataref_writable,dataref_value
 
-    def append_to_dataref_address_and_value_list(self, dataref_name, dataref, dataref_index, dataref_address, dataref_type, is_dataref_writable, dataref_value):
+    def xplane_server_append_to_dataref_address_and_value_list(self, dataref_name, dataref, dataref_index, dataref_address, dataref_type, is_dataref_writable, dataref_value):
         '''
         Initialization of internal list dataref_address_and_value_list
         '''
@@ -311,7 +334,7 @@ class XPlaneServer:
         # append this dataref to the internal list  
         self.dataref_address_and_value_list.append(append_dataref)
 
-    def get_dataref_address_type_and_index(self, full_name):
+    def xplane_server_get_dataref_address_type_and_index(self, full_name):
         '''
         Get the dataref's address and type
         '''
@@ -330,18 +353,18 @@ class XPlaneServer:
 
         return dataref_address, dataref_type, dataref_index 
 
-    def update_dataref_address_and_value_list(self, full_name, value):
+    def xplane_server_update_dataref_address_and_value_list(self, full_name, value):
         '''
         Update the internal list with the new dataref's value
         '''
         # search in the associative array for the dataref's address
         for dataref in self.dataref_address_and_value_list:
             if dataref['full_name'] == full_name:
-                print(f">>>>>update_dataref_address_and_value_list for {full_name} and value {value}<<<<<")
+                print(f">>>>>xplane_server_update_dataref_address_and_value_list for {full_name} and value {value}<<<<<")
                 dataref['value'] = value
                 break
     
-    def process_request_dataref_value(self, client_socket, dataref):
+    def xplane_server_process_request_dataref_value(self, client_socket, dataref):
         '''
         Next, the program will store the dataref's data in a python list, wich will used during the update. 
         The update will use the dataref's address (stored during initialization) to update its value.
@@ -351,10 +374,10 @@ class XPlaneServer:
         As soon as we display a Touch Portal page and its buttons, we need to obtain the button values (associated with a dataref). 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch Portal panel).
         '''
-        #print('process_request_dataref_value')
-        dataref_name,dataref_index = self.get_dataref_name_and_index(dataref)
+        #print('xplane_server_process_request_dataref_value')
+        dataref_name,dataref_index = self.xplane_server_get_dataref_name_and_index(dataref)
         #print(f'dataref_name & dataref_index {dataref_name} & {dataref_index}')
-        dataref_address,dataref_type,is_dataref_writable,dataref_value = self.get_dataref_address_type_value(dataref_name,dataref_index)
+        dataref_address,dataref_type,is_dataref_writable,dataref_value = self.xplane_server_get_dataref_address_type_value(dataref_name,dataref_index)
         #print(f'dataref_value {dataref_value}')
         #print(f'')
 
@@ -364,14 +387,14 @@ class XPlaneServer:
         outgoing_request['value'] = str(dataref_value)
 
         if dataref_address != None:
-            self.append_to_dataref_address_and_value_list(dataref_name, dataref, dataref_index, dataref_address, dataref_type, is_dataref_writable, dataref_value)
+            self.xplane_server_append_to_dataref_address_and_value_list(dataref_name, dataref, dataref_index, dataref_address, dataref_type, is_dataref_writable, dataref_value)
             outgoing_request['message'] = 'the dataref value has been successfully obtained'
         else:
             outgoing_request['message'] = 'dataref is not found'
 
         self.outgoing_data.outb += json.dumps(outgoing_request).encode()
 
-    def process_request_initialization_done(self, client_socket):
+    def xplane_server_process_request_initialization_done(self, client_socket):
         '''
         When the initialization is completed, start a thread for any update in x-plane dataref. 
 
@@ -379,7 +402,7 @@ class XPlaneServer:
         As soon as we press a button in x-plane aircraft (dataref chages), send the value to Touch Portal. 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch-Portal panel).
         '''
-        #print('process_request_initialization_done')
+        #print('xplane_server_process_request_initialization_done')
         outgoing_request = {}
         outgoing_request['command'] = self.response_initialization_done
         outgoing_request['message'] = 'X-Plane server will now monitoring for updates from x-plane'
@@ -389,30 +412,7 @@ class XPlaneServer:
         # Start the update process from x-plane dataref (just the dataref inside dataref_address_and_value_list)
         self.update_running.set()
 
-    def is_int(self, dataref_value):
-        ''' 
-        Validate the received dataref's value according to int
-        '''
-
-        try:
-            int(dataref_value)
-            return True, int(dataref_value)
-        except ValueError:
-            return False, None
-
-    def is_float_or_double(self, dataref_value):
-        ''' 
-        Validate the received dataref's value according to float or double
-         
-        '''
-
-        try:
-            float(dataref_value)
-            return True, float(dataref_value)
-        except ValueError:
-            return False, None
-
-    def is_valid_value(self, dataref_type, dataref_value):
+    def xplane_server_is_valid_value(self, dataref_type, dataref_value):
         ''' 
         Validate the received dataref's value according to the dataref's type 
         '''
@@ -434,11 +434,11 @@ class XPlaneServer:
         else: 
             return False, None
 
-    def write_a_dataref(self, dataref_address, dataref_type, dataref_index, dataref_value):
+    def xplane_server_write_a_dataref(self, dataref_address, dataref_type, dataref_index, dataref_value):
         ''' 
         Write a dataref according to it's address, type, index and value 
         '''
-        print("write_a_dataref")
+        print("xplane_server_write_a_dataref")
         if bool(dataref_type & xp.Type_Unknown):
             return False
         
@@ -467,7 +467,7 @@ class XPlaneServer:
 
         return True
 
-    def process_request_update_from_touch_portal(self, client_socket, dataref, value):
+    def xplane_server_process_request_update_from_touch_portal(self, client_socket, dataref, value):
         '''
         Process Touch Portal client update command. 
         Update X-Plane by searching in the associative array and obtaining its address.
@@ -476,19 +476,19 @@ class XPlaneServer:
         If a user presses a button in Touch Portal, a command is sent to the xplane server to update his dataref. 
         The purpose of this is to have the same buttons state on both sides (airplane in X-Plane vs Touch Portal).
         '''
-        #print('process_request_update_from_touch_portal')
+        #print('xplane_server_process_request_update_from_touch_portal')
 
-        dataref_address, dataref_type, dataref_index = self.get_dataref_address_type_and_index(dataref)
+        dataref_address, dataref_type, dataref_index = self.xplane_server_get_dataref_address_type_and_index(dataref)
 
         outgoing_request = {}
         outgoing_request['command'] = self.response_update_from_touch_portal
 
         if dataref_address != None:
-            is_valid, transform_value = self.is_valid_value(dataref_type,value)
+            is_valid, transform_value = self.xplane_server_is_valid_value(dataref_type,value)
             if is_valid:
-                if self.write_a_dataref(dataref_address,dataref_type,dataref_index,transform_value):
+                if self.xplane_server_write_a_dataref(dataref_address,dataref_type,dataref_index,transform_value):
                     outgoing_request['message'] = 'successful dataref update'
-                    self.update_dataref_address_and_value_list(dataref,transform_value)
+                    self.xplane_server_update_dataref_address_and_value_list(dataref,transform_value)
                 else:
                     outgoing_request['message'] = 'unknown dataref\'s type'
             else:
@@ -496,11 +496,11 @@ class XPlaneServer:
             
             self.outgoing_data.outb += json.dumps(outgoing_request).encode()
 
-    def managing_received_data(self, client_socket, ingoing_data):
+    def xplane_server_managing_received_data(self, client_socket, ingoing_data):
         '''
         Process the received data packet from the x-plane server client
         '''
-        ingoing_data_paquet = self.separate_data_received(ingoing_data.decode())
+        ingoing_data_paquet = self.xplane_server_separate_data_received(ingoing_data.decode())
 
         # Process each command coming from a data packet
         for one_ingoing in ingoing_data_paquet: 
@@ -511,21 +511,21 @@ class XPlaneServer:
 
             # Process a request from the x-plane server client for the initialization part
             if one_ingoing_object['command'] == self.request_dataref_value and keys == self.request_dataref_value_paquet:
-                self.process_request_dataref_value(client_socket,one_ingoing_object['dataref'])
+                self.xplane_server_process_request_dataref_value(client_socket,one_ingoing_object['dataref'])
 
             # Process a request from the x-plane server client when the initialization part is finish
             elif one_ingoing_object['command'] == self.request_initialization_done  and keys == self.request_initialization_done_paquet:
-                self.process_request_initialization_done(client_socket)
+                self.xplane_server_process_request_initialization_done(client_socket)
             # Process a request fron the x-plane server client when a dataref value has been updated in Touch Portal.
             # This following does nothing if the plugin publishing the dataRef is disabled, the dataRef is invalid, 
             # This following does nothing if the plugin publishing the dataRef is disabled, the dataRef is invalid, 
             # or the dataRef is not writable
             elif one_ingoing_object['command'] == self.request_update_from_touch_portal  and keys == self.request_update_from_touch_portal_paquet:
-                self.process_request_update_from_touch_portal(client_socket,one_ingoing_object['dataref'],one_ingoing_object['value'])
+                self.xplane_server_process_request_update_from_touch_portal(client_socket,one_ingoing_object['dataref'],one_ingoing_object['value'])
             elif one_ingoing_object['command'] == self.response_update_from_x_plane  and keys == self.response_update_from_x_plane_paquet:
                 print(f'response_update_from_x_plane_paquet {one_ingoing_object["message"]}')
 
-    def socket_die(self, client_socket):
+    def xplane_server_socket_die(self, client_socket):
         '''
         Close connections and remove socket objects from selectors
         '''
@@ -534,7 +534,7 @@ class XPlaneServer:
         client_socket.close()
         self.client_socket_list.remove(client_socket)
 
-    def accept_wrapper(self):
+    def xplane_server_accept_wrapper(self):
         ''' 
         Accept connection from client
         '''
@@ -546,7 +546,7 @@ class XPlaneServer:
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         self.server_selectors.register(client_socket, events, data=self.outgoing_data)
 
-    def monitoring_dataref_updates_from_xplane(self, client_socket):
+    def xplane_server_monitoring_dataref_updates_from_xplane(self, client_socket):
         '''
         This is the process for updates from X-Plane. 
         When a user presses a key or a command in the simulated aircraft, the dataref associated with that key is updated. 
@@ -555,7 +555,7 @@ class XPlaneServer:
         if self.update_running.is_set():
             
             for dataref in self.dataref_address_and_value_list:
-                dataref_value = self.read_a_dataref(dataref['address'],dataref['type'],dataref['index'])
+                dataref_value = self.xplane_server_read_a_dataref(dataref['address'],dataref['type'],dataref['index'])
 
                 # if the last value contained in the dataref's list is not equal 
                 # to the x-plane dataref's value, this means a user has pressed a command on the x-plane side. 
@@ -572,7 +572,7 @@ class XPlaneServer:
                     outgoing_request['value'] = str(dataref_value)
                     self.outgoing_data.outb += json.dumps(outgoing_request).encode()
 
-    def service_connection(self, key, mask):
+    def xplane_server_service_connection(self, key, mask):
         '''
         Manage Read event for selectors and receive ingoing data
         Also, monitoring dataref updates from x-plane
@@ -587,15 +587,15 @@ class XPlaneServer:
                 pass                                     # Resource temporarily unavailable (errno EWOULDBLOCK)
             except ConnectionResetError:
                 print('ConnectionResetError !!!')
-                self.socket_die(client_socket)
+                self.xplane_server_socket_die(client_socket)
             except:
                 raise                                    # No connection
             else:
                 if ingoing_data:
-                    self.managing_received_data(client_socket, ingoing_data)
+                    self.xplane_server_managing_received_data(client_socket, ingoing_data)
                 else:
                     print('Else if ingoing_data')
-                    self.socket_die(client_socket)
+                    self.xplane_server_socket_die(client_socket)
 
         if mask & selectors.EVENT_WRITE:
             try:
@@ -607,11 +607,11 @@ class XPlaneServer:
                     # remove the sent string from the self.outgoing_data.outb
                     self.outgoing_data.outb = self.outgoing_data.outb[sent:]
                 else:    
-                    self.monitoring_dataref_updates_from_xplane(client_socket) # This is the process for updates from X-Plane.
+                    self.xplane_server_monitoring_dataref_updates_from_xplane(client_socket) # This is the process for updates from X-Plane.
             except socket.error:
-                    self.socket_die(client_socket) # possibly the client socket is close and the server try to send something 
+                    self.xplane_server_socket_die(client_socket) # possibly the client socket is close and the server try to send something 
 
-    def main_loop(self, sinceLast, elapsedTime, counter, refCon): 
+    def xplane_server_main_loop(self, sinceLast, elapsedTime, counter, refCon): 
         '''
         This is the Flight Loop for server purpose
         '''
@@ -619,17 +619,17 @@ class XPlaneServer:
         # the mask indicate wich kind of event should be waited (1 = EVENT_READ and 2 = EVENT_WRITE)
         for key, mask in self.server_selectors.select(timeout=0.1):
             if key.data is None:
-                self.accept_wrapper()
+                self.xplane_server_accept_wrapper()
             else:
-                self.service_connection(key, mask)
+                self.xplane_server_service_connection(key, mask)
 
         return 1
 
-    def shutting_down(self):
+    def xplane_server_shutting_down(self):
         '''
         Processing the server closure procedure
         '''
-        print('SHUTTING_DOWN: threat unclosed client socket')
+        print('xplane_server_shutting_down: threat unclosed client socket')
 
         # going through the client socket,  in case there are some unclosed
         for client_socket in list(self.client_socket_list):

@@ -20,6 +20,68 @@ __is_windows__ = True if (platform.system() == 'Windows') else False
 __is_linux__ = True if (platform.system() == 'Linux') else False
 __is_macos__ = True if (platform.system() == 'Darwin') else False
 
+'''
+                  =================================  
+                  N A M I N G   C O N V E N T I O N  
+                  =================================  
+
+Prefix for method or function
+    -custom_json_           (concerning the custom json process)
+    -touch_portal_client_   (concerning the touch program client process)
+    -xplane_client_         (concerning the X-Plane Client process for the X-Plane Server. That's the exchange of dataref status)
+
+Prefix for exception class
+    -CustomErrorPlugin      (concerning the exception around, this plugin, this program in general)
+    -CustomErrorJson        (concerning the exception around the custom json)
+    -CustomErrorXPlane      (concerning the exception around the exchange between the X-Plane Client and the X-Plane Server)
+
+Important touch portal state
+    -xplane_plugin_for_touch_portal.state.main_status
+       '0': Initial status 
+       '1': Plugin error  
+       '2': Connected to Touch Portal
+       '3': Custom Json error
+       '4': Custom Json Loaded
+       '5': X-Plane Client error
+       '6': X-Plane Client connected to X-Plane server AND
+            when the X-Plane client receives the current dataref values from the X-Plane server (initialization)
+
+                  =======================  
+                  P R O G R A M   F L O W   
+                  =======================  
+
+-Connect to the touch portal server
+-Read a customized json file containing datarefs info. 
+
+        # ------------------------ 
+        # example for one  dataref
+        # ------------------------ 
+        # "id": "AirbusFBW/ADIRUSwitchArray[0]",
+        # "desc": "Adirs IR1",
+        # "group": "OverHead",   
+        # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+        # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+                    
+
+-Create touch portal states for each dataref ("id", description, value, "group"). 
+    id: come from the Json File
+    description: composed with the group and the desc <-- x['group'] + ' - ' + x['desc']
+    value: was set to 0 at beginning.
+    group: come from the json  file and allows dataref of the same group to be grouped together. 
+           When using a Touch Portal parge, it's easier to find datarefs grouped in this way. 
+-The "xplane_plugin_for_touch_portal.dataref.set_states" action,contains 
+    a list of choices concerning the desc field from the json file. 
+ We update the list of choices created previously. 
+-Initially, (in a secondary thread) the xplane client sends the list of datarefs
+ and receives from the X-Plane server the dataref values.
+-The X-Plane server start a special process to check any update in theses dataref and send the values (each second)
+-We update the touch portal states with these new values.
+-When a user press a button in a touch portal page within a associate "desc" choice, 
+ the action "xplane_plugin_for_touch_portal.dataref.set_states" is specify as required
+
+
+'''
+
 # Create the (optional) global __logger__, an instance of `TouchPortalAPI::Logger` helper class.
 try:
     __logger__ = TP_API_LOG.Logger(name = __plugin_id__)
@@ -104,7 +166,7 @@ class XPlanePlugin:
         | Concerning the X-Plane client for the X-Plane server |
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         '''
-        self.exception_error_queue = queue.Queue() # keep the exception from the x-plane thread
+        self.__custom_error_xplane_queue = queue.Queue() # keep the exception from the x-plane thread
         self.client_selectors = selectors.DefaultSelector()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -284,6 +346,7 @@ class XPlanePlugin:
         '''
         self.xplane_client_stop_communicate_with_xplane_server()
         
+        # Rollback main status to Json Loaded
         self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
         __logger__.info("touch_portal_client_on_action_stop_communication_with_xplane_server")
 
@@ -354,7 +417,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Plugin error
                     '''
                     Main exception for the Customized Json
                     '''
@@ -382,7 +445,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # Customized Json error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # X-Plane Server error
 
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
 
@@ -477,7 +540,7 @@ class XPlanePlugin:
             self.client_socket.connect((self.host,self.port))
         except socket.error as e:
             error_report = format_exc()
-            self.exception_error_queue.put(f'X-Plane server is not running \nMessage: {e}\nError report: {error_report}')            
+            self.__custom_error_xplane_queue.put(f'X-Plane server is not running \nMessage: {e}\nError report: {error_report}')            
             self.keep_running.clear()
             successful = False
 
@@ -564,13 +627,13 @@ class XPlanePlugin:
                     break
 
             except ValueError as e:
-                self.exception_error_queue.put(str(e))            
+                self.__custom_error_xplane_queue.put(str(e))            
                 self.keep_running.clear()
                 raise # Bubbling the exception
                 break 
             except Exception as e:
                 error_report = format_exc()
-                self.exception_error_queue.put(f'There is exception in xplane_client_managing_received_data\nMessage: {e}\nError report: {error_report}')            
+                self.__custom_error_xplane_queue.put(f'There is exception in xplane_client_managing_received_data\nMessage: {e}\nError report: {error_report}')            
                 self.keep_running.clear()
                 break
 
@@ -696,7 +759,7 @@ class XPlanePlugin:
                     self.xplane_client_run()
         except Exception as e:
             error_report = format_exc()
-            self.exception_error_queue.put(f'X-Plane server closed suddenly\nfor the xplane_client_thread_for_communication_with_xplane_server\n Message: {e}\nError report: {error_report}')            
+            self.__custom_error_xplane_queue.put(f'X-Plane server closed suddenly\nfor the xplane_client_thread_for_communication_with_xplane_server\n Message: {e}\nError report: {error_report}')            
             self.keep_running.clear()
         finally:
             __logger__.info('Ending X-Plane client thread')
@@ -722,10 +785,10 @@ class XPlanePlugin:
             self.xplane_client_thread.start()
             self.xplane_client_thread.join()
             '''
-            If an error is present in self.exception_error_queue (an error appears in the xplane_client_thread_for_communication_with_xplane_server), 
+            If an error is present in self.__custom_error_xplane_queue (an error appears in the xplane_client_thread_for_communication_with_xplane_server), 
             it is retrieved and a new exception (self.CustomErrorXPlane) is raised with the error message.
             '''
-            error = self.exception_error_queue.get_nowait()
+            error = self.__custom_error_xplane_queue.get_nowait()
             raise self.CustomErrorXPlane(str(error))
             '''
             If no error is present, the exception queue.Empty is raised by get_nowait(), 
