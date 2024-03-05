@@ -1,7 +1,7 @@
 import sys 
 import os
 import platform
-import argparse # argparse.ArgumentParser X-Plane server is not running
+import argparse # argparse.ArgumentParser
 import TouchPortalAPI as TP_API
 import TouchPortalAPI.logger as TP_API_LOG # TouchPortalAPI.logger.Logger
 import selectors
@@ -56,29 +56,29 @@ Important touch portal state
         # ------------------------ 
         # example for one  dataref
         # ------------------------ 
-        # "id": "AirbusFBW/ADIRUSwitchArray[0]",
-        # "desc": "Adirs IR1",
+        # "id": "AirbusFBW/ADIRUSwitchArray[2]", -> [2] -> mean index 2
+        # "desc": "Adirs IR3",
         # "group": "OverHead",   
-        # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+        # "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
         # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
                     
 
 -Create touch portal states for each dataref ("id", description, value, "group"). 
-    id: come from the Json File
-    description: composed with the group and the desc <-- x['group'] + ' - ' + x['desc']
-    value: was set to 0 at beginning.
-    group: come from the json  file and allows dataref of the same group to be grouped together. 
-           When using a Touch Portal parge, it's easier to find datarefs grouped in this way. 
--The "xplane_plugin_for_touch_portal.dataref.set_states" action,contains 
-    a list of choices concerning the desc field from the json file. 
- We update the list of choices created previously. 
+    "id": Come from the Json File
+    description: Composed with the group and the desc <-- x['group'] + ' - ' + x['desc']
+    value: Was set to 0 at beginning.
+    "group": Come from the json  file and allows dataref of the same group to be grouped together. 
+             When using a Touch Portal page, it's easier to find datarefs grouped in this way. 
+-The "xplane_plugin_for_touch_portal.dataref.set_states" action, contains 
+    a list of choices concerning the "desc" field from the json file. 
+ We update the list of choices created previously from all json's dataref. 
 -Initially, (in a secondary thread) the xplane client sends the list of datarefs
  and receives from the X-Plane server the dataref values.
--The X-Plane server start a special process to check any update in theses dataref and send the values (each second)
+-The X-Plane server start a special process to check any update in theses dataref and send the values (per each second)
 -We update the touch portal states with these new values.
 -When a user press a button in a touch portal page within a associate "desc" choice, 
- the action "xplane_plugin_for_touch_portal.dataref.set_states" is specify as required
-
+ the action "xplane_plugin_for_touch_portal.dataref.set_states" is specify as required and send the value to the X-Plane Server
+ for updating dataref value
 
 '''
 
@@ -133,7 +133,7 @@ class XPlanePlugin:
         if __is_macos__: self.touch_portal_xplane_json_folder = '\\Documents\\TouchPortal\\misc\\xplane\\';
 
         self.json_folder_location = self.touch_portal_xplane_json_folder
-        self.json_file_name = 'default.json'         # Default Custom json file
+        self.json_file_name = 'default.json' # Default Custom json file
 
         # keep states from json file
         self.states = None

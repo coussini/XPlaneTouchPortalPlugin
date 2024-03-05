@@ -38,7 +38,9 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 - Peut-on diminuer le nombre de byte en receive par des time.spleep() ?
 
-- Créer un defauilt.json
+- Créer un default.json avec un page modèle
+
+- Ne pas oublier de créer une procédure ou programme pour mettre en place un json sous Misc
 
 - Créer une page default pour xplane comme modèle
 
