@@ -1,0 +1,56 @@
+_release.txt
+
+Pour créer des releases sur GitHub et les faire apparaître dans la section "Releases" de votre dépôt, vous pouvez suivre ces étapes. Ces étapes assumeront que vous utilisez l'interface web de GitHub :
+
+Allez sur votre dépôt GitHub.
+
+Naviguez jusqu'au dépôt pour lequel vous souhaitez créer une release.
+Accédez à la section "Releases".
+
+Sur la page du dépôt, vous trouverez un onglet ou une section nommée "Releases" ou "Versions" sur la droite de la page, souvent sous "About". Cliquez dessus.
+Créez une nouvelle release.
+
+Dans la section "Releases", cliquez sur le bouton "Draft a new release" ou "Create a new release" pour commencer à créer une nouvelle release.
+Renseignez les détails de la release.
+
+Tag version: Entrez le nom du tag de votre release. Si le tag n'existe pas, GitHub vous proposera de le créer à partir d'une branche spécifique. Les tags sont généralement des versions sémantiques, par exemple, v1.0.0.
+Target: Choisissez la branche qui servira de base à cette release, souvent main ou master.
+Release title: Donnez un titre à votre release, par exemple V2.2.0 Bug fixes and new actions!.
+Describe this release: Entrez les détails de ce que cette release comprend. Vous pouvez mentionner de nouvelles fonctionnalités, des corrections de bugs, ou toute autre information pertinente pour les utilisateurs.
+Attachez des assets.
+
+Si vous avez des fichiers binaires ou d'autres assets à inclure avec votre release, tels que des exécutables, des documents, des images, etc., vous pouvez les glisser et déposer ou utiliser le bouton prévu à cet effet dans la section "Attach binaries by dropping them here or selecting them."
+Publiez la release.
+
+Une fois tous les détails renseignés, cliquez sur le bouton "Publish release" pour rendre votre release publique. Vous avez également la possibilité de sauvegarder le brouillon de la release pour le publier plus tard.
+Une fois publiée, votre release apparaîtra dans la section "Releases" de votre dépôt, et les utilisateurs pourront voir les détails, télécharger les assets attachés, et naviguer parmi toutes les releases publiées en cliquant sur "+ X releases".
+
+Répéter ce processus pour chaque nouvelle release permet d'ajouter des releases supplémentaires à votre dépôt.
+
+
+======================================
+
+La description et le formatage que vous voyez dans l'exemple de release sur GitHub ne sont pas générés automatiquement par le fichier YAML de GitHub Actions. La partie descriptive de la release, comprenant les notes de version (changelog), les corrections de bugs, les nouvelles fonctionnalités, et les liens vers des ressources externes, doit être rédigée manuellement par la personne qui crée la release via l'interface GitHub.
+
+Cependant, les fichiers attachés à la release, comme les divers builds pour Linux, MacOS, et Windows (`TPYTMD_v2.2.0_L
+
+inux.tpp`,` TPYTMD_v2.2.0_MacOS.tpp`,` TPYTMD_v2.2.0_Windows.tpp`) peuvent être générés et uploadés automatiquement par un workflow GitHub Actions défini dans un fichier YAML.
+
+Le processus typique se déroule comme suit :
+
+1. **Développement et Tests** : Le développeur travaille sur le code, effectue des tests locaux, et pousse les changements sur GitHub.
+
+2. **Création d'une Release** : Lorsque le développeur est prêt à publier une nouvelle version, il crée une nouvelle release via l'interface web de GitHub. Cette action peut être configurée pour déclencher un workflow GitHub Actions.
+
+3. **Automatisation via GitHub Actions** : Le fichier YAML de GitHub Actions décrit un workflow qui se déclenche en réponse à la création de la release. Ce workflow peut inclure des tâches telles que :
+   
+   - L'installation des dépendances nécessaires.
+   - La construction ou compilation du code.
+   - La génération de fichiers exécutables ou paquets pour différentes plateformes (Linux, MacOS, Windows).
+   - L'upload automatique de ces fichiers en tant qu'assets de la release sur GitHub.
+
+4. **Publication** : Une fois le workflow terminé et les fichiers générés uploadés, la release contient les assets prêts à être téléchargés par les utilisateurs.
+
+La partie textuelle de la release, comme mentionné, est rédigée manuellement. Elle peut inclure des détails sur les nouveautés, des instructions d'installation, des corrections de bugs, et tout autre commentaire pertinent concernant la version. Les assets générés et uploadés par GitHub Actions sont listés automatiquement sous la section "Assets" de la page de la release, permettant aux utilisateurs de télécharger directement les fichiers concernés.
+
+Pour résumer, le fichier YAML de GitHub Actions automatise le processus de build et d'upload des assets de la release, mais la description de la release est créée manuellement par le développeur.
