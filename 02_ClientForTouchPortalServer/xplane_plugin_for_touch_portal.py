@@ -11,15 +11,17 @@ import time
 import threading
 from traceback import format_exc # to catch more information concerning exception error
 import queue # this is only to pass exception from the secondary thread to the main thread
+import re
 
-__plugin_id__ = 'xplane_plugin_for_touch_portal'
-__log_file__ = f'./{__plugin_id__}.log'
+PLUGIN_ID = 'xplane_plugin_for_touch_portal'
+LOG_FILE = f'./{PLUGIN_ID}.log'
         
 # Get OS where python is running.
-__is_windows__ = True if (platform.system() == 'Windows') else False
-__is_linux__ = True if (platform.system() == 'Linux') else False
-__is_macos__ = True if (platform.system() == 'Darwin') else False
+IS_WINDOWS = True if (platform.system() == 'Windows') else False
+IS_LINUX = True if (platform.system() == 'Linux') else False
+IS_MACOS = True if (platform.system() == 'Darwin') else False
 
+MESSAGE_DELIMITER = '#'
 '''
                   =================================  
                   N A M I N G   C O N V E N T I O N  
@@ -84,7 +86,7 @@ Important touch portal state
 
 # Create the (optional) global __logger__, an instance of `TouchPortalAPI::Logger` helper class.
 try:
-    __logger__ = TP_API_LOG.Logger(name = __plugin_id__)
+    __logger__ = TP_API_LOG.Logger(name = PLUGIN_ID)
 except Exception as e:
     sys.exit(f'Could not create a Touch Portal log file. Error was:\n{repr(e)}')
 
@@ -128,9 +130,9 @@ class XPlanePlugin:
         self.json_keys = ['id', 'desc', 'group', 'type', 'value', 'dataref', 'comment']
         self.json_keys.sort()
 
-        if __is_windows__: self.touch_portal_xplane_json_folder = os.getenv('APPDATA') + '\\TouchPortal\\misc\\xplane\\';
-        if __is_linux__: self.touch_portal_xplane_json_folder = '\\TouchPortal\\misc\\xplane\\';
-        if __is_macos__: self.touch_portal_xplane_json_folder = '\\Documents\\TouchPortal\\misc\\xplane\\';
+        if IS_WINDOWS: self.touch_portal_xplane_json_folder = os.getenv('APPDATA') + '\\TouchPortal\\misc\\xplane\\';
+        if IS_LINUX: self.touch_portal_xplane_json_folder = '\\TouchPortal\\misc\\xplane\\';
+        if IS_MACOS: self.touch_portal_xplane_json_folder = '\\Documents\\TouchPortal\\misc\\xplane\\';
 
         self.json_folder_location = self.touch_portal_xplane_json_folder
         self.json_file_name = 'default.json' # Default Custom json file
@@ -145,7 +147,7 @@ class XPlanePlugin:
         '''
         try:
             self.tp_api = TP_API.Client(            # Create the Touch Portal API client instance
-                pluginId = __plugin_id__,           # Required ID of this plugin
+                pluginId = PLUGIN_ID,           # Required ID of this plugin
                 sleepPeriod = 0.05,                 # Allow more time than default for other processes
                 autoClose = True,                   # Automatically disconnect when TP sends 'closePlugin' message
                 checkPluginId = True,               # Validate destination of messages sent to this plugin
@@ -155,8 +157,8 @@ class XPlanePlugin:
         except Exception as e:
             sys.exit(f'Could not create a Touch Portal API client instance, exiting. Error was:\n{repr(e)}')
 
-        self.tp_api.setLogFile(__log_file__)
-        self.tp_api.setLogStream(sys.stderr)
+        self.tp_api.setLogFile(LOG_FILE)
+        self.tp_api.setLogStream(sys.stdout)
         self.tp_api.setLogLevel("INFO")
 
 
@@ -184,7 +186,12 @@ class XPlanePlugin:
         self.init_phase_done = threading.Event()
         self.init_phase_running = threading.Event()
 
-        self.outgoing_data = []
+        # Connection information package or session data container for TCP/IP exchange 
+        # inb for receiving and outb for sending)
+        self.shared_data_container = types.SimpleNamespace(inb=bytearray(),outb=bytearray()) 
+
+        # keep the address in the connection information package or session data container for TCP/IP exchange
+        self.shared_data_container.addr = (self.host,self.port)
 
         # Keep a sorted datarefs list that should be working on
         self.datarefs_list = []
@@ -259,7 +266,6 @@ class XPlanePlugin:
 
         try:
             json_file = self.json_folder_location + self.json_file_name
-            print(json_file)
             file = open(json_file, 'r')
             self.states = json.load(file)
             file.close()
@@ -341,7 +347,7 @@ class XPlanePlugin:
 
                 except Exception as e:
                     error_report = format_exc()
-                    raise self.CustomErrorPlugin(f'Other Error for {__plugin_id__}\nMessage: {e}\nError report: {error_report}' )
+                    raise self.CustomErrorPlugin(f'Other Error for {PLUGIN_ID}\nMessage: {e}\nError report: {error_report}' )
                 
 
     def touch_portal_client_on_action_start_communication_with_xplane_server(self):
@@ -374,19 +380,17 @@ class XPlanePlugin:
                     __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
                     __logger__.info(f"===================")
                     
-                    outgoing_request = {}
-                    outgoing_request['command'] = self.request_update_from_touch_portal
-                    outgoing_request['dataref'] = x['dataref']
-                    outgoing_request['value'] = data.get('data')[1]['value']
-                    outgoing_request_encode = json.dumps(outgoing_request).encode()
-                    
-                    self.outgoing_data.append(outgoing_request_encode) # Request for update the value in X-Plane dataref
-                    
+                    message = {}
+                    message['command'] = self.request_update_from_touch_portal
+                    message['dataref'] = x['dataref']
+                    message['value'] = data.get('data')[1]['value']
+                    outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+                    self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
                     break
 
         except Exception as e:
             error_report = format_exc()
-            raise self.CustomErrorPlugin(f'Other Error for {__plugin_id__}\nMessage: {e}\nError report: {error_report}' )
+            raise self.CustomErrorPlugin(f'Other Error for {PLUGIN_ID}\nMessage: {e}\nError report: {error_report}' )
 
     def touch_portal_client_on_connect_process(self, data):
         '''
@@ -568,121 +572,104 @@ class XPlanePlugin:
 
         return successful
 
-    def xplane_client_separate_data_received(self, ingoing_data):
-        '''
-        Process and separate data received from the server. 
-        We can receive several commands in one data reception. 
-        That's why we need to separate the commands and put them in ingoing_data_paquet
-        '''
-        new = ''
-        ingoing_data_paquet = []
-
-        for char in ingoing_data:
-            if char == '{' and new != '':
-                ingoing_data_paquet.append(new)
-                new = ''
-                new = new + char
-            elif char == '{':
-                new = new + char
-            else:
-                new = new + char
-
-        ingoing_data_paquet.append(new)
-
-        return ingoing_data_paquet
-
-    def xplane_client_managing_received_data(self, ingoing_data):
+    def xplane_client_managing_received_data(self, message_decode):
         '''
         Process the received data packet from the X-Plane server
         '''
-        ingoing_data_paquet = self.xplane_client_separate_data_received(ingoing_data.decode())
+        try:
+            message_object = json.loads(message_decode)
+            __logger__.info(f'{message_object}')
+            keys = list(message_object.keys())
+            keys.sort()
 
-        for one_ingoing in ingoing_data_paquet: 
-            try:
-                one_ingoing_object = json.loads(one_ingoing)
-                __logger__.info(f'{one_ingoing_object}')
-                keys = list(one_ingoing_object.keys())
-                keys.sort()
+            # Process a response for the current dataref value in X-Plane (initialization part)
+            # N.B: update the states in Touch Portal later from theses ingoing dataref values
+            if message_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquet:
 
-                # Process a response for the current dataref value in X-Plane (initialization part)
-                # N.B: update the states in Touch Portal later from theses ingoing dataref values
-                if one_ingoing_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquet:
+                #__logger__.info(f'Message from the server: {message_object["message"]}')
+                self.datarefs_list_initialized.append(message_object['dataref'])
+                self.datarefs_and_values_dictionary.update({message_object['dataref']:message_object['value']})
 
-                    #__logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
-                    self.datarefs_list_initialized.append(one_ingoing_object['dataref'])
-                    self.datarefs_and_values_dictionary.update({one_ingoing_object['dataref']:one_ingoing_object['value']})
+            # Process a reponse in case the initialization part is completed  
+            elif message_object['command'] == self.response_initialization_done and keys == self.response_initialization_done_paquet:
 
-                # Process a reponse in case the initialization part is completed  
-                elif one_ingoing_object['command'] == self.response_initialization_done and keys == self.response_initialization_done_paquet:
+                __logger__.info(f'Message from the server: {message_object["message"]}')
 
-                    __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
+            # Process a reponse in case a dataref value has been updated in Touch Portal 
+            elif message_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
 
-                # Process a reponse in case a dataref value has been updated in Touch Portal 
-                elif one_ingoing_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
+                __logger__.info(f'Message from the server: {message_object["message"]}')
 
-                    __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
+            # Process a request from the server concerning because a dataref value has been updated in X-Plane    
+            elif message_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
 
-                # Process a request from the server concerning because a dataref value has been updated in X-Plane    
-                elif one_ingoing_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
+                dataref = message_object['dataref']
+                value = message_object['value']
+                self.tp_api.stateUpdate(dataref,value)
+                __logger__.info(f"===================")
+                __logger__.info(f"State Update with : {dataref} with value {value}")
+                __logger__.info(f"===================")
+                # Send a response to the server
+                message = {}
+                message['command'] = self.response_update_from_x_plane
+                message['message'] = 'States updated successfully'
+                outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+                self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
 
-                    dataref = one_ingoing_object['dataref']
-                    value = one_ingoing_object['value']
-                    self.tp_api.stateUpdate(dataref,value)
-                    __logger__.info(f"===================")
-                    __logger__.info(f"State Update with : {dataref} with value {value}")
-                    __logger__.info(f"===================")
-                    # Send a response to the server
-                    outgoing_request = {}
-                    outgoing_request['command'] = self.response_update_from_x_plane
-                    outgoing_request['message'] = 'States updated successfully'
-                    outgoing_request_encode = json.dumps(outgoing_request).encode()
-                    self.outgoing_data.append(outgoing_request_encode)
+            # Process a reponse in case a dataref value has been updated in Touch Portal 
+            elif message_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane:
 
-                # Process a reponse in case a dataref value has been updated in Touch Portal 
-                elif one_ingoing_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane:
+                __logger__.info(f'Message from the server: {message_object["message"]}')
 
-                    __logger__.info(f'Message from the server: {one_ingoing_object["message"]}')
-
-                else:
-                    command = one_ingoing_object['command']
-                    raise ValueError(f'This response is not part of the communication chart between the \n X-Plane client and the X-Plane server.\nThe following command has been rejected\n{command}' )
-                    break
-
-            except ValueError as e:
-                self.__custom_error_xplane_queue.put(str(e))            
-                self.keep_running.clear()
-                raise # Bubbling the exception
-                break 
-            except Exception as e:
-                error_report = format_exc()
-                self.__custom_error_xplane_queue.put(f'There is exception in xplane_client_managing_received_data\nMessage: {e}\nError report: {error_report}')            
-                self.keep_running.clear()
+            else:
+                command = message_object['command']
+                raise ValueError(f'This response is not part of the communication chart between the \n X-Plane client and the X-Plane server.\nThe following command has been rejected\n{command}' )
                 break
+
+        except ValueError as e:
+            self.__custom_error_xplane_queue.put(str(e))            
+            self.keep_running.clear()
+            raise # Bubbling the exception
+            break 
+        except Exception as e:
+            error_report = format_exc()
+            self.__custom_error_xplane_queue.put(f'There is exception in xplane_client_managing_received_data\nMessage: {e}\nError report: {error_report}')            
+            self.keep_running.clear()
+            break
 
     def xplane_client_service_connection(self, key, mask):
         '''
         Managing sockets, selectors, received data and data to be sent.
         '''
         server_socket = key.fileobj
-    
+        data = key.data #  data is a reference to the self.shared_data_container object 
+
         if mask & selectors.EVENT_READ:
             try:
-                ingoing_data = server_socket.recv(8192) # Should be ready to read 
+                ingoing_message = server_socket.recv(1024)
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
                 raise # Bubbling the exception
             else:
-                if ingoing_data:
-                    self.xplane_client_managing_received_data(ingoing_data)
+                if ingoing_message:
+                    data.inb += ingoing_message
+                    # Each command contain a MESSAGE_DELIMITER at the end. Easy for separate commands
+                    while MESSAGE_DELIMITER.encode('utf-8') in data.inb:
+                        pos = data.inb.index(bytes(MESSAGE_DELIMITER, 'utf-8'))
+                        message_bytes  = data.inb[:pos]  # The first message
+                        data.inb = data.inb[pos+1:]  # Remove the first message from data.inb (message+'#')
+                        message_decode = message_bytes.decode('utf-8') 
+                        self.xplane_client_managing_received_data(message_decode)
                 else:
                     raise # Bubbling the exception
 
         if mask & selectors.EVENT_WRITE:
-            if self.outgoing_data and self.keep_running.is_set():
-                next_msg = self.outgoing_data.pop(0)
-                server_socket.sendall(next_msg)
-    
+            if data.outb:
+                __logger__.info(f"send {data.outb} à {data.addr}")
+                sent = server_socket.send(data.outb)  
+                data.outb = data.outb[sent:]
+
     def xplane_client_treat_init_phase(self):
         '''
         Send each dataref that come from the json file to the X-Plane server for receiving it's value
@@ -690,19 +677,19 @@ class XPlanePlugin:
         if not self.init_phase_done.is_set():
             for dataref in self.datarefs_list:
                 # Prepare a request_dataref_value for the X-Plane server
-                outgoing_request = {}
-                outgoing_request['command'] = self.request_dataref_value
-                outgoing_request['dataref'] = dataref
-                outgoing_request_encode = json.dumps(outgoing_request).encode()
-                self.outgoing_data.append(outgoing_request_encode)
+                message = {}
+                message['command'] = self.request_dataref_value
+                message['dataref'] = dataref
+                outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+                self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
 
             # Tell the server that the initialization commands have been completed. 
             # The server will then start a thread to check every second if the user press a command on the X-Plane side. 
             # Then, with this thread, the server will send the updated data to refresh the Touch Portal status and screen.  
-            outgoing_request = {}
-            outgoing_request['command'] = self.request_initialization_done
-            outgoing_request_encode = json.dumps(outgoing_request).encode()
-            self.outgoing_data.append(outgoing_request_encode)
+            message = {}
+            message['command'] = self.request_initialization_done
+            outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+            self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
 
         else:
             # Make sure that every datarefs from the datarefs_list are initialized by the X-Plane server
@@ -771,7 +758,7 @@ class XPlanePlugin:
                 # Unblocking socket
                 self.client_socket.setblocking(False)
                 # Register a file object for selection, monitoring it for I/O events
-                self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)
+                self.client_selectors.register(self.client_socket, selectors.EVENT_READ | selectors.EVENT_WRITE, data=self.shared_data_container)
 
                 while self.keep_running.is_set():
                     self.xplane_client_run()
