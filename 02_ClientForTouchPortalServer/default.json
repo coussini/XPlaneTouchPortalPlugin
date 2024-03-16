@@ -1,0 +1,313 @@
+{
+    "datarefs": [
+        {
+            "id": "sim/cockpit/autopilot/altitude",
+            "desc": "Altitude autopilot",
+            "group": "Display",
+            "dataref": "sim/cockpit/autopilot/altitude",
+            "comment": "Altitude dialed into the Auto Pilot -> float * 1000"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/altitude_ft_pilot",
+            "desc": "Altitude current (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/altitude_ft_pilot",
+            "comment": "Altitude current (height, MSL, in feet, pilot)"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/compass_heading_deg_mag",
+            "desc": "Heading in degrees (wet compass)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/compass_heading_deg_mag",
+            "comment": "Heading of the wet compass, in degrees"
+        },
+        {
+            "id": "sim/cockpit/misc/compass_indicated",
+            "desc": "Heading in degrees (cockpit)",
+            "group": "Display",
+            "dataref": "sim/cockpit/misc/compass_indicated",
+            "comment": "Heading in magnetic degrees (cockpit Displayindicated)"
+        },
+        {
+            "id": "sim/cockpit/autopilot/heading_mag",
+            "desc": "Heading bug in degrees (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit/autopilot/heading_mag",
+            "comment": "The heading to fly (magnetic, preferred) pilot"
+        },
+        {
+            "id": "sim/cockpit/misc/barometer_setting",
+            "desc": "Altimeter setting (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit/misc/barometer_setting",
+            "comment": "The pilots altimeter setting (29.90 * 33.8639 = 1013.2 (1013) STD)"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+            "desc": "Airspeed in knots (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+            "comment": "airspeed in knots -  float – knots per hour, multiply by 1.15078 to get to MPH"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/mach_pilot",
+            "desc": "Airspeed in mach number (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/mach_pilot",
+            "comment": ""
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/ground_speed_kt",
+            "desc": "Ground speed in knots (GS)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/ground_speed_kt",
+            "comment": ""
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/pitch_AHARS_deg_pilot",
+            "desc": "Pitch in degrees (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/pitch_AHARS_deg_pilot",
+            "comment": "Pitch in degrees (indicated - pilot)"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/roll_AHARS_deg_pilot",
+            "desc": "Roll in degrees (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/roll_AHARS_deg_pilot",
+            "comment": "Roll in degrees (indicated - pilot)"
+        },
+        {
+            "id": "sim/aircraft/parts/acf_gear_deploy",
+            "desc": "Landing gear deployment",
+            "group": "Display",
+            "dataref": "sim/aircraft/parts/acf_gear_deploy",
+            "comment": "(0 = UP, 1 = DOWN)"
+        },
+        {
+            "id": "sim/flightmodel/weight/m_fuel_total",
+            "desc": "Fuel Total Weight",
+            "group": "Display",
+            "dataref": "sim/flightmodel/weight/m_fuel_total",
+            "comment": ""
+        },
+        {
+            "id": "sim/cockpit2/engine/indicators/oil_temperature_deg_C",
+            "desc": "Oil temperature",
+            "group": "Display",
+            "dataref": "sim/cockpit2/engine/indicators/oil_temperature_deg_C",
+            "comment": "Oil temp in C or F (depending aircraft)"
+        },
+        {
+            "id": "sim/cockpit2/engine/indicators/engine_speed_rpm",
+            "desc": "Engine speed (RPM)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/engine/indicators/engine_speed_rpm",
+            "comment": "Engine speed, revolutions per minute (RPM)"
+        },
+        {
+            "id": "sim/cockpit2/electrical/battery_voltage_actual_volts",
+            "desc": "Battery voltage",
+            "group": "Display",
+            "dataref": "sim/cockpit2/electrical/battery_voltage_actual_volts",
+            "comment": "Battery voltage in, umm, volts"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/AoA_pilot",
+            "desc": "Angle of attack (pilot)",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/AoA_pilot",
+            "comment": "Angle of attack (AOA pilot) (indicated)"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/wind_heading_deg_mag",
+            "desc": "Wind direction in degrees",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/wind_heading_deg_mag",
+            "comment": "Wind direction currently acting on the plane in degrees"
+        },
+        {
+            "id": "sim/cockpit2/gauges/indicators/wind_speed_kts",
+            "desc": "Wind speed in knots true",
+            "group": "Display",
+            "dataref": "sim/cockpit2/gauges/indicators/wind_speed_kts",
+            "comment": "Wind speed currently acting on the plane in knots true"
+        },
+        {
+            "id": "sim/cockpit/radios/nav1_freq_hz",
+            "desc": "Frequency of nav1",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav1_freq_hz",
+            "comment": "Frequency of the nav1 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/nav1_stdby_freq_hz",
+            "desc": "Standby frequency of nav1",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav1_stdby_freq_hz",
+            "comment": "Standby frequency nav1 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/nav1_obs_degm",
+            "desc": "OBS heading for nav1",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav1_obs_degm",
+            "comment": "OBS heading programmed into VOR for nav1 radio"
+        },
+        {
+            "id": "sim/cockpit/radios/nav2_freq_hz",
+            "desc": "Frequency of nav2",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav2_freq_hz",
+            "comment": "Frequency of the nav2 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/nav2_stdby_freq_hz",
+            "desc": "Standby frequency of nav2",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav2_stdby_freq_hz",
+            "comment": "Standby frequency nav2 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/nav2_obs_degm",
+            "desc": "OBS heading for nav2",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/nav2_obs_degm",
+            "comment": "OBS heading programmed into VOR for nav2 radio"
+        },
+        {
+            "id": "sim/cockpit/radios/com1_freq_hz",
+            "desc": "Frequency of com1",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/com1_freq_hz",
+            "comment": "Frequency of the com1 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/com1_stdby_freq_hz",
+            "desc": "Standby frequency of com1",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/com1_stdby_freq_hz",
+            "comment": "Standby frequency of the com1 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/com2_freq_hz",
+            "desc": "Frequency of com2",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/com2_freq_hz",
+            "comment": "Frequency of the com2 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/cockpit/radios/com2_stdby_freq_hz",
+            "desc": "Standby frequency of com2",
+            "group": "Display",
+            "dataref": "sim/cockpit/radios/com2_stdby_freq_hz",
+            "comment": "Standby frequency of the com2 radio (int value with decimal inside)"
+        },
+        {
+            "id": "sim/flight_controls/landing_gear_down[CMD]",
+            "desc": "Gear Down",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/landing_gear_down[CMD]",
+            "comment": "A command for Gear Down"
+        },
+        {
+            "id": "sim/flight_controls/landing_gear_up[CMD]",
+            "desc": "Gear Up",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/landing_gear_up[CMD]",
+            "comment": "A command for Gear Up"
+        },
+        {
+            "id": "sim/flight_controls/brakes_toggle_max[CMD]",
+            "desc": "Park Break (toogle)",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/brakes_toggle_max[CMD]",
+            "comment": "A command for Park Break (toogle)"
+        },
+        {
+            "id": "sim/flight_controls/left_brake[CMD]",
+            "desc": "Left brake",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/left_brake[CMD]",
+            "comment": "A command for Left brake"
+        },
+        {   "id": "sim/flight_controls/right_brake[CMD]",
+            "desc": "Right brake",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/right_brake[CMD]",
+            "comment": "A command for Right brake"
+        },
+        {   "id": "sim/flight_controls/flaps_down[CMD]",
+            "desc": "Flaps down",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/flaps_down[CMD]",
+            "comment": "A command for Flaps down"
+        },
+        {   "id": "sim/flight_controls/flaps_up[CMD]",
+            "desc": "Flaps up",
+            "group": "Main Instruments",
+            "dataref": "sim/flight_controls/flaps_up[CMD]",
+            "comment": "A command for Flaps up"
+        },
+        {   "id": "sim/autopilot/fdir_servos_toggle[CMD]",
+            "desc": "Auto Pilot Toggle - AP",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/fdir_servos_toggle[CMD]",
+            "comment": "A command for Auto Pilot Toggle - AP"
+        },
+        {   "id": "sim/autopilot/fdir_toggle[CMD]",
+            "desc": "Flight Director Toggle - FD",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/fdir_toggle[CMD]",
+            "comment": "A command for Flight Director Toggle - FD"
+        },
+        {   "id": "sim/autopilot/heading[CMD]",
+            "desc": "Heading Toggle - HDG",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/heading[CMD]",
+            "comment": "A command for Heading Toggle - HDG"
+        },
+        {   "id": "sim/autopilot/altitude_hold[CMD]",
+            "desc": "Altitude hold Toggle - ALT",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/altitude_hold[CMD]",
+            "comment": "A command for Altitude hold Toggle - ALT"
+        },
+        {   "id": "sim/autopilot/NAV[CMD]",
+            "desc": "Navigation hold - NAV",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/NAV[CMD]",
+            "comment": "A command for Navigation hold - NAV"
+        },
+        {   "id": "sim/autopilot/vnav[CMD]",
+            "desc": "Vertical Navigation hold - VNAV",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/vnav[CMD]",
+            "comment": "A command for Vertical Navigation hold - VNAV"
+        },
+        {   "id": "sim/autopilot/approach[CMD]",
+            "desc": "Approach mode - APR",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/approach[CMD]",
+            "comment": "A command for Approach mode - APR"
+        },
+        {   "id": "sim/autopilot/back_course[CMD]",
+            "desc": "Back course mode - BC",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/back_course[CMD]",
+            "comment": "A command for Back course mode - BC"
+        },
+        {   "id": "sim/autopilot/vertical_speed[CMD]",
+            "desc": "Vertical Speed mode - VS",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/vertical_speed[CMD]",
+            "comment": "A command for Vertical Speed mode - VS"
+        },
+        {   "id": "sim/autopilot/level_change[CMD]",
+            "desc": "Flight Level Change mode - FLC",
+            "group": "Main Instruments",
+            "dataref": "sim/autopilot/level_change[CMD]",
+            "comment": "A command for Flight Level Change mode - FLC"
+        }
+    ]
+}

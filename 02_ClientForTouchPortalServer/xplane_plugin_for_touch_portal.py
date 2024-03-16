@@ -56,14 +56,32 @@ Important touch portal state
 -Connect to the touch portal server
 -Read a customized json file containing datarefs info. 
 
-        # ------------------------ 
-        # example for one  dataref
-        # ------------------------ 
-        # "id": "AirbusFBW/ADIRUSwitchArray[2]", -> [2] -> mean index 2
+        # ------------------------------------- 
+        # example for one dataref without index
+        # -------------------------------------
+        # "id": "sim/cockpit2/gauges/indicators/altitude_ft_pilot",
+        # "desc": "Altitude current (pilot)",
+        # "group": "Display",
+        # "dataref": "sim/cockpit2/gauges/indicators/altitude_ft_pilot",
+        # "comment": "Altitude current (height, MSL, in feet, pilot)"
+        # 
+        # ---------------------------------- 
+        # example for one dataref with index
+        # ---------------------------------- 
+        # "id": "AirbusFBW/ADIRUSwitchArray[2]", -> [2] -> mean index 2 
         # "desc": "Adirs IR3",
         # "group": "OverHead",   
         # "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
         # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
+        # 
+        # ------------------------ 
+        # example for one command
+        # ------------------------ 
+        # "id": "sim/flight_controls/landing_gear_down[CMD]", -> [CMD] -> mean Command
+        # "desc": "Gear Down",
+        # "group": "Main Instruments",
+        # "dataref": "sim/flight_controls/landing_gear_down[CMD]",
+        # "comment": "A command for Gear Down"
                     
 
 -Create touch portal states for each dataref ("id", description, value, "group"). 
@@ -73,15 +91,20 @@ Important touch portal state
     "group": Come from the json  file and allows dataref of the same group to be grouped together. 
              When using a Touch Portal page, it's easier to find datarefs grouped in this way. 
 -The "xplane_plugin_for_touch_portal.dataref.set_states" action, contains 
-    a list of choices concerning the "desc" field from the json file. 
- We update the list of choices created previously from all json's dataref. 
+    a list of choices concerning the dataref "desc" field from the json file. 
+-The "xplane_plugin_for_touch_portal.command.execute" action, contains
+    a list of choices concerning the command "desc" field from the json file. 
+ We update the list of choices created previously from all json's dataref and command. 
 -Initially, (in a secondary thread) the xplane client sends the list of datarefs
  and receives from the X-Plane server the dataref values.
 -The X-Plane server start a special process to check any update in theses dataref and send the values (per each second)
 -We update the touch portal states with these new values.
--When a user press a button in a touch portal page within a associate "desc" choice, 
+-When a user press a button in a touch portal page within a associate dataref "desc" choice, 
  the action "xplane_plugin_for_touch_portal.dataref.set_states" is specify as required and send the value to the X-Plane Server
  for updating dataref value
+-When a user press a button in a touch portal page within a associate command "desc" choice, 
+ the action "xplane_plugin_for_touch_portal.command.execute" is specify as required and send the command to the X-Plane Server
+ for executing it
 
 '''
 

@@ -265,20 +265,6 @@
             "group": "Pedestal",
             "dataref": "AirbusFBW/DUBrightness[6]",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
-        },
-        {
-            "id": "sim/flight_controls/landing_gear_down[CMD]",
-            "desc": "Gear Down",
-            "group": "Main Instruments",
-            "dataref": "sim/flight_controls/landing_gear_down[CMD]",
-            "comment": "A command for the Autopilot"
-        },
-        {
-            "id": "sim/flight_controls/landing_gear_up[CMD]",
-            "desc": "Gear Up",
-            "group": "Main Instruments",
-            "dataref": "sim/flight_controls/landing_gear_up[CMD]",
-            "comment": "A command for the Autopilot"
         }
     ]
 }

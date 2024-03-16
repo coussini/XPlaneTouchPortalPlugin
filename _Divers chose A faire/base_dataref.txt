@@ -1,5 +1,3 @@
--Si erreur sur getDataRefTypes -> Commande
--
 
 UP_DEC BY 0.01
 DWN_DEC BY 0.01
@@ -12,8 +10,26 @@ prendre seulement les deux décimals pour les floats
 
 [AUTOPILOT]
 
-Altitude dialed into the Auto Pilot (ATTENTION FLOAT DOIS * 1000))
-sim/cockpit/autopilot/altitude
+Gear down (CMD)
+sim/flight_controls/landing_gear_down
+
+Gear up (CMD)
+sim/flight_controls/landing_gear_up
+
+Park Break (CMD)
+sim/flight_controls/brakes_toggle_max
+
+Left brake (CMD)
+sim/flight_controls/left_brake
+
+Right brake (CMD)
+sim/flight_controls/right_brake
+
+Flaps down (CMD)
+sim/flight_controls/flaps_down
+
+Flaps up (CMD)
+sim/flight_controls/flaps_up
 
 Auto Pilot Toggle - AP (CMD)
 sim/autopilot/fdir_servos_toggle
@@ -47,83 +63,89 @@ sim/autopilot/level_change
 
 ===============================
 
-current altitude
+Altitude dialed into the Auto Pilot (ATTENTION FLOAT DOIS * 1000))
+sim/cockpit/autopilot/altitude
+
+Altitude current (height, MSL, in feet)
 sim/cockpit2/gauges/indicators/altitude_ft_pilot 
 
-heading
+Heading of the wet compass, in degrees.
 sim/cockpit2/gauges/indicators/compass_heading_deg_mag
 
-heading bug degrees
+Heading in magnetic degrees (indicated)
+sim/cockpit/misc/compass_indicated
+
+The heading to fly (magnetic, preferred) pilot heading bug degrees
 sim/cockpit/autopilot/heading_mag
 
 Barometer (altimeter) 29.90 IN / 1013 HPA 29.90 * 33.8639 = 1013.2
 sim/cockpit/misc/barometer_setting
 
-Gear down (CMD)
-sim/flight_controls/landing_gear_down
+airspeed in knots -  float – knots per hour, multiply by 1.15078 to get to MPH
+sim/cockpit2/gauges/indicators/airspeed_kts_pilot
 
-Gear up (CMD)
-sim/flight_controls/landing_gear_up
-
-Park Break (CMD)
-sim/flight_controls/brakes_toggle_max
-
-Left brake (CMD)
-sim/flight_controls/left_brake
-
-Right brake (CMD)
-sim/flight_controls/right_brake
-
-Flaps down (CMD)
-sim/flight_controls/flaps_down
-
-Flaps up (CMD)
-sim/flight_controls/flaps_up
-
-knots true airspeed (KTS)
-sim/cockpit2/gauges/indicators/true_airspeed_kts_pilot
-
-True Air Speed (TAS)
-sim/cockpit2/gauges/indicators/true_airspeed_kts_pilot
-
-Ground Speed (GS)
-sim/cockpit2/gauges/indicators/ground_speed_kt
-
-Mach Speed (MACH)
+airspeed in mach number
 sim/cockpit2/gauges/indicators/mach_pilot
 
-Angle of attack (AOA)
+Ground speed in knots (GS)
+sim/cockpit2/gauges/indicators/ground_speed_kt
+
+Pitch, in degrees (indicated)
+sim/cockpit2/gauges/indicators/pitch_AHARS_deg_pilot
+
+Roll, in degrees (indicated)
+sim/cockpit2/gauges/indicators/roll_AHARS_deg_pilot
+
+Landing gear deployment -> 0 up and 1 down
+sim/aircraft/parts/acf_gear_deploy
+
+Fuel Total Weight
+sim/flightmodel/weight/m_fuel_total
+
+Oil temp in C or F (depending aircraft)
+sim/cockpit2/engine/indicators/oil_temperature_deg_C
+
+Engine speed, revolutions per minute (RPM)
+sim/cockpit2/engine/indicators/engine_speed_rpm
+
+Battery voltage in, umm, volts
+sim/cockpit2/electrical/battery_voltage_actual_volts
+
+Angle of attack (AOA) (indicated)
 sim/cockpit2/gauges/indicators/AoA_pilot
 
-Wind Heading Deg
+Wind direction currently acting on the plane in degrees
 sim/cockpit2/gauges/indicators/wind_heading_deg_mag
 
-Wind Speed KTS
+Wind speed currently acting on the plane in knots true
 sim/cockpit2/gauges/indicators/wind_speed_kts
 
-NAV1 freq (ATTENTION INT AVEC DEC)
+Frequency of the nav1 radio (int value with decimal inside)
 sim/cockpit/radios/nav1_freq_hz
 
-NAV1 Stand by freq (ATTENTION INT AVEC DEC)
+Standby frequency nav1 radio (int value with decimal inside)
 sim/cockpit/radios/nav1_stdby_freq_hz
 
-NAV1 Course
+OBS heading programmed into VOR for nav1 radio
 sim/cockpit/radios/nav1_obs_degm
 
-NAV2 freq (ATTENTION INT AVEC DEC)
+Frequency of the nav2 radio (int value with decimal inside)
 sim/cockpit/radios/nav2_freq_hz
 
-NAV2 Stand by freq (ATTENTION INT AVEC DEC)
+Standby frequency nav2 radio (int value with decimal inside)
 sim/cockpit/radios/nav2_stdby_freq_hz
 
-COM1 freq (ATTENTION INT AVEC DEC)
+OBS heading programmed into VOR for nav2 radio
+sim/cockpit/radios/nav2_obs_degm
+
+Frequency of the com1 radio (int value with decimal inside)
 sim/cockpit/radios/com1_freq_hz
 
-COM1 Stand by freq (ATTENTION INT AVEC DEC)
+Standby frequency com1 radio (int value with decimal inside)
 sim/cockpit/radios/com1_stdby_freq_hz
 
-COM2 freq (ATTENTION INT AVEC DEC)
-sim/cockpit/radios/com1_freq_hz
+Frequency of the com2 radio (int value with decimal inside)
+sim/cockpit/radios/com2_freq_hz
 
-COM2 Stand by freq (ATTENTION INT AVEC DEC)
-sim/cockpit/radios/com1_stdby_freq_hz
+Standby frequency com2 radio (int value with decimal inside)
+sim/cockpit/radios/com2_stdby_freq_hz
