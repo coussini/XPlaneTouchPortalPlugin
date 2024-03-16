@@ -171,7 +171,7 @@ class XPlanePlugin:
         '''
         try:
             self.tp_api = TP_API.Client(            # Create the Touch Portal API client instance
-                pluginId = PLUGIN_ID,           # Required ID of this plugin
+                pluginId = PLUGIN_ID,               # Required ID of this plugin
                 sleepPeriod = 0.05,                 # Allow more time than default for other processes
                 autoClose = True,                   # Automatically disconnect when TP sends 'closePlugin' message
                 checkPluginId = True,               # Validate destination of messages sent to this plugin
