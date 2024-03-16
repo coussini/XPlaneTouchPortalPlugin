@@ -1,17 +1,15 @@
 import sys 
 import os
 import platform
-import argparse # argparse.ArgumentParser
 import TouchPortalAPI as TP_API
 import TouchPortalAPI.logger as TP_API_LOG # TouchPortalAPI.logger.Logger
 import selectors
 import socket
 import json
-import time
 import threading
 from traceback import format_exc # to catch more information concerning exception error
 import queue # this is only to pass exception from the secondary thread to the main thread
-import re
+import types
 
 PLUGIN_ID = 'xplane_plugin_for_touch_portal'
 LOG_FILE = f'./{PLUGIN_ID}.log'
@@ -22,6 +20,9 @@ IS_LINUX = True if (platform.system() == 'Linux') else False
 IS_MACOS = True if (platform.system() == 'Darwin') else False
 
 MESSAGE_DELIMITER = '#'
+BUFFER_SIZE_USUAL = 384
+BUFFER_SIZE_INIT = 1024
+
 '''
                   =================================  
                   N A M I N G   C O N V E N T I O N  
@@ -127,7 +128,7 @@ class XPlanePlugin:
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         '''
         self.json_keys_first_level = 'datarefs'
-        self.json_keys = ['id', 'desc', 'group', 'type', 'value', 'dataref', 'comment']
+        self.json_keys = ['id', 'desc', 'group', 'dataref', 'comment']
         self.json_keys.sort()
 
         if IS_WINDOWS: self.touch_portal_xplane_json_folder = os.getenv('APPDATA') + '\\TouchPortal\\misc\\xplane\\';
@@ -204,11 +205,11 @@ class XPlanePlugin:
         # Store datarefs and their values from X-Plane in a dictionary for updating states in Touch Portal
         self.datarefs_and_values_dictionary = {}
         '''
-        ============================================================================================
-        This is the chart for communication paquet between the X-Plane client and the X-Plane server
-        ============================================================================================
+        ============================================================================
+        This is the chart for communication paquet between the client and the server
+        ============================================================================
         '''
-        # Packet that asks this server for the current dataref value in X-Plane (initialization part)  
+        # Packet that asks this server for the current dataref value in x-plane (initialization part)  
         self.request_dataref_value = 'request_dataref_value'
         self.request_dataref_value_paquet = ['command', 'dataref']
         # Packet for response for the previous request  
@@ -228,6 +229,13 @@ class XPlanePlugin:
         # Packet for response for the previous request  
         self.response_update_from_touch_portal = 'response_update_from_touch_portal'
         self.response_update_from_touch_portal_paquet = ['command', 'message']
+
+        # Packet that explains to this server that a command must be executed on the x-plane side  
+        self.request_command_for_touch_portal = 'perform_command_for_touch_portal'
+        self.request_command_for_touch_portal_paquet = ['command', 'dataref']
+        # Packet for response for the previous request  
+        self.response_command_for_touch_portal = 'response_perform_command_for_touch_portal'
+        self.response_command_for_touch_portal_paquet = ['command', 'message']
 
         # Packet that explains to the client that a dataref value has been updated in X-Plane  
         self.request_update_from_x_plane = 'request_update_from_x_plane'
@@ -313,7 +321,8 @@ class XPlanePlugin:
                     __logger__.info(f'Create touch portal states for each dataref from the custom json file')
                     __logger__.info(f'=====================================================================')
 
-                    choices_list = []
+                    commands_choices_list = []
+                    datarefs_choices_list = []
                     datarefs_list = []
                     
                     # ------------------------------------- 
@@ -326,19 +335,33 @@ class XPlanePlugin:
                     # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
                     # 
                     
-                    # Process each dataref found in states python dictionnary . States data comes from the datarefs.json file
+                    # Process each dataref found in states python dictionnary. States data comes from the json file
                     for x in self.states['datarefs']:
                         description = x['group'] + ' - ' + x['desc']                      # Create a description within a group and desc
-                        self.tp_api.createState(x['id'],description,'0',x['group'])       # Create a TP State for a dataref at runtime
-                        choices_list.append(x['desc'])                                    # Save dataref desc for choiceUpdate purpose
+                        self.tp_api.createState(x['id'], description,'0', x['group'])       # Create a TP State for a dataref at runtime
+                        if '[CMD]' in x['dataref']:
+                            commands_choices_list.append(x['desc'])                       # Save command desc for choiceUpdate purpose
+                            __logger__.info(f"commands choices {x['desc']}")
+                            #x['id'] = x['id'].replace('[CMD]', '')                        # Removing [CMD] string from id
+                            #x['dataref'] = x['dataref'].replace('[CMD]', '')              # Removing [CMD] string from dataref
+                        else:
+                            datarefs_choices_list.append(x['desc'])                       # Save dataref desc for choiceUpdate purpose
+                            __logger__.info(f"datarefs choices {x['desc']}")
                         self.datarefs_list.append(x['dataref'])                           # dataref will be use for comparaison
 
                     __logger__.info(f'Touch Portal dynamic States Created within dataref info')
                     
                     # Feed the valueChoices for each action: ref entry.tp file
-                    choices_list.sort() # Sort options for ease of use in Touch Portal apps
+                    commands_choices_list.sort() # Sort options for ease of use in Touch Portal apps
+                    datarefs_choices_list.sort() # Sort options for ease of use in Touch Portal apps
                     
-                    self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name',choices_list) # Update action option at runtime
+                    if commands_choices_list != []:
+                        __logger__.info("commands_choices_list")
+                        self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.command.execute.name', commands_choices_list) # Update action option at runtime
+                    
+                    if datarefs_choices_list != []:
+                        __logger__.info("datarefs_choices_list")
+                        self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name', datarefs_choices_list) # Update action option at runtime
                     
                     __logger__.info(f'Touch Portal Choices have been updated for some action within dataref desc field')
                     
@@ -366,13 +389,13 @@ class XPlanePlugin:
         self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
         __logger__.info("touch_portal_client_on_action_stop_communication_with_xplane_server")
 
-    def touch_portal_client_on_action_set_states(self, data):
+    def touch_portal_client_on_action_dataref_set_states(self, data):
         '''
         Set states value and send it to X-Plane server 
         '''
         try:
             for x in self.states['datarefs']:
-                if x['desc'] == data.get('data')[0]['value']:
+                if x['desc'] == data.get('data')[0]['value']: # Also, if user never select a choice in Touch Portal
                     
                     self.tp_api.stateUpdate(x['dataref'],data.get('data')[1]['value']) # Update the value in Touch Portal State
                     
@@ -384,6 +407,24 @@ class XPlanePlugin:
                     message['command'] = self.request_update_from_touch_portal
                     message['dataref'] = x['dataref']
                     message['value'] = data.get('data')[1]['value']
+                    outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+                    self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
+                    break
+
+        except Exception as e:
+            error_report = format_exc()
+            raise self.CustomErrorPlugin(f'Other Error for {PLUGIN_ID}\nMessage: {e}\nError report: {error_report}' )
+
+    def touch_portal_client_on_action_command_execute(self, data):
+        '''
+        Send an X-Plane command to X-Plane server 
+        '''
+        try:
+            for x in self.states['datarefs']:
+                if x['desc'] == data.get('data')[0]['value']:
+                    message = {}
+                    message['command'] = self.request_command_for_touch_portal
+                    message['dataref'] = x['dataref']
                     outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
                     self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
                     break
@@ -476,7 +517,24 @@ class XPlanePlugin:
                     __logger__.info(f'==================================================')
                     __logger__.info(f'ACTION: send a dataref value to the X-Plane server')
                     __logger__.info(f'==================================================')
-                    self.touch_portal_client_on_action_set_states(data)
+                    self.touch_portal_client_on_action_dataref_set_states(data)
+                    '''
+                    Exception for the plugin
+                    '''
+                except self.CustomErrorPlugin as e:
+                    __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL')
+                    error_messages = str(e).split('\n')
+                    for error_message in error_messages:
+                        __logger__.error(f'ERROR -> {error_message}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+
+            case 'xplane_plugin_for_touch_portal.command.execute':
+
+                try:
+                    __logger__.info(f'=====================================================')
+                    __logger__.info(f'ACTION: send an X-Plane command to the X-Plane server')
+                    __logger__.info(f'=====================================================')
+                    self.touch_portal_client_on_action_command_execute(data)
                     '''
                     Exception for the plugin
                     '''
@@ -617,25 +675,27 @@ class XPlanePlugin:
                 self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
 
             # Process a reponse in case a dataref value has been updated in Touch Portal 
-            elif message_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane:
+            elif message_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane_paquet:
+
+                __logger__.info(f'Message from the server: {message_object["message"]}')
+
+            # Process a reponse in case a dataref value has been updated in Touch Portal 
+            elif message_object['command'] == self.response_command_for_touch_portal and keys == self.response_command_for_touch_portal_paquet:
 
                 __logger__.info(f'Message from the server: {message_object["message"]}')
 
             else:
                 command = message_object['command']
                 raise ValueError(f'This response is not part of the communication chart between the \n X-Plane client and the X-Plane server.\nThe following command has been rejected\n{command}' )
-                break
 
         except ValueError as e:
             self.__custom_error_xplane_queue.put(str(e))            
             self.keep_running.clear()
             raise # Bubbling the exception
-            break 
         except Exception as e:
             error_report = format_exc()
             self.__custom_error_xplane_queue.put(f'There is exception in xplane_client_managing_received_data\nMessage: {e}\nError report: {error_report}')            
             self.keep_running.clear()
-            break
 
     def xplane_client_service_connection(self, key, mask):
         '''
@@ -646,7 +706,12 @@ class XPlanePlugin:
 
         if mask & selectors.EVENT_READ:
             try:
-                ingoing_message = server_socket.recv(1024)
+                if self.init_phase_running.is_set():
+                    BUFFER_SIZE = BUFFER_SIZE_INIT
+                else:
+                    BUFFER_SIZE = BUFFER_SIZE_USUAL
+
+                ingoing_message = server_socket.recv(BUFFER_SIZE)
             except BlockingIOError:
                 pass  # Resource temporarily unavailable (errno EWOULDBLOCK)
             except:
@@ -660,7 +725,11 @@ class XPlanePlugin:
                         message_bytes  = data.inb[:pos]  # The first message
                         data.inb = data.inb[pos+1:]  # Remove the first message from data.inb (message+'#')
                         message_decode = message_bytes.decode('utf-8') 
-                        self.xplane_client_managing_received_data(message_decode)
+                        if not message_decode:
+                            continue # probably catch only the delimiter
+                        else: 
+                            print(f"ATTENTION MESSAGE DECODE = {message_decode}")
+                            self.xplane_client_managing_received_data(message_decode)
                 else:
                     raise # Bubbling the exception
 

@@ -1,0 +1,129 @@
+-Si erreur sur getDataRefTypes -> Commande
+-
+
+UP_DEC BY 0.01
+DWN_DEC BY 0.01
+UP_DEC BY 0.05
+DWN_DEC BY 0.05
+UP UNIT BY 1
+DWN UNIT BY 1
+
+prendre seulement les deux décimals pour les floats
+
+[AUTOPILOT]
+
+Altitude dialed into the Auto Pilot (ATTENTION FLOAT DOIS * 1000))
+sim/cockpit/autopilot/altitude
+
+Auto Pilot Toggle - AP (CMD)
+sim/autopilot/fdir_servos_toggle
+
+Flight Director Toggle - FD (CMD)
+sim/autopilot/fdir_toggle
+
+Heading Toggle - HDG (CMD)
+sim/autopilot/heading
+
+Altitude hold Toggle - ALT (CMD)
+sim/autopilot/altitude_hold
+
+Navigation hold - NAV (CMD) 
+sim/autopilot/NAV
+
+Vertical Navigation hold - VNAV (CMD) 
+sim/autopilot/vnav
+
+Approach mode - APR (CMD)
+sim/autopilot/approach
+
+Back course mode - BC (CMD)
+sim/autopilot/back_course
+
+Vertical Speed mode - VS  (CMD)
+sim/autopilot/vertical_speed
+
+Flight Level Change mode - FLC (CMD)
+sim/autopilot/level_change
+
+===============================
+
+current altitude
+sim/cockpit2/gauges/indicators/altitude_ft_pilot 
+
+heading
+sim/cockpit2/gauges/indicators/compass_heading_deg_mag
+
+heading bug degrees
+sim/cockpit/autopilot/heading_mag
+
+Barometer (altimeter) 29.90 IN / 1013 HPA 29.90 * 33.8639 = 1013.2
+sim/cockpit/misc/barometer_setting
+
+Gear down (CMD)
+sim/flight_controls/landing_gear_down
+
+Gear up (CMD)
+sim/flight_controls/landing_gear_up
+
+Park Break (CMD)
+sim/flight_controls/brakes_toggle_max
+
+Left brake (CMD)
+sim/flight_controls/left_brake
+
+Right brake (CMD)
+sim/flight_controls/right_brake
+
+Flaps down (CMD)
+sim/flight_controls/flaps_down
+
+Flaps up (CMD)
+sim/flight_controls/flaps_up
+
+knots true airspeed (KTS)
+sim/cockpit2/gauges/indicators/true_airspeed_kts_pilot
+
+True Air Speed (TAS)
+sim/cockpit2/gauges/indicators/true_airspeed_kts_pilot
+
+Ground Speed (GS)
+sim/cockpit2/gauges/indicators/ground_speed_kt
+
+Mach Speed (MACH)
+sim/cockpit2/gauges/indicators/mach_pilot
+
+Angle of attack (AOA)
+sim/cockpit2/gauges/indicators/AoA_pilot
+
+Wind Heading Deg
+sim/cockpit2/gauges/indicators/wind_heading_deg_mag
+
+Wind Speed KTS
+sim/cockpit2/gauges/indicators/wind_speed_kts
+
+NAV1 freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/nav1_freq_hz
+
+NAV1 Stand by freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/nav1_stdby_freq_hz
+
+NAV1 Course
+sim/cockpit/radios/nav1_obs_degm
+
+NAV2 freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/nav2_freq_hz
+
+NAV2 Stand by freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/nav2_stdby_freq_hz
+
+COM1 freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/com1_freq_hz
+
+COM1 Stand by freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/com1_stdby_freq_hz
+
+COM2 freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/com1_freq_hz
+
+COM2 Stand by freq (ATTENTION INT AVEC DEC)
+sim/cockpit/radios/com1_stdby_freq_hz

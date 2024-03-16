@@ -29,9 +29,8 @@
                      "id":"xplane_plugin_for_touch_portal.dataref.set_states.name",
                      "type":"choice",
                      "label":"dataref name",
-                     "default":"Battery",
+                     "default":"",
                      "valueChoices":[
-                        
                      ]
                   },
                   {
@@ -39,6 +38,26 @@
                      "type":"text",
                      "label":"value",
                      "default":"0"
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.command.execute",
+               "name":"Command - Execute A Command",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Command - Execute Named:{$xplane_plugin_for_touch_portal.command.execute.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.command.execute.name",
+                     "type":"choice",
+                     "label":"command name",
+                     "default":"",
+                     "valueChoices":[
+                     ]
                   }
                ]
             },
@@ -79,7 +98,6 @@
                         "Yes",
                         "No"                        
                      ]
-
                   }
                ]
             },

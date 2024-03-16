@@ -34,6 +34,8 @@ Un dataref doit-être utilisé qU'une fois dans le fichier datarefs.jspn
 
 ## À faire
 
+- Ne pas oubliez de transférer le JSON dans misc
+
 - Créer un pack d'icône pour Toliss A320 Essential et pour Default
 
 - Peut-on diminuer le nombre de byte en receive par des time.spleep() ?
@@ -101,4 +103,3 @@ For example, it is a good idea to familiarize yourself with the dataref values c
    1. Logic : If Statement (Advanced)
    
    2. Xplane - Dataref: Set Named Variable Value
-
