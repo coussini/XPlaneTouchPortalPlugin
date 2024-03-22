@@ -6,7 +6,21 @@ DWN_DEC BY 0.05
 UP UNIT BY 1
 DWN UNIT BY 1
 
-prendre seulement les deux décimals pour les floats
+COM UNIT UP -> sim/GPS/g1000n1_com_outer_up
+COM UNIT DWN -> sim/GPS/g1000n1_com_outer_down
+COM DEC UP -> sim/GPS/g1000n1_com_inner_up
+COM DEC DWN -> sim/GPS/g1000n1_com_inner_down
+
+NAV UNIT UP -> sim/GPS/g1000n1_nav_outer_up
+NAV UNIT DWN -> sim/GPS/g1000n1_nav_outer_down
+NAV DEC UP -> sim/GPS/g1000n1_nav_inner_up
+NAV DEC DWN -> sim/GPS/g1000n1_nav_inner_down
+
+NAV1 <-> NAV2 selected bleu box -> sim/GPS/g1000n1_nav12
+COM1 <-> COM2 selected bleu box -> sim/GPS/g1000n1_com12
+selected NAV <-> selected NAV standby -> sim/GPS/g1000n1_nav_ff (flip flap)
+selected COM <-> selected COM standby -> sim/GPS/g1000n1_com_ff (flip flap)
+
 
 [AUTOPILOT]
 

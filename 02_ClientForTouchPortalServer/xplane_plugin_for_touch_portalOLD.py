@@ -317,6 +317,7 @@ class XPlanePlugin:
                     # "desc": "Adirs IR1",
                     # "group": "OverHead",
                     # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+                    # "format": "",
                     # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
                     # 
                     

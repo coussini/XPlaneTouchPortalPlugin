@@ -5,6 +5,7 @@
             "desc": "Adirs IR1",
             "group": "OverHead",
             "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
         {
@@ -12,6 +13,7 @@
             "desc": "Adirs IR2",
             "group": "OverHead",
             "dataref": "AirbusFBW/ADIRUSwitchArray[1]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
         {
@@ -19,6 +21,7 @@
             "desc": "Adirs IR3",
             "group": "OverHead",
             "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         },
         {
@@ -26,6 +29,7 @@
             "desc": "Battery 1",
             "group": "OverHead",
             "dataref": "AirbusFBW/ElecOHPArray[5]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -33,6 +37,7 @@
             "desc": "Battery 2",
             "group": "OverHead",
             "dataref": "AirbusFBW/ElecOHPArray[6]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -40,6 +45,7 @@
             "desc": "Ext Power",
             "group": "OverHead",
             "dataref": "AirbusFBW/ElecOHPArray[3]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -47,6 +53,7 @@
             "desc": "ExtPowerAvailable",
             "group": "OverHead",
             "dataref": "AirbusFBW/EnableExternalPower",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -54,6 +61,7 @@
             "desc": "Strobe",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[7]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)"
         },
         {
@@ -61,6 +69,7 @@
             "desc": "Beacon",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[0]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -68,6 +77,7 @@
             "desc": "Wing",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[1]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -75,6 +85,7 @@
             "desc": "Nav And Logo",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[2]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = 1, 2 = 2)"
         },
         {
@@ -82,6 +93,7 @@
             "desc": "APU Master Sw",
             "group": "Overhead",
             "dataref": "AirbusFBW/APUMaster",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -89,6 +101,7 @@
             "desc": "STBY COMPASS",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[9]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -96,6 +109,7 @@
             "desc": "INT LT DOME",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[8]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = DIM, 2 = BRT)"
         },
         {
@@ -103,6 +117,7 @@
             "desc": "ANN LT",
             "group": "OverHead",
             "dataref": "AirbusFBW/AnnunMode[8]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = BRT, 2 = TEST)"
         },
         {
@@ -110,6 +125,7 @@
             "desc": "RWY TURN OFF",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[6]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -117,6 +133,7 @@
             "desc": "Landing Light Left",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[4]",
+			"format_code": "",
             "comment": "0 or 2 (0 = OFF, 2 = ON)"
         },
         {
@@ -124,6 +141,7 @@
             "desc": "Landing Light Right",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[5]",
+			"format_code": "",
             "comment": "0 or 2 (0 = OFF, 2 = ON)"
         },
         {
@@ -131,6 +149,7 @@
             "desc": "Nose",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[3]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = TAXI, 2 = T.O.)"
         },
         {
@@ -138,6 +157,7 @@
             "desc": "APU Start",
             "group": "Overhead",
             "dataref": "AirbusFBW/APUStarter",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON, Become 0 when Apu is Available)"
         },
         {
@@ -145,6 +165,7 @@
             "desc": "APU Flap Open Ratio",
             "group": "Overhead",
             "dataref": "AirbusFBW/APUFlapOpenRatio",
+			"format_code": "",
             "comment": "0 or 1 (0 = Start not Available, 0.25 = Start is Available)"
         },
         {
@@ -152,6 +173,7 @@
             "desc": "APU Available",
             "group": "Overhead",
             "dataref": "AirbusFBW/APUAvail",
+			"format_code": "",
             "comment": "0 or 1 (0 = Not Available, 1 = Available)"
         },
         {
@@ -159,6 +181,7 @@
             "desc": "Seat Belts",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[11]",
+			"format_code": "",
             "comment": "0 or 1 (0 = OFF, 1 = ON)"
         },
         {
@@ -166,6 +189,7 @@
             "desc": "No Smoking",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[12]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = AUTO, 2 = ON)"
         },
         {
@@ -173,6 +197,7 @@
             "desc": "Emer Exit LT",
             "group": "OverHead",
             "dataref": "AirbusFBW/OHPLightSwitches[10]",
+			"format_code": "",
             "comment": "0 to 2 (0 = OFF, 1 = ARM, 2 = ON) When 0 display OFF signal in a status left button"
         },
         {
@@ -180,6 +205,7 @@
             "desc": "ND Zoom CAPT",
             "group": "Main Instruments",
             "dataref": "AirbusFBW/NDrangeCapt",
+			"format_code": "",
             "comment": "0 to 5 (0 = 10, 1 = 20, 2 = 40, 3 = 80, 4 = 160, 5 = 320)"
         },
         {
@@ -187,6 +213,7 @@
             "desc": "ATC Mode Selector",
             "group": "Pedestal",
             "dataref": "AirbusFBW/XPDRTCASMode",
+			"format_code": "",
             "comment": "0 or 1 (0 = AUTO, 1 = ON)"
         },
         {
@@ -194,6 +221,7 @@
             "desc": "XPDR Transponder Selector",
             "group": "Pedestal",
             "dataref": "AirbusFBW/XPDRSystem",
+			"format_code": "",
             "comment": "0 or 1 (0 = 1, 1 = 2)"
         },
         {
@@ -201,6 +229,7 @@
             "desc": "TCAS Trafic Selector",
             "group": "Pedestal",
             "dataref": "AirbusFBW/XPDRTCASAltSelect",
+			"format_code": "",
             "comment": "0 to 3 (0 = ABV, 1=N, 2=BLW)"
         },
         {
@@ -208,6 +237,7 @@
             "desc": "TCAS Mode Selector",
             "group": "Pedestal",
             "dataref": "AirbusFBW/XPDRPower",
+			"format_code": "",
             "comment": "0 to 4 (0 = STBY, 1 = ALT RPTG OFF, 2 = XPNDR, 3 = TA ONLY, 4 = TA/RA)"
         },
         {
@@ -215,6 +245,7 @@
             "desc": "FLOOD LT MAIN PNL Brightness Knob",
             "group": "Pedestal",
             "dataref": "AirbusFBW/PanelFloodBrightnessLevel",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
         {
@@ -222,6 +253,7 @@
             "desc": "INTEG LT MAIN PNL AND PED Brightness Knob",
             "group": "Pedestal",
             "dataref": "AirbusFBW/PanelBrightnessLevel",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
         {
@@ -229,6 +261,7 @@
             "desc": "FLOOD LT PED Brightness Knob",
             "group": "Pedestal",
             "dataref": "AirbusFBW/PedestalFloodBrightnessLevel",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full)"
         },
         {
@@ -236,6 +269,7 @@
             "desc": "PFD Brightness Knob",
             "group": "Main Instruments",
             "dataref": "AirbusFBW/DUBrightness[0]",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
         {
@@ -243,6 +277,7 @@
             "desc": "ND Brightness Knob",
             "group": "Main Instruments",
             "dataref": "AirbusFBW/DUBrightness[1]",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
         {
@@ -250,6 +285,7 @@
             "desc": "ECAM UPPER Brightness Knob",
             "group": "Pedestal",
             "dataref": "AirbusFBW/DUBrightness[4]",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
         {
@@ -257,6 +293,7 @@
             "desc": "ECAM LOWER Brightness Knob",
             "group": "Pedestal",
             "dataref": "AirbusFBW/DUBrightness[5]",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         },
         {
@@ -264,6 +301,7 @@
             "desc": "MCDU Brightness Button",
             "group": "Pedestal",
             "dataref": "AirbusFBW/DUBrightness[6]",
+			"format_code": "",
             "comment": "0 to 1 (0.25 = Quarter, 0.50 = Half, 0.75 = Three Quarter, 1 = Full/BRT) The 0 value is not allow because SELF TEST will be done"
         }
     ]

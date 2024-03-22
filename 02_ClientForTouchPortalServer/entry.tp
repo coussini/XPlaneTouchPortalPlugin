@@ -6,61 +6,15 @@
    "configuration":{
       "colorDark":"#212121",
       "colorLight":"#0090ff",
-      "parentCategory":"game"
+      "parentCategory":"games"
    },
    "plugin_start_cmd":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.exe",
    "categories":[
       {
          "id":"xplane_plugin_for_touch_portal.plugin",
-         "name":"Xplane Plugin",
+         "name":"Plugin",
          "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
          "actions":[
-            {
-               "id":"xplane_plugin_for_touch_portal.dataref.set_states",
-               "name":"Dataref - Set Variable Value",
-               "prefix":"XPlane",
-               "type":"communicate",
-               "tryInline":true,
-               "hasHoldFunctionality":true,
-               "description":"",
-               "format":"Dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_states.value$}",
-               "data":[
-                  {
-                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.name",
-                     "type":"choice",
-                     "label":"dataref name",
-                     "default":"",
-                     "valueChoices":[
-                     ]
-                  },
-                  {
-                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.value",
-                     "type":"text",
-                     "label":"value",
-                     "default":"0"
-                  }
-               ]
-            },
-            {
-               "id":"xplane_plugin_for_touch_portal.command.execute",
-               "name":"Command - Execute A Command",
-               "prefix":"XPlane",
-               "type":"communicate",
-               "tryInline":true,
-               "hasHoldFunctionality":true,
-               "description":"",
-               "format":"Command - Execute Named:{$xplane_plugin_for_touch_portal.command.execute.name$}",
-               "data":[
-                  {
-                     "id":"xplane_plugin_for_touch_portal.command.execute.name",
-                     "type":"choice",
-                     "label":"command name",
-                     "default":"",
-                     "valueChoices":[
-                     ]
-                  }
-               ]
-            },
             {
                "id":"xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file",
                "name":"Plugin - Set Custom Dataref Json File",
@@ -122,17 +76,113 @@
          ],
          "states":[
             {
-               "id":"xplane_plugin_for_touch_portal.state.custom_json_file_name",
+               "id":"xplane_plugin_for_touch_portal.plugin.custom_json_file_name",
                "type":"text",
-               "desc":"Plugin : Custom Datarefs Json File Name",
+               "desc":"Plugin - Custom Datarefs Json File Name",
                "default":"default.json"
             },
             {
-               "id":"xplane_plugin_for_touch_portal.state.main_status",
+               "id":"xplane_plugin_for_touch_portal.plugin.main_status",
                "type":"text",
-               "desc":"Plugin : Main Status (0 = all off)",
+               "desc":"Plugin - Main Status (0 = all off)",
                "default":"99"
             }
+         ]
+      },
+      {
+         "id":"xplane_plugin_for_touch_portal.dataref",
+         "name":"Dataref",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.dataref.set_states",
+               "name":"Dataref - Set Variable Value",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Dataref - Set Variable Named:{$xplane_plugin_for_touch_portal.dataref.set_states.name$} to value:{$xplane_plugin_for_touch_portal.dataref.set_states.value$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"",
+                     "valueChoices":[
+                     ]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.set_states.value",
+                     "type":"text",
+                     "label":"value",
+                     "default":"0"
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.dataref.add_value_to_states",
+               "name":"Dataref - Add value to Variable",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Dataref - Add value :{$xplane_plugin_for_touch_portal.dataref.add_value_to_states.value$} to Variable Named:{$xplane_plugin_for_touch_portal.dataref.add_value_to_states.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.add_value_to_states.value",
+                     "type":"choice",
+                     "label":"value",
+                     "default":"0.01",
+                     "valueChoices":[
+                        "0.01",
+                        "0.05",
+                        "0.10",
+                        "1.00"
+                     ]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.dataref.add_value_to_states.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"",
+                     "valueChoices":[
+                     ]
+                  }
+               ]
+            }
+         ],
+         "states":[
+         ]
+      },
+      {
+         "id":"xplane_plugin_for_touch_portal.command",
+         "name":"Command",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.command.execute",
+               "name":"Command - Execute A Command",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"Command - Execute Named:{$xplane_plugin_for_touch_portal.command.execute.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.command.execute.name",
+                     "type":"choice",
+                     "label":"command name",
+                     "default":"",
+                     "valueChoices":[
+                     ]
+                  }
+               ]
+            }
+         ],
+         "states":[
          ]
       }
    ]

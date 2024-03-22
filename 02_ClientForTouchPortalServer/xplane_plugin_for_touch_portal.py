@@ -21,7 +21,8 @@ IS_MACOS = True if (platform.system() == 'Darwin') else False
 
 MESSAGE_DELIMITER = '#'
 BUFFER_SIZE_USUAL = 384
-BUFFER_SIZE_INIT = 1024
+BUFFER_SIZE_INIT = 10240
+BUFFER_SIZE_USUAL = BUFFER_SIZE_INIT
 
 '''
                   =================================  
@@ -39,7 +40,7 @@ Prefix for exception class
     -CustomErrorXPlane      (concerning the exception around the exchange between the X-Plane Client and the X-Plane Server)
 
 Important touch portal state
-    -xplane_plugin_for_touch_portal.state.main_status
+    -xplane_plugin_for_touch_portal.plugin.main_status
        '0': Initial status 
        '1': Plugin error  
        '2': Connected to Touch Portal
@@ -63,6 +64,8 @@ Important touch portal state
         # "desc": "Altitude current (pilot)",
         # "group": "Display",
         # "dataref": "sim/cockpit2/gauges/indicators/altitude_ft_pilot",
+        # "xplane_format": "",
+        # "touch_portal_format": "",
         # "comment": "Altitude current (height, MSL, in feet, pilot)"
         # 
         # ---------------------------------- 
@@ -72,6 +75,8 @@ Important touch portal state
         # "desc": "Adirs IR3",
         # "group": "OverHead",   
         # "dataref": "AirbusFBW/ADIRUSwitchArray[2]",
+        # "xplane_format": "",
+        # "touch_portal_format": "",
         # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
         # 
         # ------------------------ 
@@ -81,13 +86,15 @@ Important touch portal state
         # "desc": "Gear Down",
         # "group": "Main Instruments",
         # "dataref": "sim/flight_controls/landing_gear_down[CMD]",
+        # "xplane_format": "",
+        # "touch_portal_format": "",
         # "comment": "A command for Gear Down"
                     
 
 -Create touch portal states for each dataref ("id", description, value, "group"). 
     "id": Come from the Json File
     description: Composed with the group and the desc <-- x['group'] + ' - ' + x['desc']
-    value: Was set to 0 at beginning.
+    value: Was set to '0' at beginning.
     "group": Come from the json  file and allows dataref of the same group to be grouped together. 
              When using a Touch Portal page, it's easier to find datarefs grouped in this way. 
 -The "xplane_plugin_for_touch_portal.dataref.set_states" action, contains 
@@ -105,6 +112,44 @@ Important touch portal state
 -When a user press a button in a touch portal page within a associate command "desc" choice, 
  the action "xplane_plugin_for_touch_portal.command.execute" is specify as required and send the command to the X-Plane Server
  for executing it
+
+                  =========================================================================  
+                  D A T A   T R A N S F E R   C O N C E R N I N G   T O U C H   P O R T A L    
+                  =========================================================================  
+
+-The data transfert between the Touch Portal client and the Touch Portal server is always in string format
+-The following Touch Portal methods (function) are used by this program and use strings as mentioned
+-For more details see the url "https://killerboss2019.github.io/TouchPortal-API/TouchPortalAPI/client.html"
+
+                  --- Some Touch Portal methods or functions ---
+                  def createState(self, stateId:str, description:str, value:str, parentGroup:str = None):
+                  def stateUpdate(self, stateId: str, stateValue: str)
+                  def choiceUpdate(self, choiceId: str, values: list) -> list = ["apple", "banana", "cherry"]
+                  def getStatelist(self) -> {"stateId1": "value1", "stateId2": "value2", "stateId3": "value3"}
+
+                  =========================================================================  
+                  D A T A   T R A N S F E R   C O N C E R N I N G   T H I S   P R O G R A M    
+                  =========================================================================  
+
+-The data transfert between the X-Plane Client and the X-Plane Server is always in string format. This program
+ uses the same approach as Touch Portal transfert. See the the chart for communication paquet, in this program
+
+                  =============================================================================  
+                  D A T A   F O R M A T T I N G   C O N C E R N I N G   T H I S   P R O G R A M    
+                  =============================================================================  
+
+-All data formatting, whether for server transfering or for displaying, is done on this side
+
+-Format codes use
+
+    D1 -> one decimal : 99.345 -> 99.3
+    D2 -> two decimal (by default) : 99.345 -> 99.35
+    D3 -> three decimal : 99.345 -> 99.345
+    D4 -> four decimal : 99.345 -> 99.3450
+    ND -> remove decimal dot (no decimal string like radio nav1) : 2312.99 -> 231299
+    I2 -> two fix integer part number with two decimal : 9.23 -> 09.23  
+    I3 -> three fix integer part number with two decimal : 9.23 -> 009.23  
+    I4 -> four fix integer part number with two decimal : 9.23 -> 0009.23  
 
 '''
 
@@ -151,7 +196,7 @@ class XPlanePlugin:
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         '''
         self.json_keys_first_level = 'datarefs'
-        self.json_keys = ['id', 'desc', 'group', 'dataref', 'comment']
+        self.json_keys = ['id', 'desc', 'group', 'dataref', 'xplane_format', 'touch_portal_format', 'comment']
         self.json_keys.sort()
 
         if IS_WINDOWS: self.touch_portal_xplane_json_folder = os.getenv('APPDATA') + '\\TouchPortal\\misc\\xplane\\';
@@ -217,6 +262,9 @@ class XPlanePlugin:
         # keep the address in the connection information package or session data container for TCP/IP exchange
         self.shared_data_container.addr = (self.host,self.port)
 
+        # Keep a dataref and format code for initialization and transfering to server
+        self.datarefs_and_format_list  = []
+
         # Keep a sorted datarefs list that should be working on
         self.datarefs_list = []
         self.nb_entries_datarefs_list = 0
@@ -234,7 +282,7 @@ class XPlanePlugin:
         '''
         # Packet that asks this server for the current dataref value in x-plane (initialization part)  
         self.request_dataref_value = 'request_dataref_value'
-        self.request_dataref_value_paquet = ['command', 'dataref']
+        self.request_dataref_value_paquet = ['command', 'dataref', 'touch_portal_format']
         # Packet for response for the previous request  
         self.response_dataref_value = 'response_dataref_value'
         self.response_dataref_value_paquet = ['command', 'dataref', 'message', 'value']
@@ -336,8 +384,8 @@ class XPlanePlugin:
             successful = self.custom_json_get_dataref_and_set_state()
         
             if successful:
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.custom_json_file_name', json_file_name_without_extension)
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.custom_json_file_name', json_file_name_without_extension)
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '4') # Json loaded
     
                 try:
                     __logger__.info(f'=====================================================================')
@@ -346,7 +394,6 @@ class XPlanePlugin:
 
                     commands_choices_list = []
                     datarefs_choices_list = []
-                    datarefs_list = []
                     
                     # ------------------------------------- 
                     # example for one state for one dataref
@@ -355,22 +402,25 @@ class XPlanePlugin:
                     # "desc": "Adirs IR1",
                     # "group": "OverHead",
                     # "dataref": "AirbusFBW/ADIRUSwitchArray[0]",
+                    # "xplane_format": "",
+                    # "touch_portal_format": "",
                     # "comment": "0 to 2 (0 = OFF, 1 = NAV, 2 = ATT)"
                     # 
                     
-                    # Process each dataref found in states python dictionnary. States data comes from the json file
+                    # Process each dataref found in "states" python dictionnary. Create States data
                     for x in self.states['datarefs']:
-                        description = x['group'] + ' - ' + x['desc']                      # Create a description within a group and desc
-                        self.tp_api.createState(x['id'], description,'0', x['group'])       # Create a TP State for a dataref at runtime
+                        description = x['group'] + ' - ' + x['desc']
+                        self.tp_api.createState(x['id'], description,'0', x['group']) # value = '0'
+                        __logger__.info(f"Create State -> {x['id']}, {description}, '0', {x['group']}")
                         if '[CMD]' in x['dataref']:
-                            commands_choices_list.append(x['desc'])                       # Save command desc for choiceUpdate purpose
-                            __logger__.info(f"commands choices {x['desc']}")
-                            #x['id'] = x['id'].replace('[CMD]', '')                        # Removing [CMD] string from id
-                            #x['dataref'] = x['dataref'].replace('[CMD]', '')              # Removing [CMD] string from dataref
+                            commands_choices_list.append(x['desc'])
+                            __logger__.info(f"Create command choice -> {x['desc']}")
                         else:
-                            datarefs_choices_list.append(x['desc'])                       # Save dataref desc for choiceUpdate purpose
-                            __logger__.info(f"datarefs choices {x['desc']}")
-                        self.datarefs_list.append(x['dataref'])                           # dataref will be use for comparaison
+                            datarefs_choices_list.append(x['desc'])
+                            __logger__.info(f"Create dataref choice -> {x['desc']}")
+                        self.datarefs_list.append(x['dataref'])
+                        dataref_and_format_list = {'dataref': x['dataref'], 'xplane_format': x['xplane_format'], 'touch_portal_format': x['touch_portal_format']}
+                        self.datarefs_and_format_list.append(dataref_and_format_list) 
 
                     __logger__.info(f'Touch Portal dynamic States Created within dataref info')
                     
@@ -379,12 +429,13 @@ class XPlanePlugin:
                     datarefs_choices_list.sort() # Sort options for ease of use in Touch Portal apps
                     
                     if commands_choices_list != []:
-                        __logger__.info("commands_choices_list")
+                        __logger__.info("Append commands_choices_list")
                         self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.command.execute.name', commands_choices_list) # Update action option at runtime
                     
                     if datarefs_choices_list != []:
-                        __logger__.info("datarefs_choices_list")
+                        __logger__.info("Append datarefs_choices_list")
                         self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.set_states.name', datarefs_choices_list) # Update action option at runtime
+                        self.tp_api.choiceUpdate('xplane_plugin_for_touch_portal.dataref.add_value_to_states.name', datarefs_choices_list) # Update action option at runtime
                     
                     __logger__.info(f'Touch Portal Choices have been updated for some action within dataref desc field')
                     
@@ -409,7 +460,7 @@ class XPlanePlugin:
         self.xplane_client_stop_communicate_with_xplane_server()
         
         # Rollback main status to Json Loaded
-        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '4') # Json loaded
+        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '4') # Json loaded
         __logger__.info("touch_portal_client_on_action_stop_communication_with_xplane_server")
 
     def touch_portal_client_on_action_dataref_set_states(self, data):
@@ -417,22 +468,68 @@ class XPlanePlugin:
         Set states value and send it to X-Plane server 
         '''
         try:
+            new_value = data.get('data')[1]['value']
             for x in self.states['datarefs']:
                 if x['desc'] == data.get('data')[0]['value']: # Also, if user never select a choice in Touch Portal
                     
-                    self.tp_api.stateUpdate(x['dataref'],data.get('data')[1]['value']) # Update the value in Touch Portal State
+                    dataref = x['dataref']
+
+                    self.tp_api.stateUpdate(dataref,new_value) # Update the value in Touch Portal State
                     
                     __logger__.info(f"===================")
-                    __logger__.info(f"State Update with : {x['dataref']} with value {data.get('data')[1]['value']}")
+                    __logger__.info(f"State Update with : {dataref} with value {new_value}")
                     __logger__.info(f"===================")
                     
                     message = {}
                     message['command'] = self.request_update_from_touch_portal
-                    message['dataref'] = x['dataref']
-                    message['value'] = data.get('data')[1]['value']
+                    message['dataref'] = dataref
+                    message['value'] = new_value
                     outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
                     self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
                     break
+
+        except Exception as e:
+            error_report = format_exc()
+            raise self.CustomErrorPlugin(f'Other Error for {PLUGIN_ID}\nMessage: {e}\nError report: {error_report}' )
+
+    def touch_portal_client_on_action_dataref_add_value_to_states(self, data):
+        '''
+        Increment state value and send it to X-Plane server 
+        '''
+        try:
+            increment = data.get('data')[1]['value']
+            current_states = self.tp_api.getStatelist() # Get all current states and values
+            for x in self.states['datarefs']:
+                if x['desc'] == data.get('data')[0]['value']: 
+                    
+                    dataref = x['dataref']
+                    
+                    try:
+                        value = current_states[dataref]
+                        float_value = round(float(value),2)
+                        float_increment = round(float(increment),2)
+                        new_value = float_value + float_increment
+                        
+                        ### ON DEVRAIT PRENDRE LE FORMAT DU FICHIER JSON SINON PAR DÉFAUT C'EST 2 DÉCIMAL
+                        self.tp_api.stateUpdate(dataref,"{:.2f}".format(new_value)) # Update the value in Touch Portal State
+                        
+                        __logger__.info(f"===================")
+                        __logger__.info(f"Increment State : {dataref} with value {float_value} and increment {float_increment}")
+                        __logger__.info(f"New value is    : {new_value}")
+                        __logger__.info(f"Typevalue is    : {type(new_value)} = {type(float_value)} + {type(float_increment)}")
+                        __logger__.info(f"===================")
+
+                        message = {}
+                        message['command'] = self.request_update_from_touch_portal
+                        message['dataref'] = dataref
+                        message['value'] = new_value
+                        outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
+                        self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
+                        break
+                    except Exception as e:
+                        error_report = format_exc()
+                        raise self.CustomErrorPlugin(f'Impossible to use this action with a string for {PLUGIN_ID}\nMessage: {e}\nError report: {error_report}' )
+                        break
 
         except Exception as e:
             error_report = format_exc()
@@ -466,7 +563,7 @@ class XPlanePlugin:
         __logger__.info(f'Connected to Touch Portal Version {data.get("tpVersionString", "?")} plugin v {data.get("pluginVersion", "?")})')
         __logger__.info(f'{data}')
 
-        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '2')
+        self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '2')
 
     def touch_portal_client_on_action_process(self, data):
         '''
@@ -481,7 +578,7 @@ class XPlanePlugin:
         match data.get('actionId'):
             case 'xplane_plugin_for_touch_portal.plugin.set_main_status_to':
 
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', data.get('data')[0]['value'])
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', data.get('data')[0]['value'])
 
             case 'xplane_plugin_for_touch_portal.plugin.set_custom_dataref_json_file':
 
@@ -499,7 +596,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Plugin error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '1') # Plugin error
                     '''
                     Main exception for the Customized Json
                     '''
@@ -508,7 +605,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '3') # Customized Json error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '3') # Customized Json error
 
             case 'xplane_plugin_for_touch_portal.plugin.start_communication_with_server':
 
@@ -532,7 +629,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '5') # X-Plane Server error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '5') # X-Plane Server error
 
             case 'xplane_plugin_for_touch_portal.dataref.set_states':
 
@@ -549,7 +646,24 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '1') # Customized Json error
+
+            case 'xplane_plugin_for_touch_portal.dataref.add_value_to_states':
+
+                try:
+                    __logger__.info(f'============================================================')
+                    __logger__.info(f'ACTION: add value to variable and send to the X-Plane server')
+                    __logger__.info(f'============================================================')
+                    self.touch_portal_client_on_action_dataref_add_value_to_states(data)
+                    '''
+                    Exception for the plugin
+                    '''
+                except self.CustomErrorPlugin as e:
+                    __logger__.error(f'ERROR -> XPLANE PLUGIN FOR TOUCH PORTAL')
+                    error_messages = str(e).split('\n')
+                    for error_message in error_messages:
+                        __logger__.error(f'ERROR -> {error_message}')
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '1') # Customized Json error
 
             case 'xplane_plugin_for_touch_portal.command.execute':
 
@@ -566,7 +680,7 @@ class XPlanePlugin:
                     error_messages = str(e).split('\n')
                     for error_message in error_messages:
                         __logger__.error(f'ERROR -> {error_message}')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '1') # Customized Json error
 
             case _:
                 '''
@@ -578,7 +692,7 @@ class XPlanePlugin:
                 error_messages = str(e).split('\n')
                 for error_message in error_messages:
                     __logger__.error(f'ERROR -> {error_message}')
-                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '1') # Customized Json error
+                self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '1') # Customized Json error
 
     def touch_portal_client_on_shutdown_process(self, data):
         '''
@@ -659,7 +773,7 @@ class XPlanePlugin:
         '''
         try:
             message_object = json.loads(message_decode)
-            __logger__.info(f'{message_object}')
+            #__logger__.info(f'{message_object}')
             keys = list(message_object.keys())
             keys.sort()
 
@@ -667,7 +781,7 @@ class XPlanePlugin:
             # N.B: update the states in Touch Portal later from theses ingoing dataref values
             if message_object['command'] == self.response_dataref_value and keys == self.response_dataref_value_paquet:
 
-                #__logger__.info(f'Message from the server: {message_object["message"]}')
+                __logger__.info(f'INITIALIZATION dataref: {message_object["dataref"]} and value: {message_object["value"]}')
                 self.datarefs_list_initialized.append(message_object['dataref'])
                 self.datarefs_and_values_dictionary.update({message_object['dataref']:message_object['value']})
 
@@ -678,8 +792,8 @@ class XPlanePlugin:
 
             # Process a reponse in case a dataref value has been updated in Touch Portal 
             elif message_object['command'] == self.response_update_from_touch_portal and keys == self.response_update_from_touch_portal_paquet:
-
-                __logger__.info(f'Message from the server: {message_object["message"]}')
+                pass
+                #__logger__.info(f'Message from the server: {message_object["message"]}')
 
             # Process a request from the server concerning because a dataref value has been updated in X-Plane    
             elif message_object['command'] == self.request_update_from_x_plane and keys == self.request_update_from_x_plane_paquet:
@@ -687,9 +801,9 @@ class XPlanePlugin:
                 dataref = message_object['dataref']
                 value = message_object['value']
                 self.tp_api.stateUpdate(dataref,value)
-                __logger__.info(f"===================")
-                __logger__.info(f"State Update with : {dataref} with value {value}")
-                __logger__.info(f"===================")
+                #__logger__.info(f"===================")
+                #__logger__.info(f"State Update with : {dataref} with value {value}")
+                #__logger__.info(f"===================")
                 # Send a response to the server
                 message = {}
                 message['command'] = self.response_update_from_x_plane
@@ -699,8 +813,8 @@ class XPlanePlugin:
 
             # Process a reponse in case a dataref value has been updated in Touch Portal 
             elif message_object['command'] == self.response_update_from_x_plane and keys == self.response_update_from_x_plane_paquet:
-
-                __logger__.info(f'Message from the server: {message_object["message"]}')
+                pass
+                #__logger__.info(f'Message from the server: {message_object["message"]}')
 
             # Process a reponse in case a dataref value has been updated in Touch Portal 
             elif message_object['command'] == self.response_command_for_touch_portal and keys == self.response_command_for_touch_portal_paquet:
@@ -751,27 +865,29 @@ class XPlanePlugin:
                         if not message_decode:
                             continue # probably catch only the delimiter
                         else: 
-                            print(f"ATTENTION MESSAGE DECODE = {message_decode}")
+                            #print(f"ATTENTION MESSAGE DECODE = {message_decode}")
                             self.xplane_client_managing_received_data(message_decode)
                 else:
                     raise # Bubbling the exception
 
         if mask & selectors.EVENT_WRITE:
             if data.outb:
-                __logger__.info(f"send {data.outb} à {data.addr}")
+                #__logger__.info(f"send {data.outb} à {data.addr}")
                 sent = server_socket.send(data.outb)  
                 data.outb = data.outb[sent:]
 
     def xplane_client_treat_init_phase(self):
         '''
-        Send each dataref that come from the json file to the X-Plane server for receiving it's value
+        Send each dataref + touch_portal_format that come from the json file to the X-Plane server for receiving it's value
+        within or without format. By default, the value format for each float data is set with two decimal only
         '''
         if not self.init_phase_done.is_set():
-            for dataref in self.datarefs_list:
+            for item in self.datarefs_and_format_list:
                 # Prepare a request_dataref_value for the X-Plane server
                 message = {}
                 message['command'] = self.request_dataref_value
-                message['dataref'] = dataref
+                message['dataref'] = item['dataref']
+                message['touch_portal_format'] = item['touch_portal_format']
                 outgoing_message = json.dumps(message) + MESSAGE_DELIMITER
                 self.shared_data_container.outb += outgoing_message.encode('utf-8')                    
 
@@ -798,7 +914,7 @@ class XPlanePlugin:
                         one_value = value
                         self.tp_api.stateUpdate(one_id,one_value)
                     __logger__.info(f'State update completed for the initialization part')
-                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.state.main_status', '6') # Successful Communication
+                    self.tp_api.stateUpdate('xplane_plugin_for_touch_portal.plugin.main_status', '6') # Successful Communication
                     self.init_phase_running.clear()
                 else:
                     __logger__.error(f'There are initialization problem')
