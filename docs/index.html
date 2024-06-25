@@ -1,0 +1,333 @@
+<!--
+    ============================================
+    html page for custom datarefs json generator
+    ============================================
+    
+    This file is part of the XPlaneTouchPortalPlugin project.
+    Copyright (c) XPlaneTouchPortalPlugin Developers/Contributors
+    Copyright (C) 2024 Coussini
+    All rights reserved.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="custom-datarefs-json-generator.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="custom-datarefs-json-generator.js"></script>
+    <title>Custom datarefs json generator form for Touch-Portal and X-Plane</title>
+</head>
+<body>
+    <div class="">
+        <h4>Custom datarefs json generator</h4>
+        <figure>
+            <blockquote class="blockquote">
+                <p>How it's working ?</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                (1) Please fill out the form bellow.
+            </figcaption>
+            <figcaption class="blockquote-footer">
+                (2) Press <span class="badge text-bg-primary">Add dataref to result</span> to validate & insert the form
+                fields into the result box as JSON format
+            </figcaption>
+            <figcaption class="blockquote-footer">
+                (3) You can edit the result box as you wish
+            </figcaption>
+            <figcaption class="blockquote-footer">
+                (4) At the end, check the check box near the <span class="badge text-bg-primary">check me before
+                    saving</span> button, then press <span class="badge text-bg-primary">saving to dataref.json</span>
+            </figcaption>
+        </figure>
+        <div class="row">
+            <div class="col-5">
+                <form id="left-form" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="group">Dataref Name</label>
+                                <a data-bs-toggle="collapse" href="#collapseDatarefDatarefName" aria-expanded="false"
+                                    aria-controls="collapseDatarefDatarefName">
+                                    Toogle me
+                                </a>
+                                <div class="collapse" id="collapseDatarefDatarefName">
+                                    <div class="card card-body">
+                                        <p>To determine which datarefs to choose, use the 
+                                            <a href="https://datareftool.com/" target="_blank">DatarefTool</a>. 
+                                            Please note that some datarefs are used exclusively by certain aircraft.</p>
+                                        <p>Dataref types are either Int (integer), Float, Double, FloatArray (an array
+                                            containing several data of type Float), IntArray (an array of type Int) or
+                                            Data (containing one to many characters).</p>
+                                        <p>From DatarefTool, click once on a dataref from the list, then click on the
+                                            "copy name" button. This will copy the name to the clipboard.</p>
+                                        <p>If you copy a FloatArray or IntArray dataref, don't forget to include its
+                                            index number, otherwise it won't work in the plugin.</p>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button id="paste" class="btn btn-outline-primary" type="button"
+                                            onclick="paste_dataref()">Paste</button>
+                                    </div>
+                                    <input type="text" class="form-control" id="dataref" placeholder="dataref name"
+                                        aria-describedby="datarefHelp" style="font-size: 13px;" required>
+                                </div>
+                                <small id="datarefHelp" class="form-text text-muted">For example
+                                    sim/aircraft/view/acf_author</small>
+                            </div>
+                            <div class="col-4">
+                                <label for="group">Index</label>
+                                <a data-bs-toggle="collapse" href="#collapseIndex" aria-expanded="false"
+                                    aria-controls="collapseIndex">
+                                    Toogle me
+                                </a>
+                                <div class="collapse" id="collapseIndex">
+                                    <div class="card card-body">
+                                        <p>The first index of an array is always 0, not 1. <strong>Leave blank if this is a dataref without index or if it's a command</strong></p>
+                                    </div>
+                                </div>
+                                <input type="number" id="index" min="0" class="form-control"
+                                    aria-describedby="indexHelp">
+                                <small id="indexHelp" class="form-text text-muted">Index start to 0</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Dataref Description</label>
+                        <a data-bs-toggle="collapse" href="#collapseDatarefDescription" aria-expanded="false"
+                            aria-controls="collapseDatarefDescription">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseDatarefDescription">
+                            <div class="card card-body">
+                                <p>it's essential to give a clear and concise description. This description will be used
+                                    in a list of choices and may be linked to a button in touch portal.</p>
+                                <p>For example, we'd like to create a touch portal button to turn on the external
+                                    lights. We'll have to choose from a list, the dataref name that will be associated
+                                    with this button. A good name for this example would be "external light".</p>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="desc" placeholder="dataref description"
+                            aria-describedby="descHelp" required>
+                        <small id="descHelp" class="form-text text-muted">Important term associated with choices in
+                            Touch Portal</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Group</label>
+                        <a data-bs-toggle="collapse" href="#collapseGroup" aria-expanded="false"
+                            aria-controls="collapseGroup">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseGroup">
+                            <div class="card card-body">
+                                <p>The group name is used to group datarefs under a category.</p>
+                                <p>For example, if you create a touch portal button to turn for the external lights, a
+                                    good name for this group could be "Lights".</p>
+                                <p>If you use too many different groups in touch-portal, you may have trouble finding a
+                                    dataref description. Limit yourself to just a few groups for your project.</p>
+                            </div>
+                        </div>
+                        <select class="form-control" id="group" aria-describedby="groupHelp" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>Anti-Icing</option>
+                            <option>APU</option>
+                            <option>ATC</option>
+                            <option>AutoPilot</option>
+                            <option>Avionics</option>
+                            <option>Brakes</option>
+                            <option>Camera</option>
+                            <option>CaptainPanel</option>
+                            <option>CenterPanel</option>
+                            <option>CircuitBreakers</option>
+                            <option>Command</option>
+                            <option>Command_3</option>
+                            <option>Communication</option>
+                            <option>Display</option>
+                            <option>ECAM</option>
+                            <option>EFCS</option>
+                            <option>Electrical</option>
+                            <option>Engine</option>
+                            <option>Environment</option>
+                            <option>Failures</option>
+                            <option>FireControls</option>
+                            <option>FirstOfficerPanel</option>
+                            <option>FlightControls</option>
+                            <option>FlightInstruments</option>
+                            <option>FlightSystems</option>
+                            <option>Fuel</option>
+                            <option>GlareShield</option>
+                            <option>HydraulicSystem</option>
+                            <option>Landing</option>
+                            <option>Lights</option>
+                            <option>MainInstrument</option>
+                            <option>Maintenance</option>
+                            <option>MCDU</option>
+                            <option>Miscellaneous</option>
+                            <option>Navigation</option>
+                            <option>Oil</option>
+                            <option>Other</option>
+                            <option>Overhead</option>
+                            <option>Pedestal</option>
+                            <option>Propeller</option>
+                            <option>Propulsion</option>
+                            <option>Pump</option>
+                            <option>Radar</option>
+                            <option>Radio</option>
+                            <option>SimSystem</option>
+                            <option>Slider</option>
+                            <option>Throttle</option>
+                            <option>Turbine</option>
+                            <option>View</option>
+                        </select>
+                        <small id="groupHelp" class="form-text text-muted">Is important into Touch Portal for grouping
+                            choices</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="group">Comment</label>
+                        <a data-bs-toggle="collapse" href="#collapseComment" aria-expanded="false"
+                            aria-controls="collapseComment">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseComment">
+                            <div class="card card-body">
+                                <p>Use the comment box to list each dataref value and its meaning.</p>
+                                <p>For example 0="open", 1="close". This comment will be entered in the json file, which
+                                    will eventually be saved. When creating buttons in touch-portal, it will be useful
+                                    to use this information.</p>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="comment" placeholder="put a comment"
+                            aria-describedby="commentHelp" required>
+                        <small id="commentHelp" class="form-text text-muted">Use a comment to list the values used by
+                            this dataref</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="group">Touch Portal Format</label>
+                        <a data-bs-toggle="collapse" href="#collapseFormat" aria-expanded="false"
+                            aria-controls="collapseFormat">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseFormat">
+                            <div class="card card-body">
+                                <p>This <strong>OPTIONAL</strong> field in Touch Portal is used to display or manage data received from x-plane in a specific format</p>
+                                <p>For example, the dataref <strong>sim/cockpit/radios/nav1_freq_hz</strong> has an integer value consisting of five digits, such as <strong>11225</strong>. To display this frequency correctly, we use the <strong>D2</strong> (decimal 2) format, which converts this integer value into a floating-point format with two decimal places, resulting in <strong>112.25</strong></p>
+                            </div>
+                        </div>
+                        <select class="form-control helperDescription" id="TouchPortalFormat" aria-describedby="groupTouchPortalFormat">
+                            <option selected disabled value="">Choose...</option>
+                            <option value="D1" helper-description="D1 = If originally there is a field with 2 decimals, the result will be this field with the last decimal truncated. 99.35 -> 99.3">D1</option>
+                            <option value="D2" helper-description="D2 = If originally there is a integer value consisting of five digits, the result will be this field with two decimal. 11225 -> 112.25">D2</option>
+                            <option value="D3" helper-description="D3 = If originally there is a integer value consisting of six digits, the result will be this field with three decimal. 126400 -> 126.400">D3</option>                            
+                            <option value="ND" helper-description="ND = If originally there is a field with 2 decimals, the result will be this field without dot (no decimal dot). 2312.99 -> 231299">ND</option>                            
+                            <option value="I2" helper-description="I2 = If originally there is a field with 2 decimals, the result will be formatted to maintain a fixed length of 5 characters, including two digits for the integer part, one decimal point, and two digits for the decimal part. For example, 9.23 becomes 09.23">I2</option>                            
+                            <option value="I3" helper-description="I3 = If originally there is a field with 2 decimals, the result will be formatted to maintain a fixed length of 6 characters, including three digits for the integer part, one decimal point, and two digits for the decimal part. For example, 9.23 becomes 009.23">I3</option>                            
+                            <option value="I4" helper-description="I4 = If originally there is a field with 2 decimals, the result will be formatted to maintain a fixed length of 7 characters, including four digits for the integer part, one decimal point, and two digits for the decimal part. For example, 9.23 becomes 0009.23">I4</option>                            
+                        </select>
+                        <span id="helperDescriptionText" class="form-text text-muted"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateMinValue">Lever Minimum Value</label>
+                        <a data-bs-toggle="collapse" href="#collapseUpdateMinimumValue" aria-expanded="false"
+                            aria-controls="collapseUpdateMinimumValue">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseUpdateMinimumValue">
+                            <div class="card card-body">
+                                <p>This <strong>OPTIONAL</strong> field represents the minimum dataref value for a <strong>lever control.</strong> During processing, the server analyzes the requested data fields, and if one of the values changes from the previous value, special processing takes place. For a minimum value of 0 and a maximum value of 1, the server will create intermediate values based on these two values. <br>The result will be "0, 0.25, 0.50, 0.75 and 1"</p>
+                            </div>
+                        </div>
+                        <input type="number" id="UpdateMinimumValue" step="0.01" min="0" class="form-control" aria-describedby="UpdateMinimumValueHelp">
+                        <small id="updateMinValueHelp" class="form-text text-muted">Minimum dataref valeur for a lever control</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateMaxValue">Lever Maximum Value</label>
+                        <a data-bs-toggle="collapse" href="#collapseUpdateMaximumValue" aria-expanded="false"
+                            aria-controls="collapseUpdateMaximumValue">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseUpdateMaximumValue">
+                            <div class="card card-body">
+                                <p>This <strong>OPTIONAL</strong> field represents the maximum dataref value for a <strong>lever control.</strong> During processing, the server analyzes the requested data fields, and if one of the values changes from the previous value, special processing takes place. For a minimum value of 0 and a maximum value of 1, the server will create intermediate values based on these two values. <br>The result will be "0, 0.25, 0.50, 0.75 and 1"</p>
+                            </div>
+                        </div>
+                        <input type="number" id="UpdateMaximumValue" step="0.01" min="0" class="form-control" aria-describedby="UpdateMaximumValueHelp">
+                        <small id="updateMaxValueHelp" class="form-text text-muted">Maximum dataref valeur for a lever control</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="group">Accelerated Control Category for Hold Button Behavior</label>
+                        <a data-bs-toggle="collapse" href="#collapseAcceleratedControl" aria-expanded="false"
+                            aria-controls="collapseAcceleratedControl">
+                            Toogle me
+                        </a>
+                        <div class="collapse" id="collapseAcceleratedControl">
+                            <div class="card card-body">
+                                <p>This <strong>OPTIONAL</strong> field is for any hold button behavior. With this control, you can increment or decrement a value, just as you can on a digital device (such as a digital clock). When you hold down a button, the increments or decrements become faster and faster.</p>
+                            </div>
+                        </div>
+                        <select class="form-control helperDescription" id="AcceleratedControl" aria-describedby="groupAcceleratedControl">
+                            <option selected disabled value="">Choose...</option>
+                            <option value="degree" helper-description="The degree category manages degree increments so, when a value of 359.99 is reached, the value changes to 0, and so on. The reverse is true for decrements. For exemple,You can ajust an heading bug \n, a course deviation for a VOR or an ILS, ">Degree</option>
+                            <option value="altitude" helper-description="D2 = If originally there is a integer value consisting of five digits, the result will be this field with two decimal. 11225 -> 112.25">Altitude</option>
+                        </select>
+                        <span id="helperDescriptionText" class="form-text text-muted"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="add-dataref" class="btn btn-primary">add dataref to result</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-7">
+                <div id="danger-alert" class="alert alert-danger alert-dismissible" style="display:none" role="alert">
+                    <button type="button" class="btn-close" onclick="close_alert_box()"></button>
+                    <span id="alert-message"></span>
+                </div>                
+                <div class="form-group">
+                    <label for="desc">result</label>
+                    <a data-bs-toggle="collapse" href="#collapseResult" aria-expanded="false"
+                        aria-controls="collapseResult">
+                        Toogle me
+                    </a>
+                    <div class="collapse" id="collapseResult">
+                        <div class="card card-body">
+                            <p>when there are results, you can editing its contents and save the result in a file.</p>
+                            <p>Pay particular attention to the syntax, which must be in JSON format.</p>
+                        </div>
+                    </div>
+                    <textarea class="form-control" id="result-list" aria-describedby="resultListHelp" disabled style="font-size: 13px;"></textarea>
+                    <small id="resultListHelp" class="form-text text-muted">Pay particular attention to the syntax, which must be in JSON format.</small>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="checkme" onclick="evaluate_checkbox()" disabled="disabled" />
+                    <button type="button" class="btn btn-primary" id="save" onclick="download_file()" disabled>check me
+                        before saving</button>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="dataref">group list</label>
+                    <textarea class="form-control" id="group-list" aria-describedby="groupListHelp" disabled></textarea>
+                    <small id="groupListHelp" class="form-text text-muted">This is a list of your selected group. Limit
+                        yourself to just a few groups for your project.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

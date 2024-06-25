@@ -1,0 +1,546 @@
+{
+   "sdk":4,
+   "version":100,
+   "name":"xplane plugin for touch portal",
+   "id":"xplane_plugin_for_touch_portal",
+   "configuration":{
+      "colorDark":"#212121",
+      "colorLight":"#0090ff",
+      "parentCategory":"games"
+   },
+   "plugin_start_cmd":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.exe",
+   "categories":[
+      {
+         "id":"xplane_plugin_for_touch_portal.PLUGIN",
+         "name":"X-Plane - PLUGIN",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.PLUGIN.set_is_connected_to",
+               "name":"PLUGIN - Set Is Connected to",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F PLUGIN - Set Is Connected To:{$xplane_plugin_for_touch_portal.PLUGIN.is_connected_to.status$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.PLUGIN.is_connected_to.status",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"No",
+                     "valueChoices":["Yes","No"]
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.PLUGIN.set_main_status_to",
+               "name":"PLUGIN - Set Main Status to",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F PLUGIN - Set Main Status To:{$xplane_plugin_for_touch_portal.PLUGIN.set_main_status_to.status$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.PLUGIN.set_main_status_to.status",
+                     "type":"text",
+                     "label":"value",
+                     "default":"0"
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.PLUGIN.set_custom_dataref_json_file",
+               "name":"PLUGIN - Set Custom Dataref Json File",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F PLUGIN - Set Custom Json File:{$xplane_plugin_for_touch_portal.PLUGIN.set_custom_dataref_json_file.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.PLUGIN.set_custom_dataref_json_file.name",
+                     "type":"text",
+                     "label":"value",
+                     "default":"default.json"
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.PLUGIN.start_communication_with_server",
+               "name":"PLUGIN - Start Communication With XPlane Server",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F PLUGIN - Start Communication With X-Plane Server:{$xplane_plugin_for_touch_portal.PLUGIN.start_communication_with_server.value$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.PLUGIN.start_communication_with_server.value",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"No",
+                     "valueChoices":["Yes","No"]
+                  }
+               ]
+            }
+         ],
+         "states":[
+            {
+               "id":"xplane_plugin_for_touch_portal.CONNEXION.is_connected",
+               "type":"text",
+               "desc":"CONNEXION - Is connected (Yes or No)",
+               "default":"No"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.CONNEXION.main_status",
+               "type":"text",
+               "desc":"CONNEXION - Main Status (0-6 = Status)",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.CONNEXION.custom_json_file_name",
+               "type":"text",
+               "desc":"CONNEXION - Custom Datarefs Json File Name",
+               "default":"default.json"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.COMPUTED.current_pilot_hpa.value",
+               "type":"text",
+               "desc":"COMPUTED - Current Pilot Barometer HPA Value",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.COMPUTED.current_copilot_hpa.value",
+               "type":"text",
+               "desc":"COMPUTED - Current Co-pilot Barometer HPA Value",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.COMPUTED.current_standard_hpa.value",
+               "type":"text",
+               "desc":"COMPUTED - Current Standard Barometer HPA Value",
+               "default":"0"
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.TOGGLE.is_standard_barometer.value",
+               "type":"text",
+               "desc":"TOGGLE - Is Standard Barometer (Yes or No)",
+               "default":"Yes"
+            }
+         ]
+      },
+      {
+         "id":"xplane_plugin_for_touch_portal.DATAREF",
+         "name":"X-Plane - DATAREF",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.DATAREF.set_states",
+               "name":"DATAREF - Set Variable Value",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F DATAREF - Set Variable Named:{$xplane_plugin_for_touch_portal.DATAREF.set_states.name$} to value:{$xplane_plugin_for_touch_portal.DATAREF.set_states.value$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.set_states.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.set_states.value",
+                     "type":"text",
+                     "label":"value",
+                     "default":"0"
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_degree",
+               "name":"DATAREF - Accelerated Control For DEGREE category",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F DATAREF - Accelerated Control For DEGREE category For Variable Named:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.name$} With adjustment mode:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.adjustment_mode$} With Update mode:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.update_mode$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.adjustment_mode",
+                     "type":"choice",
+                     "label":"adjustment mode",
+                     "default":"increment",
+                     "valueChoices":["increment","decrement"]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_degree.update_mode",
+                     "type":"choice",
+                     "label":"update mode",
+                     "default":"now",
+                     "valueChoices":["now","as soon as you release the button"]
+                  }
+               ]
+            },
+            {
+               "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude",
+               "name":"DATAREF - Accelerated Control For ALTITUDE category",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F DATAREF - Accelerated Control For ALTITUDE category For Variable Named:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.name$} with adjustment mode:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.adjustment_mode$} With Update mode:{$xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.update_mode$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.adjustment_mode",
+                     "type":"choice",
+                     "label":"adjustment mode",
+                     "default":"increment",
+                     "valueChoices":["increment","decrement"]
+                  },
+                  {
+                     "id":"xplane_plugin_for_touch_portal.DATAREF.accelerated_altitude.update_mode",
+                     "type":"choice",
+                     "label":"update mode",
+                     "default":"now",
+                     "valueChoices":["now","as soon as you release the button"]
+                  }
+               ]
+            }
+         ],
+         "connectors":[
+            {
+               "id":"DATAREF.slider_1",
+               "name":"DATAREF - Control Slider_1",
+               "format":"\u202F DATAREF - Control Slider_1 Has Been Assigned to:{$DATAREF.slider_1.name$} for the current page:{$DATAREF.slider_1.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_1.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_1.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_2",
+               "name":"DATAREF - Control Slider_2",
+               "format":"\u202F DATAREF - Control Slider_2 Has Been Assigned to:{$DATAREF.slider_2.name$} for the current page:{$DATAREF.slider_2.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_2.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_2.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_3",
+               "name":"DATAREF - Control Slider_3",
+               "format":"\u202F DATAREF - Control Slider_3 Has Been Assigned to:{$DATAREF.slider_3.name$} for the current page:{$DATAREF.slider_3.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_3.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_3.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_4",
+               "name":"DATAREF - Control Slider_4",
+               "format":"\u202F DATAREF - Control Slider_4 Has Been Assigned to:{$DATAREF.slider_4.name$} for the current page:{$DATAREF.slider_4.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_4.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_4.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_5",
+               "name":"DATAREF - Control Slider_5",
+               "format":"\u202F DATAREF - Control Slider_5 Has Been Assigned to:{$DATAREF.slider_5.name$} for the current page:{$DATAREF.slider_5.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_5.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_5.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_6",
+               "name":"DATAREF - Control Slider_6",
+               "format":"\u202F DATAREF - Control Slider_6 Has Been Assigned to:{$DATAREF.slider_6.name$} for the current page:{$DATAREF.slider_6.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_6.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_6.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_7",
+               "name":"DATAREF - Control Slider_7",
+               "format":"\u202F DATAREF - Control Slider_7 Has Been Assigned to:{$DATAREF.slider_7.name$} for the current page:{$DATAREF.slider_7.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_7.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_7.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_8",
+               "name":"DATAREF - Control Slider_8",
+               "format":"\u202F DATAREF - Control Slider_8 Has Been Assigned to:{$DATAREF.slider_8.name$} for the current page:{$DATAREF.slider_8.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_8.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_8.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_9",
+               "name":"DATAREF - Control Slider_9",
+               "format":"\u202F DATAREF - Control Slider_9 Has Been Assigned to:{$DATAREF.slider_9.name$} for the current page:{$DATAREF.slider_9.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_9.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_9.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_10",
+               "name":"DATAREF - Control Slider_10",
+               "format":"\u202F DATAREF - Control Slider_10 Has Been Assigned to:{$DATAREF.slider_10.name$} for the current page:{$DATAREF.slider_10.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_10.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_10.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_11",
+               "name":"DATAREF - Control Slider_11",
+               "format":"\u202F DATAREF - Control Slider_11 Has Been Assigned to:{$DATAREF.slider_11.name$} for the current page:{$DATAREF.slider_11.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_11.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_11.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            },
+            {
+               "id":"DATAREF.slider_12",
+               "name":"DATAREF - Control Slider_12",
+               "format":"\u202F DATAREF - Control Slider_12 Has Been Assigned to:{$DATAREF.slider_12.name$} for the current page:{$DATAREF.slider_12.cur_page$}",
+               "data":[
+                  {
+                     "id":"DATAREF.slider_12.name",
+                     "type":"choice",
+                     "label":"dataref name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  },
+                  {
+                     "id":"DATAREF.slider_12.cur_page",
+                     "type":"choice",
+                     "label":"current page",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]               
+            }
+         ],
+         "states":[]
+      },
+      {
+         "id":"xplane_plugin_for_touch_portal.COMMAND",
+         "name":"X-Plane - COMMAND",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.COMMAND.execute",
+               "name":"COMMAND - Execute A Command",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F COMMAND - Execute Named:{$xplane_plugin_for_touch_portal.COMMAND.execute.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.COMMAND.execute.name",
+                     "type":"choice",
+                     "label":"command name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]
+            }
+         ],
+         "states":[]
+      },
+      {
+         "id":"xplane_plugin_for_touch_portal.COMMAND_3",
+         "name":"X-Plane - COMMAND_3",
+         "imagepath":"%TP_PLUGIN_FOLDER%xplane_plugin_for_touch_portal/xplane_plugin_for_touch_portal.png",
+         "actions":[
+            {
+               "id":"xplane_plugin_for_touch_portal.COMMAND_3.execute",
+               "name":"COMMAND_3 - Execute A Command",
+               "prefix":"XPlane",
+               "type":"communicate",
+               "tryInline":true,
+               "hasHoldFunctionality":true,
+               "description":"",
+               "format":"\u202F COMMAND_3 - Execute Named:{$xplane_plugin_for_touch_portal.COMMAND_3.execute.name$}",
+               "data":[
+                  {
+                     "id":"xplane_plugin_for_touch_portal.COMMAND_3.execute.name",
+                     "type":"choice",
+                     "label":"command name",
+                     "default":"--Select Something--",
+                     "valueChoices":[]
+                  }
+               ]
+            }
+         ],
+         "states":[]
+      }
+   ]
+}
