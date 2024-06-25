@@ -1,6 +1,6 @@
 # Plugin X-Plane pour Touch Portal
 
-![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/assets/5262785/206080e9-4070-4172-a2d0-d7085f8a83dd)
+![XPlaneTouchPortalPlugin logo](assets/XPlaneTouchPortalPlugin.png)
 
 **For the English version, refer to the README.md file.**
 
@@ -192,8 +192,8 @@ Offre la possibilité d'obtenir régulièrement les valeurs des datarefs, comme 
 
 ## PAGES DE DÉMO
 ### Page 1
-![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/Cessna%20172%20G1000_1.PNG)
+![XPlaneTouchPortalPlugin Page 1](assets/Cessna 172 G1000_1.png)
 ### Page 2
-![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/Cessna%20172%20G1000_2.PNG)
+![XPlaneTouchPortalPlugin Page 2](assets/Cessna 172 G1000_2.png)
 ### Page 3
-![XPlaneTouchPortalPlugin](https://github.com/coussini/XPlaneTouchPortalPlugin/blob/main/Cessna%20172%20G1000_3.PNG)
+![XPlaneTouchPortalPlugin Page 3](assets/Cessna 172 G1000_3.png)
