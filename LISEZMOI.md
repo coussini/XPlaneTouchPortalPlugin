@@ -192,8 +192,8 @@ Offre la possibilité d'obtenir régulièrement les valeurs des datarefs, comme 
 
 ## PAGES DE DÉMO
 ### Page 1
-![XPlaneTouchPortalPlugin Page 1](assets/Cessna 172 G1000_1.png)
+![XPlaneTouchPortalPlugin Page 1](assets/Cessna 172 G1000_1.PNG)
 ### Page 2
-![XPlaneTouchPortalPlugin Page 2](assets/Cessna 172 G1000_2.png)
+![XPlaneTouchPortalPlugin Page 2](assets/Cessna 172 G1000_2.PNG)
 ### Page 3
-![XPlaneTouchPortalPlugin Page 3](assets/Cessna 172 G1000_3.png)
+![XPlaneTouchPortalPlugin Page 3](assets/Cessna 172 G1000_3.PNG)
