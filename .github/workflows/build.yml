@@ -36,7 +36,6 @@ jobs:
         run: |
           DIR .\client
 
-          - name: UPLOAD DU TPP DANS CLIENT
       # ÉTAPE 6 : Copier le fichier TPP dans le répertoire client du repository
       - name: TELEVERSEMENT DU TPP DANS CLIENT DU REPOSITORY
         uses: svenstaro/upload-release-action@v2
