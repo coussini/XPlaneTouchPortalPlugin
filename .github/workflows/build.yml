@@ -31,8 +31,7 @@ jobs:
         run: |
           python3 client/xplane_plugin_for_touch_portal_build.py
 
-      # ÉTAPE 5 : Affichage de la structure du répertoire Better Raids
-      - name: AFFICHAGE DE LA STRUCTURE DES REPERTOIRES RESULTANTS
+      # ÉTAPE 5 : Affichage des résultats dans client
+      - name: AFFICHAGE DES RESULTATS DANS CLIENT
         run: |
-          Get-ChildItem -Directory -Recurse $env:Python_ROOT_DIR
-        shell: pwsh
+          DIR .\client
