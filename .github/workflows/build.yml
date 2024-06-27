@@ -34,4 +34,4 @@ jobs:
       # ÉTAPE 5 : Vérification du répertoire résultant
       - name: VERIFICATION DU REPERTOIRE RESULTANT
         run: |
-          dir ./Better\ Raids
+          dir .\Better Raids
