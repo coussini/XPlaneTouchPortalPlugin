@@ -31,7 +31,7 @@ jobs:
         run: |
           python3 client/xplane_plugin_for_touch_portal_build.py
 
-      # ÉTAPE 5 : Affichage de la structure des fichiers et répertoires
-      - name: AFFICHAGE DE LA STRUCTURE DES FICHIERS ET REPERTOIRES
+      # ÉTAPE 5 : Affichage de la structure du répertoire Better Raids
+      - name: AFFICHAGE DE LA STRUCTURE DU REPERTOIRE Better Raids
         run: |
-          tree .\Better Raids  # Utilisation de tree pour afficher la structure sous Linux/macOS
+          tree .\Better Raids  # Utilisation de tree pour afficher la structure sous Windows
