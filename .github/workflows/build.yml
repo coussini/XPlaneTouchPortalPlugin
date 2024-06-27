@@ -34,4 +34,4 @@ jobs:
       # ÉTAPE 5 : Affichage de la structure du répertoire Better Raids
       - name: AFFICHAGE DE LA STRUCTURE DU REPERTOIRE Better Raids
         run: |
-          dir # Utilisation de tree pour afficher la structure sous Windows
+          dir .\client # Utilisation de tree pour afficher la structure sous Windows
