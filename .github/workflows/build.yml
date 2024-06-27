@@ -24,6 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller  # Installation de PyInstaller
           pip install pillow       # Installation de Pillow
-          pip install -r examplePlugin/requirements.txt  # Installation des dépendances depuis requirements.txt
+          pip install -r requirements.txt  # Installation des dépendances depuis requirements.txt
 
 # Les étapes suivantes (comme la construction et le téléchargement) ne sont pas incluses dans ce résumé.
