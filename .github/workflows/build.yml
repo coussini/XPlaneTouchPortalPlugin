@@ -34,4 +34,4 @@ jobs:
       # ÉTAPE 5 : Affichage de la structure des fichiers et répertoires
       - name: AFFICHAGE DE LA STRUCTURE DES FICHIERS ET REPERTOIRES
         run: |
-          tree ./Better Raids  # Utilisation de tree pour afficher la structure sous Linux/macOS
+          tree .\Better Raids  # Utilisation de tree pour afficher la structure sous Linux/macOS
