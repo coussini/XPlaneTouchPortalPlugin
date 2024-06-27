@@ -9,17 +9,17 @@ jobs:
 
     steps:
       # Étape 1 : Récupération du code source du dépôt
-      - name: Checkout code
+      - name: RECUPERATION DU REPERTOIRE
         uses: actions/checkout@v3
       
       # Étape 2 : Configuration de Python 3.12
-      - name: Set up Python 3.12
+      - name: CONFIGURATION DE PYTHON 3.12
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
       
       # Étape 3 : Installation des dépendances Python
-      - name: Install dependencies
+      - name: INSTALLATION DES DEPENDANCES PYTHON
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller  # Installation de PyInstaller
