@@ -40,7 +40,7 @@ jobs:
       - name: TELEVERSEMENT DU TPP DANS CLIENT DU REPOSITORY
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.RELEASE_UPLOAD_TOKEN }}
           file: "./client/*.tpp"
           overwrite: true
           file_glob: true
