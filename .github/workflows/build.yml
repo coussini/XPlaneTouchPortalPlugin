@@ -35,3 +35,13 @@ jobs:
       - name: AFFICHAGE DES RESULTATS DANS CLIENT
         run: |
           DIR .\client
+
+          - name: UPLOAD DU TPP DANS CLIENT
+      # ÉTAPE 6 : Copier le fichier TPP dans le répertoire client du repository
+      - name: TELEVERSEMENT DU TPP DANS CLIENT DU REPOSITORY
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "./client/*.tpp"
+          overwrite: true
+          file_glob: true
