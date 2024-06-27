@@ -29,4 +29,4 @@ jobs:
       # Étape 4 : Création de tpp avec tppbuild
       - name: CREATION DU TPP AVEC TPPBUILD
         run: |
-          python3 examplePlugin/build.py
+          python3 client/xplane_plugin_for_touch_portal_build.py
