@@ -36,11 +36,9 @@ jobs:
         run: |
           DIR .\client
 
-      # ÉTAPE 6 : Copier le fichier TPP dans le répertoire client du repository
-      - name: TELEVERSEMENT DU TPP DANS CLIENT DU REPOSITORY
-        uses: svenstaro/upload-release-action@v2
+      # ÉTAPE 6 : Téléverser le fichier TPP comme artifact
+      - name: TELEVERSEMENT DU TPP COMME ARTIFACT
+        uses: actions/upload-artifact@v2
         with:
-          repo_token: ${{ secrets.RELEASE_UPLOAD_TOKEN }}
-          file: "./client/*.tpp"
-          overwrite: true
-          file_glob: true
+          name: xplane_plugin_for_touch_portal_v1.0_Windows
+          path: client/*.tpp
