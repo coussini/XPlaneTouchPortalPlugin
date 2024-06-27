@@ -8,17 +8,17 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Étape 1 : Récupération du code source du dépôt
+      # ÉTAPE 1 : Récupération du code source du dépôt
       - name: RECUPERATION DU REPERTOIRE
         uses: actions/checkout@v3
       
-      # Étape 2 : Configuration de Python 3.12
+      # ÉTAPE 2 : Configuration de Python 3.12
       - name: CONFIGURATION DE PYTHON 3.12
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
       
-      # Étape 3 : Installation des dépendances Python
+      # ÉTAPE 3 : Installation des dépendances Python
       - name: INSTALLATION DES DEPENDANCES PYTHON
         run: |
           python -m pip install --upgrade pip
@@ -26,7 +26,12 @@ jobs:
           pip install pillow       # Installation de Pillow
           pip install -r requirements.txt  # Installation des dépendances depuis requirements.txt
           
-      # Étape 4 : Création de tpp avec tppbuild
+      # ÉTAPE 4 : Création de tpp avec tppbuild
       - name: CREATION DU TPP AVEC TPPBUILD
         run: |
           python3 client/xplane_plugin_for_touch_portal_build.py
+      
+      # ÉTAPE 5 : Vérification du répertoire résultant
+      - name: VERIFICATION DU REPERTOIRE RESULTANT
+        run: |
+          dir ./Better\ Raids
